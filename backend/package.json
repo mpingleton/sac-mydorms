@@ -5,8 +5,8 @@
   "scripts": {
     "build": "prisma generate",
     "lint": "eslint --ext=js .",
-    "start": "ESLINT_NO_DEV_ERRORS=true node src/index.js",
-    "test": "ESLINT_NO_DEV_ERRORS=true jest"
+    "start": "node src/index.js",
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@prisma/client": "^3.1.1",

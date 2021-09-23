@@ -6,7 +6,7 @@
     "build": "craco build",
     "lint": "eslint --ext=js --ext=jsx .",
     "start": "craco start",
-    "test": "craco test"
+    "test": "craco test --watchAll=false --passWithNoTests"
   },
   "dependencies": {
     "@craco/craco": "^6.3.0",
