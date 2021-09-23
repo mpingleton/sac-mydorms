@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "heroku-prebuild": "npm run install:all",
-    "heroku-postbuild": "DISABLE_ESLINT_PLUGIN=true npm run build --prefix frontend",
+    "heroku-postbuild": "npm run build --prefix backend && npm run build --prefix frontend",
     "install:all": "npm install && npm install --prefix backend && npm install --prefix frontend",
     "lint:all": "npm run lint --prefix backend && npm run lint --prefix frontend",
     "prepare": "husky install"

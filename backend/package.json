@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "build": "prisma generate",
     "lint": "eslint --ext=js .",
     "start": "ESLINT_NO_DEV_ERRORS=true node src/index.js",
     "test": "ESLINT_NO_DEV_ERRORS=true jest"
@@ -28,6 +29,7 @@
     "nodemailer": "^6.6.3",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
+    "prisma": "^3.1.1",
     "winston": "^3.3.3",
     "xss-clean": "^0.1.1"
   },
@@ -37,8 +39,7 @@
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.24.2",
     "jest": "^27.1.1",
-    "lint-staged": "^11.1.2",
-    "prisma": "^3.0.2"
+    "lint-staged": "^11.1.2"
   },
   "prisma": {
     "schema": "src/db/schema.prisma",
