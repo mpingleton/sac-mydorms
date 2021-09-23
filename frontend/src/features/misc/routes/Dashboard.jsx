@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AppBar, Toolbar } from '@mui/material';
+import { AppBar, Toolbar, Typography } from '@mui/material';
 
 import { ContentLayout } from '@/components/layout';
 import { useAuth } from '@/lib/auth';
@@ -10,16 +10,14 @@ export const Dashboard = () => {
   return (
     <ContentLayout title="Dashboard">
       <AppBar position="absolute">
-        <Toolbar />
+        <Toolbar>
+          <Typography variant="h6" color="inherit" component="div">
+            {user?.name}
+            is
+            {user?.role}
+          </Typography>
+        </Toolbar>
       </AppBar>
-      <h1>
-        Welcome
-        <b>{`${user?.firstName} ${user?.lastName}`}</b>
-      </h1>
-      <h4>
-        Your role is :
-        <b>{user?.role}</b>
-      </h4>
     </ContentLayout>
   );
 };
