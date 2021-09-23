@@ -1,0 +1,13 @@
+Purpose:
+    This will fill in the database with users who have regular plaintext passwords of 123 for testing.
+    In your code, use bcrypt for hashing all passwords stored in the database.
+
+
+1. Go to the 'backend' dir
+    cd backend
+
+2. Create your database using a Prism schema migration (if you haven't done it yet):
+    npx prisma migrate dev --name init
+
+3. Populate the database with fake data
+    npx prisma db seed

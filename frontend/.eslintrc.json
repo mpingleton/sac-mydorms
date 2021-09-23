@@ -1,0 +1,18 @@
+{
+  "extends": ["react-app", "airbnb", "airbnb/hooks"],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["@", "./src"]
+        ],
+        "extensions": [".js", ".jsx"]
+      }
+    }
+  },
+  "rules": {
+    "react/jsx-props-no-spreading": "off",
+    "import/no-cycle": "off",
+    "object-curly-newline": "off"
+  }
+}
