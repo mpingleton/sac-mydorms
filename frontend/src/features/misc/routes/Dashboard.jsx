@@ -12,9 +12,7 @@ export const Dashboard = () => {
       <AppBar position="absolute">
         <Toolbar>
           <Typography variant="h6" color="inherit" component="div">
-            {user?.name}
-            is
-            {user?.role}
+            {`${user?.name} is ${user?.role}`}
           </Typography>
         </Toolbar>
       </AppBar>
