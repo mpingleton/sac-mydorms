@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { Container, Stack } from '@mui/material';
+import { Container, Stack, AppBar, Toolbar, Typography } from '@mui/material';
 
 import { useAuth } from '@/lib/auth';
 import { useAuthorization, ROLES } from '@/lib/authorization';
@@ -21,6 +21,14 @@ export const MainLayout = ({ children }) => {
   return (
     <Container>
       <Stack>
+        <AppBar position="relative">
+          <Toolbar>
+            <Typography variant="h6" color="inherit" component="div">
+              Hello World
+            </Typography>
+          </Toolbar>
+        </AppBar>
+
         {navigation.map((item, index) => (
           <NavLink
             end={index === 0}
