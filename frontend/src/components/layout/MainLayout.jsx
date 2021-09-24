@@ -20,7 +20,7 @@ export const MainLayout = ({ children }) => {
   ].filter(Boolean);
 
   return (
-    <Container>
+    <Container sx={{ position: 'absolute', top: '0px', left: '0px', right: '0px' }} maxWidth={false}>
       <Stack>
         <AppBar position="static">
           <Toolbar>
