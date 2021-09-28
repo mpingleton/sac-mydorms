@@ -46,6 +46,94 @@ const buildingsData = [
   },
 ];
 
+const roomsData = [
+
+  {
+    building_id: 1,
+    room_number: '1A',
+    status: 1,
+  },
+  {
+    building_id: 1,
+    room_number: '1B',
+    status: 1,
+  },
+  {
+    building_id: 1,
+    room_number: '1C',
+    status: 1,
+  },
+  {
+    building_id: 1,
+    room_number: '1D',
+    status: 0,
+  },
+
+  {
+    building_id: 1,
+    room_number: '2A',
+    status: 1,
+  },
+  {
+    building_id: 1,
+    room_number: '2B',
+    status: 1,
+  },
+  {
+    building_id: 1,
+    room_number: '2C',
+    status: 1,
+  },
+  {
+    building_id: 1,
+    room_number: '2D',
+    status: 0,
+  },
+
+  {
+    building_id: 2,
+    room_number: '1A',
+    status: 1,
+  },
+  {
+    building_id: 2,
+    room_number: '1B',
+    status: 1,
+  },
+  {
+    building_id: 2,
+    room_number: '1C',
+    status: 1,
+  },
+  {
+    building_id: 2,
+    room_number: '1D',
+    status: 0,
+  },
+
+  {
+    building_id: 2,
+    room_number: '2A',
+    status: 1,
+  },
+  {
+    building_id: 2,
+    room_number: '2B',
+    status: 1,
+  },
+  {
+    building_id: 2,
+    room_number: '2C',
+    status: 1,
+  },
+  {
+    building_id: 2,
+    room_number: '2D',
+    status: 0,
+  },
+
+];
+
 async function main() {
   console.log('Start seeding ...');
 
@@ -63,6 +151,14 @@ async function main() {
       data: b,
     });
     console.log(`Created building ${building.building_number} with name ${building.building_name}.`);
+  }
+
+  // Seed rooms table.
+  for (const r of roomsData) {
+    const room = await prisma.rooms.create({
+      data: r,
+    });
+    console.log(`Created room ${room.room_number}.`);
   }
 
   console.log('Seeding finished.');
