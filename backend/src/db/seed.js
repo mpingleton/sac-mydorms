@@ -33,6 +33,19 @@ const userData = [
   },
 ];
 
+const buildingsData = [
+  {
+    building_number: '123',
+    building_name: 'Tony Hall',
+    address: '123 Main St, Barksdale AFB 71037',
+  },
+  {
+    building_number: '456',
+    building_name: 'Ezekiel Hall',
+    address: '456 Main St, Barksdale AFB 71037',
+  },
+];
+
 async function main() {
   console.log('Start seeding ...');
 
@@ -42,6 +55,14 @@ async function main() {
       data: u,
     });
     console.log(`Created user ${user.name} with id: ${user.id}.`);
+  }
+
+  // Seed buildings table.
+  for (const b of buildingsData) {
+    const building = await prisma.buildings.create({
+      data: b,
+    });
+    console.log(`Created building ${building.building_number} with name ${building.building_name}.`);
   }
 
   console.log('Seeding finished.');
