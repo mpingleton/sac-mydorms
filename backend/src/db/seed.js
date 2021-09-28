@@ -134,6 +134,33 @@ const roomsData = [
 
 ];
 
+const personnelData = [
+  {
+    rank: 'AB',
+    first_name: 'Tony',
+    middle_name: 'Tony',
+    last_name: 'Tony',
+    phone: '123-456-7891',
+    email: 'tony.tony.1@us.af.mil',
+  },
+  {
+    rank: 'A1C',
+    first_name: 'Ezekiel',
+    middle_name: 'Ezekiel',
+    last_name: 'Ezekiel',
+    phone: '123-456-7891',
+    email: 'ezekiel.ezekiel.10@us.af.mil',
+  },
+  {
+    rank: 'SSgt',
+    first_name: 'John',
+    middle_name: 'Daniel',
+    last_name: 'Snuffy',
+    phone: '123-456-7891',
+    email: 'john.snuffy@us.af.mil',
+  },
+];
+
 async function main() {
   console.log('Start seeding ...');
 
@@ -159,6 +186,14 @@ async function main() {
       data: r,
     });
     console.log(`Created room ${room.room_number}.`);
+  }
+
+  // Seed personnel table.
+  for (const p of personnelData) {
+    const person = await prisma.personnel.create({
+      data: p,
+    });
+    console.log(`Created person ${person.rank} ${person.first_name} ${person.middle_name} ${person.last_name}.`);
   }
 
   console.log('Seeding finished.');
