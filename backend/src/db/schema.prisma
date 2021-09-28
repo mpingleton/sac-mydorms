@@ -74,6 +74,7 @@ model Personnel {
   workOrderComments WorkOrderComments[]
   roomInspections RoomInspections[] @relation("RoomOccupant")
   conductedInspections RoomInspections[] @relation("RoomInspector")
+  createdEvents Events[]
 
 }
 
@@ -141,5 +142,18 @@ model RoomInspections {
   room Rooms @relation(fields: [room_id], references: [id])
   roomOccupant Personnel @relation("RoomOccupant", fields: [personnel_id], references: [id])
   dormManager Personnel @relation("RoomInspector", fields: [dorm_manager_id], references: [id])
-  
+
+}
+
+model Events {
+
+  id Int @id @default(autoincrement())
+  created_by Int
+  scheduled DateTime
+  location String
+  subject String
+  description String
+
+  eventCreator Personnel @relation(fields: [created_by], references: [id])
+
 }
