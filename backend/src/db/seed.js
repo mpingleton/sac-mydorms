@@ -161,6 +161,17 @@ const personnelData = [
   },
 ];
 
+const roomAssignmentsData = [
+  {
+    personnel_id: 1,
+    room_id: 1,
+  },
+  {
+    personnel_id: 2,
+    room_id: 11,
+  },
+];
+
 async function main() {
   console.log('Start seeding ...');
 
@@ -194,6 +205,14 @@ async function main() {
       data: p,
     });
     console.log(`Created person ${person.rank} ${person.first_name} ${person.middle_name} ${person.last_name}.`);
+  }
+
+  // Seed room assignments table.
+  for (const ra of roomAssignmentsData) {
+    const roomAssignment = await prisma.roomAssignments.create({
+      data: ra,
+    });
+    console.log(`Assigned person id ${roomAssignment.personnel_id} to room id: ${roomAssignment.room_id}.`);
   }
 
   console.log('Seeding finished.');
