@@ -172,6 +172,13 @@ const roomAssignmentsData = [
   },
 ];
 
+const dormManagerAssignmentsData = [
+  {
+    personnel_id: 3,
+    building_id: 1,
+  },
+];
+
 async function main() {
   console.log('Start seeding ...');
 
@@ -213,6 +220,14 @@ async function main() {
       data: ra,
     });
     console.log(`Assigned person id ${roomAssignment.personnel_id} to room id: ${roomAssignment.room_id}.`);
+  }
+
+  // Seed dorm manager assignments table.
+  for (const da of dormManagerAssignmentsData) {
+    const dormManagerAssignment = await prisma.dormManagerAssignments.create({
+      data: da,
+    });
+    console.log(`Assigned person id ${dormManagerAssignment.personnel_id} to be manager of building id ${dormManagerAssignment.building_id}.`);
   }
 
   console.log('Seeding finished.');
