@@ -30,3 +30,116 @@ enum Role {
   USER
   ADMIN
 }
+
+model Buildings {
+
+  id Int @id @default(autoincrement())
+  building_number String
+  building_name String
+  address String
+
+  rooms Rooms[]
+  managers DormManagerAssignments[]
+
+}
+
+model Rooms {
+
+  id Int @id @default(autoincrement())
+  building_id Int
+  room_number String
+  status Int
+
+  building Buildings @relation(fields: [building_id], references: [id])
+
+  assignments RoomAssignments[]
+  workOrders WorkOrders[]
+  inspections RoomInspections[]
+
+}
+
+model Personnel {
+
+  id Int @id @default(autoincrement())
+  rank String
+  first_name String
+  middle_name String
+  last_name String
+  phone String
+  email String
+
+  roomAssignments RoomAssignments[]
+  managerOf DormManagerAssignments[]
+  workOrders WorkOrders[]
+  workOrderComments WorkOrderComments[]
+  roomInspections RoomInspections[] @relation("RoomOccupant")
+  conductedInspections RoomInspections[] @relation("RoomInspector")
+
+}
+
+model RoomAssignments {
+
+  id Int @id @default(autoincrement())
+  personnel_id Int
+  room_id Int
+
+  personnel Personnel @relation(fields: [personnel_id], references: [id])
+  room Rooms @relation(fields: [room_id], references: [id])
+
+}
+
+model DormManagerAssignments {
+
+  id Int @id @default(autoincrement())
+  personnel_id Int
+  building_id Int
+
+  personnel Personnel @relation(fields: [personnel_id], references: [id])
+  building Buildings @relation(fields: [building_id], references: [id])
+
+}
+
+model WorkOrders {
+
+  id Int @id @default(autoincrement())
+  room_id Int
+  creator_remarks String
+  created_by Int
+  created_timestamp DateTime
+  status Int
+  status_timestamp DateTime
+
+  forRoom Rooms @relation(fields: [room_id], references: [id])
+  createdBy Personnel @relation(fields: [created_by], references: [id])
+  comments WorkOrderComments[]
+
+}
+
+model WorkOrderComments {
+
+  id Int @id @default(autoincrement())
+  work_order_id Int
+  personnel_id Int
+  timestamp DateTime
+  comment String
+
+  workOrder WorkOrders @relation(fields: [work_order_id], references: [id])
+  commenter Personnel @relation(fields: [personnel_id], references: [id])
+
+}
+
+model RoomInspections {
+
+  id Int @id @default(autoincrement())
+  room_id Int
+  personnel_id Int
+  dorm_manager_id Int
+  timestamp DateTime
+  inspector_name String
+  inspector_remarks String
+
+  room Rooms @relation(fields: [room_id], references: [id])
+  roomOccupant Personnel @relation("RoomOccupant", fields: [personnel_id], references: [id])
+  dormManager Personnel @relation("RoomInspector", fields: [dorm_manager_id], references: [id])
+  
+}
