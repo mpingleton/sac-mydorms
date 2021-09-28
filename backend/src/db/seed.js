@@ -179,6 +179,25 @@ const dormManagerAssignmentsData = [
   },
 ];
 
+const workOrdersData = [
+  {
+    room_id: 1,
+    created_by: 3,
+    creator_remarks: 'Sink is broken.',
+    created_timestamp: '2021-09-20T00:00:00.000Z',
+    status: 1,
+    status_timestamp: '2021-09-20T00:00:00.000Z',
+  },
+  {
+    room_id: 11,
+    created_by: 2,
+    creator_remarks: 'A/C is broken.',
+    created_timestamp: '2021-09-20T00:00:00.000Z',
+    status: 1,
+    status_timestamp: '2021-09-20T00:00:00.000Z',
+  },
+];
+
 async function main() {
   console.log('Start seeding ...');
 
@@ -228,6 +247,14 @@ async function main() {
       data: da,
     });
     console.log(`Assigned person id ${dormManagerAssignment.personnel_id} to be manager of building id ${dormManagerAssignment.building_id}.`);
+  }
+
+  // Seed work orders table.
+  for (const wo of workOrdersData) {
+    const workOrder = await prisma.workOrders.create({
+      data: wo,
+    });
+    console.log(`Work order ${workOrder.creator_remarks} created.`);
   }
 
   console.log('Seeding finished.');
