@@ -25,16 +25,25 @@ const userData = [
     password: '123',
     isEmailVerified: false,
   },
+  {
+    name: 'Mike',
+    email: 'mike@prisma.io',
+    password: 'test1234',
+    isEmailVerified: false,
+  },
 ];
 
 async function main() {
   console.log('Start seeding ...');
+
+  // Seed users table.
   for (const u of userData) {
     const user = await prisma.user.create({
       data: u,
     });
-    console.log(`Created user with id: ${user.id}`);
+    console.log(`Created user ${user.name} with id: ${user.id}.`);
   }
+
   console.log('Seeding finished.');
 }
 
