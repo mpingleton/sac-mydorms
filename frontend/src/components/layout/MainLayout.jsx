@@ -32,10 +32,10 @@ export const MainLayout = ({ children }) => {
       <Stack>
         <AppBar position="static" sx={{ zIndex: 2 }}>
           <Toolbar>
-            <IconButton edge="start" color="inherit" onClick={toggleDrawer}>
+            <IconButton edge="start" color="inherit" sx={{ marginRight: 'auto' }} onClick={toggleDrawer}>
               <MenuIcon />
             </IconButton>
-            <IconButton edge="end" color="inherit">
+            <IconButton edge="end" color="inherit" sx={{ marginLeft: 'auto' }}>
               <AccountBoxIcon />
             </IconButton>
           </Toolbar>
