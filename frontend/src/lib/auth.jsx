@@ -3,23 +3,18 @@ import { initReactQueryAuth } from 'react-query-auth';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import {
-  loginWithEmailAndPassword,
   getUser,
+  loginWithEmailAndPassword,
+  logout,
+  refreshTokens,
 } from '@/features/auth';
 import storage from '@/utils/storage';
 
 async function handleUserResponse(data) {
-  const { jwt, user } = data;
-  storage.setToken(jwt);
+  const { tokens, user } = data;
+  storage.setToken('access', tokens?.access?.token);
+  storage.setToken('refresh', tokens?.refresh?.token);
   return user;
-}
-
-async function loadUser() {
-  if (storage.getToken()) {
-    const data = await getUser();
-    return data;
-  }
-  return null;
 }
 
 async function loginFn(data) {
@@ -29,8 +24,23 @@ async function loginFn(data) {
 }
 
 async function logoutFn() {
-  storage.clearToken();
+  logout();
+  storage.clearTokens();
   window.location.assign(window.location.origin);
+}
+
+async function loadUser() {
+  if (storage.getToken('access')) {
+    const user = await getUser()
+      .then((data) => data.user)
+      .catch(() => (
+        refreshTokens(storage.getToken('refresh'))
+          .then((data) => handleUserResponse(data))
+          .catch(logoutFn)
+      ));
+    return user;
+  }
+  return null;
 }
 
 const authConfig = {

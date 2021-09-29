@@ -7,9 +7,9 @@ import { useNotificationStore } from '@/stores/notifications';
 import storage from '@/utils/storage';
 
 function authRequestInterceptor(config) {
-  const token = storage.getToken();
+  const token = storage.getToken('access');
   if (token) {
-    config.headers.authorization = `${token}`;
+    config.headers.Authorization = `Bearer ${token}`;
   }
   config.headers.Accept = 'application/json';
   return config;

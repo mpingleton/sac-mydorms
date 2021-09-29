@@ -1,6 +1,10 @@
+const { PrismaClient } = require('@prisma/client');
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
+
 const config = require('./config');
 const { tokenTypes } = require('./tokens');
+
+const prisma = new PrismaClient();
 
 const jwtOptions = {
   secretOrKey: config.jwt.secret,
@@ -12,8 +16,11 @@ const jwtVerify = async (payload, done) => {
     if (payload.type !== tokenTypes.ACCESS) {
       throw new Error('Invalid token type');
     }
-    // TODO: Prismafy
-    const user = null; // const user = await User.findById(payload.sub);
+    const user = await prisma.user.findUnique({
+      where: {
+        id: payload.sub,
+      },
+    });
     if (!user) {
       return done(null, false);
     }

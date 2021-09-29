@@ -12,8 +12,7 @@ export const UsersList = () => {
   if (!usersQuery.data) return null;
 
   const columns = [
-    { field: 'firstName', headerName: 'First Name', width: 150 },
-    { field: 'lastName', headerName: 'Last Name', width: 150 },
+    { field: 'name', headerName: 'Name', width: 150 },
     { field: 'email', headerName: 'Email', width: 150 },
     { field: 'role', headerName: 'Role', width: 150 },
     { field: 'createdAt', headerName: 'Created At', width: 150 },
@@ -22,8 +21,7 @@ export const UsersList = () => {
   const rows = usersQuery.data.map((user) => (
     {
       id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
+      name: user.name,
       email: user.email,
       role: user.role,
       createdAt: formatDate(user.createdAt),
