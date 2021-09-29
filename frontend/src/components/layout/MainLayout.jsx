@@ -8,10 +8,16 @@ import { useAuth } from '@/lib/auth';
 import { useAuthorization, ROLES } from '@/lib/authorization';
 
 export const MainLayout = ({ children }) => {
+  const [drawerIsOpen, setDrawerPosition] = React.useState(false);
+
   const { checkAccess } = useAuthorization();
   const { logout } = useAuth();
 
   const drawerWidth = 240;
+
+  const toggleDrawer = () => {
+    setDrawerPosition(!drawerIsOpen);
+  };
 
   const navigation = [
     { name: 'Dashboard', to: '.' },
@@ -26,7 +32,7 @@ export const MainLayout = ({ children }) => {
       <Stack>
         <AppBar position="static" sx={{ zIndex: 2 }}>
           <Toolbar>
-            <IconButton edge="start" color="inherit">
+            <IconButton edge="start" color="inherit" onClick={toggleDrawer}>
               <MenuIcon />
             </IconButton>
             <IconButton edge="end" color="inherit">
@@ -34,7 +40,7 @@ export const MainLayout = ({ children }) => {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <Drawer variant="permanent" sx={{ zIndex: 1, width: drawerWidth, flexShrink: 0, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box' } }}>
+        <Drawer variant="persistent" anchor="left" open={drawerIsOpen} sx={{ zIndex: 1, width: drawerWidth, flexShrink: 0, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box' } }}>
           <Toolbar />
           <Divider />
           <Box sx={{ overflow: 'auto' }}>
