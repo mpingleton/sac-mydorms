@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { Container, Stack, Box, AppBar, Toolbar, IconButton, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import { Menu as MenuIcon, AccountBox as AccountBoxIcon } from '@mui/icons-material';
+import { Menu as MenuIcon, AccountBox as AccountBoxIcon, NavigateBefore as BackIcon } from '@mui/icons-material';
 
 import { useAuth } from '@/lib/auth';
 import { useAuthorization, ROLES } from '@/lib/authorization';
@@ -15,8 +15,12 @@ export const MainLayout = ({ children }) => {
 
   const drawerWidth = 240;
 
-  const toggleDrawer = () => {
-    setDrawerPosition(!drawerIsOpen);
+  const openDrawer = () => {
+    setDrawerPosition(true);
+  };
+
+  const closeDrawer = () => {
+    setDrawerPosition(false);
   };
 
   const navigation = [
@@ -30,9 +34,9 @@ export const MainLayout = ({ children }) => {
   return (
     <Container disableGutters maxWidth={false}>
       <Stack>
-        <AppBar position="static" sx={{ zIndex: 2 }}>
+        <AppBar position="static" sx={{ zIndex: 1 }}>
           <Toolbar>
-            <IconButton edge="start" color="inherit" sx={{ marginRight: 'auto' }} onClick={toggleDrawer}>
+            <IconButton edge="start" color="inherit" sx={{ marginRight: 'auto' }} onClick={openDrawer}>
               <MenuIcon />
             </IconButton>
             <IconButton edge="end" color="inherit" sx={{ marginLeft: 'auto' }}>
@@ -40,8 +44,12 @@ export const MainLayout = ({ children }) => {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <Drawer variant="persistent" anchor="left" open={drawerIsOpen} sx={{ zIndex: 1, width: drawerWidth, flexShrink: 0, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box' } }}>
-          <Toolbar />
+        <Drawer variant="persistent" anchor="left" open={drawerIsOpen} sx={{ zIndex: 2, width: drawerWidth, flexShrink: 0, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box' } }}>
+          <Toolbar>
+            <IconButton edge="end" color="inherit" sx={{ marginLeft: 'auto' }} onClick={closeDrawer}>
+              <BackIcon />
+            </IconButton>
+          </Toolbar>
           <Divider />
           <Box sx={{ overflow: 'auto' }}>
             <List>
