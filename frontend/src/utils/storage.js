@@ -1,8 +1,8 @@
-const storagePrefix = 'sac_mydorms_';
+const storagePrefix = 'sac_mydorms';
 
 const storage = {
-  getToken: () => {
-    const tokenString = window.localStorage.getItem(`${storagePrefix}token`);
+  getToken: (type) => {
+    const tokenString = window.localStorage.getItem(`${storagePrefix}_${type}_token`);
 
     if (tokenString !== 'undefined') {
       return JSON.parse(tokenString);
@@ -10,11 +10,12 @@ const storage = {
 
     return null;
   },
-  setToken: (token) => {
-    window.localStorage.setItem(`${storagePrefix}token`, JSON.stringify(token));
+  setToken: (type, token) => {
+    window.localStorage.setItem(`${storagePrefix}_${type}_token`, JSON.stringify(token));
   },
-  clearToken: () => {
-    window.localStorage.removeItem(`${storagePrefix}token`);
+  clearTokens: () => {
+    window.localStorage.removeItem(`${storagePrefix}_access_token`);
+    window.localStorage.removeItem(`${storagePrefix}_refresh_token`);
   },
 };
 

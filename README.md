@@ -8,6 +8,13 @@
 
 # Getting Started
 
+Clone and modify this repo
+```#!bash
+  git clone git@github.com:therubyshore/sac-mydorms.git <project-name>
+  cd <project_name>
+  rm -rf .git && git init
+```
+
 Copy env files
 ```#!bash
   cp .env.example .env
@@ -15,17 +22,7 @@ Copy env files
   cp frontend/.env.example frontend/.env
 ```
 
-If using Docker
-- Install [Docker Desktop](https://www.docker.com/products/docker-desktop)
-
-```#!bash
-  docker compose up -d
-  docker compose exec postgres createdb mydorms_dev
-  docker compose exec backend npx prisma db push
-  docker compose exec backend npx prisma db seed
-```
-
-If using Host Machine (on MacOS)
+If using Host Machine (on MacOS) (Recommended unless you need/want to use Docker)
 - Install [Node.js](https://nodejs.org/en/download)
 - Install [PostgreSQL](https://postgresapp.com)
 
@@ -37,8 +34,18 @@ If using Host Machine (on MacOS)
     npx prisma db push
     npx prisma db seed
   cd ..
-  npm start --prefix backend
-  npm start --prefix frontend
+  npm run dev
+```
+
+If using Docker
+- Install [Docker Desktop](https://www.docker.com/products/docker-desktop)
+
+```#!bash
+  # Update backend/.env DATABASE_URL: rename `localhost` to `postgres`
+  docker compose up -d
+  docker compose exec postgres createdb -U postgres mydorms_dev
+  docker compose exec backend npx prisma db push
+  docker compose exec backend npx prisma db seed
 ```
 
 Visit `http://localhost:3000`
@@ -54,7 +61,16 @@ Visit `http://localhost:3000`
 - Testing: [Jest](https://jestjs.io)
 - Exceptions: [Sentry](https://sentry.io)
 - Docs
-  - TODO
+  - [💻 Application Overview](backend/docs/application-overview.md)
+  - [⚙️ Project Configuration](backend/docs/project-configuration.md)
+  - [👁️ Style Guide](backend/docs/style-guide.md)
+  - [🗄️ Project Structure](backend/docs/project-structure.md)
+  - [💽 Data Layer](backend/docs/data-layer.md)
+  - [🧪 Testing](backend/docs/testing.md)
+  - [⚠️ Error Handling](backend/docs/error-handling.md)
+  - [🔐 Security](backend/docs/security.md)
+  - [🚄 Performance](backend/docs/performance.md)
+  - [📚 Additional Resources](backend/docs/additional-resources.md)
 
 ##  Frontend
 
@@ -71,6 +87,7 @@ Visit `http://localhost:3000`
   - [⚙️ Project Configuration](frontend/docs/project-configuration.md)
   - [👁️ Style Guide](frontend/docs/style-guide.md)
   - [🗄️ Project Structure](frontend/docs/project-structure.md)
+  - [🚅 Routing](frontend/docs/routing.md)
   - [🧱 Components And Styling](frontend/docs/components-and-styling.md)
   - [📡 API Layer](frontend/docs/api-layer.md)
   - [🗃️ State Management](frontend/docs/state-management.md)
@@ -79,3 +96,26 @@ Visit `http://localhost:3000`
   - [🔐 Security](frontend/docs/security.md)
   - [🚄 Performance](frontend/docs/performance.md)
   - [📚 Additional Resources](frontend/docs/additional-resources.md)
+
+
+# Workflow
+
+- Pick up or create a task from [Pivotal Tracker](https://pivotaltracker.com/)
+- Write out the details of that task if they don't already exist
+- "Start" the task
+- Checkout a new feature branch from main
+- Begin working out feature locally
+- Ensure test suite passes and your new code is covered
+- Add and commit files to feature branch
+- Open a PR (draft or ready) and ensure test suite passes
+
+
+# Sources and Thanks
+
+This kit is a combination of material and ideas from the open source community, namely:
+- [🛡️ Bulletproof Node.js](https://github.com/santiq/bulletproof-nodejs)
+- [🛡️ Bulletproof React](https://github.com/alan2207/bulletproof-react)
+
+Kudos to them! 🎉
+
+Of course, this kit is in no way a 1 to 1 to those, there have been _heavy_ modifications and additions, but we can occasionally reference those sources to see if there are new ideas we want to incorporate.

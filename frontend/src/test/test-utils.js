@@ -16,7 +16,7 @@ export const createUser = async (userProperties) => {
 
 export const loginAsUser = async (user) => {
   const authUser = await authenticate(user);
-  storage.setToken(authUser.jwt);
+  storage.setToken('access', authUser.jwt);
   return authUser;
 };
 

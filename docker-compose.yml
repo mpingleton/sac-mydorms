@@ -9,7 +9,7 @@ services:
       - postgres
     volumes:
       - ./backend:/usr/src/app
-    command: [sh, -c, "npx prisma generate && npm start"]
+    command: npm run dev
 
   frontend:
     build: ./frontend
@@ -19,7 +19,7 @@ services:
       - backend
     volumes:
       - ./frontend:/usr/src/app
-    command: npm start
+    command: npm run dev
 
   postgres:
     image: postgres:13.3

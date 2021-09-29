@@ -5,6 +5,7 @@ import { useAuth } from '@/lib/auth';
 
 export const Dashboard = () => {
   const { user } = useAuth();
+
   return (
     <ContentLayout title="Dashboard">
       {`Hello ${user?.name}!`}
