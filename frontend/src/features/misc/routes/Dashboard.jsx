@@ -5,11 +5,12 @@ import { useAuth } from '@/lib/auth';
 
 export const Dashboard = () => {
   const { user } = useAuth();
+
   return (
     <ContentLayout title="Dashboard">
       <h1>
         Welcome
-        <b>{`${user?.firstName} ${user?.lastName}`}</b>
+        <b>{user?.name}</b>
       </h1>
       <h4>
         Your role is :

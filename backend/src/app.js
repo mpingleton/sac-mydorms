@@ -1,18 +1,17 @@
-const express = require('express');
-const path = require('path');
-const helmet = require('helmet');
-const xss = require('xss-clean');
 const compression = require('compression');
 const cors = require('cors');
+const express = require('express');
+const helmet = require('helmet');
 const passport = require('passport');
-const httpStatus = require('http-status');
-const config = require('./config/config');
-const morgan = require('./config/morgan');
-const { jwtStrategy } = require('./config/passport');
-const { authLimiter } = require('./middlewares/rateLimiter');
-const routes = require('./routes/v1');
-const { errorConverter, errorHandler } = require('./middlewares/error');
-const ApiError = require('./utils/ApiError');
+const path = require('path');
+const xss = require('xss-clean');
+
+const { authLimiter } = require('@/middlewares/rateLimiter');
+const { errorConverter, errorHandler } = require('@/middlewares/error');
+const { jwtStrategy } = require('@/config/passport');
+const config = require('@/config/config');
+const morgan = require('@/config/morgan');
+const routes = require('@/routes/v1');
 
 const app = express();
 
@@ -63,16 +62,9 @@ if (config.env === 'production') {
 app.use('/api/', routes);
 
 // Frontend (i.e. React)
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '..', '..', 'frontend', 'build')));
-  app.get('(/*)?', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '..', '..', 'frontend', 'build', 'index.html'));
-  });
-}
-
-// send back a 404 error for any unknown api request
-app.use((req, res, next) => {
-  next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
+app.use(express.static(path.join(__dirname, '..', '..', 'frontend', 'build')));
+app.get('(/*)?', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '..', '..', 'frontend', 'build', 'index.html'));
 });
 
 // convert error to ApiError, if needed

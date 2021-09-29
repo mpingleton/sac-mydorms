@@ -1,10 +1,11 @@
+const { PrismaClient } = require('@prisma/client');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
-const httpStatus = require('http-status');
-const config = require('../config/config');
-const userService = require('./user.service');
-const ApiError = require('../utils/ApiError');
-const { tokenTypes } = require('../config/tokens');
+
+const config = require('@/config/config');
+const { tokenTypes } = require('@/config/tokens');
+
+const prisma = new PrismaClient();
 
 /**
  * Generate token
@@ -33,17 +34,45 @@ const generateToken = (userId, expires, type, secret = config.jwt.secret) => {
  * @param {boolean} [blacklisted]
  * @returns {Promise<Token>}
  */
-// TODO: Prismafy
-// const saveToken = async (token, userId, expires, type, blacklisted = false) => {
-const saveToken = async () => {
-  // const tokenDoc = await Token.create({
-  //   token,
-  //   user: userId,
-  //   expires: expires.toDate(),
-  //   type,
-  //   blacklisted,
-  // });
-  const tokenDoc = null;
+const saveToken = async (token, userId, expires, type, blacklisted = false) => {
+  const tokenDoc = await prisma.token.create({
+    data: {
+      token,
+      user_id: userId,
+      expires: expires.toDate(),
+      type,
+      blacklisted,
+    },
+  });
+  return tokenDoc;
+};
+
+/**
+ * Delete a specific token
+ * @param {string} token`
+ * @returns {Promise<Token>}
+ */
+const deleteToken = async (token) => {
+  const tokenDoc = await prisma.token.delete({
+    where: {
+      token,
+    },
+  });
+  return tokenDoc;
+};
+
+/**
+ * Delete all tokens of a specific type for a user from DB
+ * @param {string} token`
+ * @returns {Promise<Token>}
+ */
+const deleteTokenTypeForUser = async (userId, type) => {
+  const tokenDoc = await prisma.token.delete({
+    where: {
+      user_id: userId,
+      type,
+    },
+  });
   return tokenDoc;
 };
 
@@ -53,15 +82,24 @@ const saveToken = async () => {
  * @param {string} type
  * @returns {Promise<Token>}
  */
-// TODO: Prismafy
-// const verifyToken = async (token, type) => {
-const verifyToken = async () => {
-  // const payload = jwt.verify(token, config.jwt.secret);
-  // const tokenDoc = await Token.findOne({ token, type, user: payload.sub, blacklisted: false });
-  const tokenDoc = null;
+const verifyToken = async (token, type) => {
+  const payload = jwt.verify(token, config.jwt.secret);
+
+  if (type === tokenTypes.ACCESS) {
+    return payload.sub;
+  }
+
+  const tokenDoc = await prisma.token.findUnique({
+    where: {
+      token,
+      type,
+    },
+  });
+
   if (!tokenDoc) {
     throw new Error('Token not found');
   }
+
   return tokenDoc;
 };
 
@@ -90,39 +128,11 @@ const generateAuthTokens = async (user) => {
   };
 };
 
-/**
- * Generate reset password token
- * @param {string} email
- * @returns {Promise<string>}
- */
-const generateResetPasswordToken = async (email) => {
-  const user = await userService.getUserByEmail(email);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'No users found with this email');
-  }
-  const expires = moment().add(config.jwt.resetPasswordExpirationMinutes, 'minutes');
-  const resetPasswordToken = generateToken(user.id, expires, tokenTypes.RESET_PASSWORD);
-  await saveToken(resetPasswordToken, user.id, expires, tokenTypes.RESET_PASSWORD);
-  return resetPasswordToken;
-};
-
-/**
- * Generate verify email token
- * @param {User} user
- * @returns {Promise<string>}
- */
-const generateVerifyEmailToken = async (user) => {
-  const expires = moment().add(config.jwt.verifyEmailExpirationMinutes, 'minutes');
-  const verifyEmailToken = generateToken(user.id, expires, tokenTypes.VERIFY_EMAIL);
-  await saveToken(verifyEmailToken, user.id, expires, tokenTypes.VERIFY_EMAIL);
-  return verifyEmailToken;
-};
-
 module.exports = {
   generateToken,
   saveToken,
+  deleteToken,
+  deleteTokenTypeForUser,
   verifyToken,
   generateAuthTokens,
-  generateResetPasswordToken,
-  generateVerifyEmailToken,
 };

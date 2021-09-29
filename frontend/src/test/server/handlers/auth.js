@@ -21,8 +21,7 @@ if (!existingUser) {
     id: nanoid(),
     createdAt: Date.now(),
     role: 'ADMIN',
-    firstName: 'Nicholas',
-    lastName: 'Phillips',
+    name: 'Nicholas',
     email: 'nick@rubyshore.com',
     password: hash('test1234'),
   });
