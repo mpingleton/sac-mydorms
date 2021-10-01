@@ -59,6 +59,7 @@ export const MainLayout = ({ children }) => {
                   key={item.name}
                   button
                   onClick={() => {
+                    closeDrawer();
                     if (item.onClick === undefined) {
                       navigate(item.to);
                     } else {
