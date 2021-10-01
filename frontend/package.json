@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "craco build",
+    "build": "CI=false GENERATE_SOURCEMAP=false craco build",
     "dev": "craco start",
     "lint": "eslint --ext=js --ext=jsx .",
     "start": "craco start",
