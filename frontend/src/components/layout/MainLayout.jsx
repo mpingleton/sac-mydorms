@@ -42,6 +42,11 @@ export const MainLayout = ({ children }) => {
   const navigation = [
     { name: 'Dashboard', to: '.' },
     { name: 'Residents', to: './residents' },
+    { name: 'Rooms', to: './rooms' },
+    { name: 'Work Orders', to: './workorders' },
+    { name: 'Common Area', to: './commonarea' },
+    { name: 'Events', to: './events' },
+    { name: 'Messages', to: './messages' },
   ].filter(Boolean);
 
   const navigationTwo = [
