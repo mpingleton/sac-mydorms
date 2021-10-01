@@ -6,6 +6,7 @@ import { MainLayout } from '@/components/layout';
 import { Dashboard } from '@/features/misc';
 import { Residents } from '@/features/residents';
 import { Rooms } from '@/features/rooms';
+import { WorkOrders } from '@/features/work_orders';
 import { Profile, Users } from '@/features/users';
 
 const App = () => (
@@ -23,6 +24,7 @@ export const protectedRoutes = [
       { path: '/app/profile', element: <Profile /> },
       { path: '/app/residents', element: <Residents /> },
       { path: '/app/rooms', element: <Rooms /> },
+      { path: '/app/workorders', element: <WorkOrders /> },
       { path: '/app', element: <Dashboard /> },
       { path: '/app/*', element: <Navigate to="." /> },
     ],
