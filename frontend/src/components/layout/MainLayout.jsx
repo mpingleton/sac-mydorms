@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
 import { Container, Stack, Box, AppBar, Toolbar, IconButton, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import { Menu as MenuIcon, AccountBox as AccountBoxIcon, NavigateBefore as BackIcon } from '@mui/icons-material';
+import { Menu as MenuIcon, AccountBox as AccountBoxIcon, NavigateBefore as BackIcon, NavigateNext as ForwardIcon } from '@mui/icons-material';
 
 import { useAuth } from '@/lib/auth';
 import { useAuthorization, ROLES } from '@/lib/authorization';
 
 export const MainLayout = ({ children }) => {
-  const [drawerIsOpen, setDrawerPosition] = React.useState(false);
+  const [leftDrawerIsOpen, setLeftDrawerPosition] = React.useState(false);
+  const [rightDrawerIsOpen, setRightDrawerPosition] = React.useState(false);
 
   const { checkAccess } = useAuthorization();
   const { logout } = useAuth();
@@ -16,12 +17,26 @@ export const MainLayout = ({ children }) => {
 
   const drawerWidth = 240;
 
-  const openDrawer = () => {
-    setDrawerPosition(true);
+  const openLeftDrawer = () => {
+    setLeftDrawerPosition(true);
+    if (rightDrawerIsOpen) {
+      setRightDrawerPosition(false);
+    }
   };
 
-  const closeDrawer = () => {
-    setDrawerPosition(false);
+  const closeLeftDrawer = () => {
+    setLeftDrawerPosition(false);
+  };
+
+  const openRightDrawer = () => {
+    setRightDrawerPosition(true);
+    if (leftDrawerIsOpen) {
+      setLeftDrawerPosition(false);
+    }
+  };
+
+  const closeRightDrawer = () => {
+    setRightDrawerPosition(false);
   };
 
   const navigation = [
@@ -37,17 +52,17 @@ export const MainLayout = ({ children }) => {
       <Stack>
         <AppBar position="static" sx={{ zIndex: 1 }}>
           <Toolbar>
-            <IconButton edge="start" color="inherit" sx={{ marginRight: 'auto' }} onClick={openDrawer}>
+            <IconButton edge="start" color="inherit" sx={{ marginRight: 'auto' }} onClick={openLeftDrawer}>
               <MenuIcon />
             </IconButton>
-            <IconButton edge="end" color="inherit" sx={{ marginLeft: 'auto' }}>
+            <IconButton edge="end" color="inherit" sx={{ marginLeft: 'auto' }} onClick={openRightDrawer}>
               <AccountBoxIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
-        <Drawer variant="persistent" anchor="left" open={drawerIsOpen} sx={{ zIndex: 2, width: drawerWidth, flexShrink: 0, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box' } }}>
+        <Drawer variant="persistent" anchor="left" open={leftDrawerIsOpen} sx={{ zIndex: 2, width: drawerWidth, flexShrink: 0, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box' } }}>
           <Toolbar>
-            <IconButton edge="end" color="inherit" sx={{ marginLeft: 'auto' }} onClick={closeDrawer}>
+            <IconButton edge="end" color="inherit" sx={{ marginLeft: 'auto' }} onClick={closeLeftDrawer}>
               <BackIcon />
             </IconButton>
           </Toolbar>
@@ -59,7 +74,7 @@ export const MainLayout = ({ children }) => {
                   key={item.name}
                   button
                   onClick={() => {
-                    closeDrawer();
+                    closeLeftDrawer();
                     if (item.onClick === undefined) {
                       navigate(item.to);
                     } else {
@@ -73,6 +88,28 @@ export const MainLayout = ({ children }) => {
                   <ListItemText primary={item.name} />
                 </ListItem>
               ))}
+            </List>
+          </Box>
+        </Drawer>
+        <Drawer variant="persistent" anchor="right" open={rightDrawerIsOpen} sx={{ zIndex: 2, width: drawerWidth, flexShrink: 0, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box' } }}>
+          <Toolbar>
+            <IconButton edge="start" color="inherit" sx={{ marginRight: 'auto' }} onClick={closeRightDrawer}>
+              <ForwardIcon />
+            </IconButton>
+          </Toolbar>
+          <Divider />
+          <Box sx={{ overflow: 'auto' }}>
+            <List>
+              <ListItem
+                key="My Account"
+                button
+                onClick={() => {}}
+              >
+                <ListItemIcon>
+                  <MenuIcon />
+                </ListItemIcon>
+                <ListItemText primary="My Account" />
+              </ListItem>
             </List>
           </Box>
         </Drawer>
