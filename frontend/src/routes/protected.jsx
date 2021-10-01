@@ -7,6 +7,7 @@ import { Dashboard } from '@/features/misc';
 import { Residents } from '@/features/residents';
 import { Rooms } from '@/features/rooms';
 import { WorkOrders } from '@/features/work_orders';
+import { Inspections } from '@/features/inspections';
 import { Profile, Users } from '@/features/users';
 
 const App = () => (
@@ -25,6 +26,7 @@ export const protectedRoutes = [
       { path: '/app/residents', element: <Residents /> },
       { path: '/app/rooms', element: <Rooms /> },
       { path: '/app/workorders', element: <WorkOrders /> },
+      { path: '/app/inspections', element: <Inspections /> },
       { path: '/app', element: <Dashboard /> },
       { path: '/app/*', element: <Navigate to="." /> },
     ],
