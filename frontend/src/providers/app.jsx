@@ -4,6 +4,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Button from '@mui/material/Button';
@@ -35,11 +36,13 @@ export const AppProvider = ({ children }) => (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
-          {process.env.NODE_ENV !== 'test' && <ReactQueryDevtools />}
-          <Notifications />
-          <AuthProvider>
-            <Router>{children}</Router>
-          </AuthProvider>
+          <HelmetProvider>
+            {process.env.NODE_ENV !== 'test' && <ReactQueryDevtools />}
+            <Notifications />
+            <AuthProvider>
+              <Router>{children}</Router>
+            </AuthProvider>
+          </HelmetProvider>
         </ThemeProvider>
       </QueryClientProvider>
     </ErrorBoundary>
