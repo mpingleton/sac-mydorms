@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { Container, Stack, Box, AppBar, Toolbar, IconButton, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { Menu as MenuIcon, AccountBox as AccountBoxIcon, NavigateBefore as BackIcon } from '@mui/icons-material';
 
@@ -12,6 +12,7 @@ export const MainLayout = ({ children }) => {
 
   const { checkAccess } = useAuthorization();
   const { logout } = useAuth();
+  const navigate = useNavigate();
 
   const drawerWidth = 240;
 
@@ -53,28 +54,27 @@ export const MainLayout = ({ children }) => {
           <Divider />
           <Box sx={{ overflow: 'auto' }}>
             <List>
-              <ListItem button>
-                <ListItemIcon>
-                  <MenuIcon />
-                </ListItemIcon>
-                <ListItemText primary="Test" />
-              </ListItem>
+              {navigation.map((item) => (
+                <ListItem
+                  button
+                  onClick={() => {
+                    if (item.onClick === undefined) {
+                      navigate(item.to);
+                    } else {
+                      item.onClick();
+                    }
+                  }}
+                >
+                  <ListItemIcon>
+                    <MenuIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={item.name} />
+                </ListItem>
+              ))}
             </List>
           </Box>
         </Drawer>
-
-        {navigation.map((item, index) => (
-          <NavLink
-            end={index === 0}
-            key={item.name}
-            to={item.to}
-            onClick={item.onClick}
-          >
-            {item.name}
-          </NavLink>
-        ))}
       </Stack>
-
       {children}
     </Container>
   );
