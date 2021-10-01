@@ -47,6 +47,11 @@ export const MainLayout = ({ children }) => {
     { name: 'Sign out', to: '', onClick: () => logout() },
   ].filter(Boolean);
 
+  const navigationTwo = [
+    { name: 'Your Profile', to: './profile' },
+    { name: 'Sign out', to: '', onClick: () => logout() },
+  ].filter(Boolean);
+
   return (
     <Container disableGutters maxWidth={false}>
       <Stack>
@@ -110,6 +115,30 @@ export const MainLayout = ({ children }) => {
                 </ListItemIcon>
                 <ListItemText primary="My Account" />
               </ListItem>
+              <ListItem
+                key="My Account"
+                button
+                onClick={() => {}}
+              />
+              {navigationTwo.map((item) => (
+                <ListItem
+                  key={item.name}
+                  button
+                  onClick={() => {
+                    closeRightDrawer();
+                    if (item.onClick === undefined) {
+                      navigate(item.to);
+                    } else {
+                      item.onClick();
+                    }
+                  }}
+                >
+                  <ListItemIcon>
+                    <MenuIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={item.name} />
+                </ListItem>
+              ))}
             </List>
           </Box>
         </Drawer>
