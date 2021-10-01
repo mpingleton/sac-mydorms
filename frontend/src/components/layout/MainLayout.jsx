@@ -44,6 +44,7 @@ export const MainLayout = ({ children }) => {
     checkAccess({ allowedRoles: [ROLES.ADMIN] })
       && { name: 'Users', to: './users' },
     { name: 'Your Profile', to: './profile' },
+    { name: 'Residents', to: './residents' },
     { name: 'Sign out', to: '', onClick: () => logout() },
   ].filter(Boolean);
 
