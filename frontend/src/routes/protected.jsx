@@ -10,6 +10,7 @@ import { WorkOrders } from '@/features/work_orders';
 import { Inspections } from '@/features/inspections';
 import { CommonArea } from '@/features/common_area';
 import { Events } from '@/features/events';
+import { Messages } from '@/features/messages';
 import { Profile, Users } from '@/features/users';
 
 const App = () => (
@@ -31,6 +32,7 @@ export const protectedRoutes = [
       { path: '/app/inspections', element: <Inspections /> },
       { path: '/app/commonarea', element: <CommonArea /> },
       { path: '/app/events', element: <Events /> },
+      { path: '/app/messages', element: <Messages /> },
       { path: '/app', element: <Dashboard /> },
       { path: '/app/*', element: <Navigate to="." /> },
     ],
