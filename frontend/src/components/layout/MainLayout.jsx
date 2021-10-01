@@ -41,14 +41,12 @@ export const MainLayout = ({ children }) => {
 
   const navigation = [
     { name: 'Dashboard', to: '.' },
-    checkAccess({ allowedRoles: [ROLES.ADMIN] })
-      && { name: 'Users', to: './users' },
-    { name: 'Your Profile', to: './profile' },
     { name: 'Residents', to: './residents' },
-    { name: 'Sign out', to: '', onClick: () => logout() },
   ].filter(Boolean);
 
   const navigationTwo = [
+    checkAccess({ allowedRoles: [ROLES.ADMIN] })
+      && { name: 'Users', to: './users' },
     { name: 'Your Profile', to: './profile' },
     { name: 'Sign out', to: '', onClick: () => logout() },
   ].filter(Boolean);
@@ -106,21 +104,6 @@ export const MainLayout = ({ children }) => {
           <Divider />
           <Box sx={{ overflow: 'auto' }}>
             <List>
-              <ListItem
-                key="My Account"
-                button
-                onClick={() => {}}
-              >
-                <ListItemIcon>
-                  <MenuIcon />
-                </ListItemIcon>
-                <ListItemText primary="My Account" />
-              </ListItem>
-              <ListItem
-                key="My Account"
-                button
-                onClick={() => {}}
-              />
               {navigationTwo.map((item) => (
                 <ListItem
                   key={item.name}
