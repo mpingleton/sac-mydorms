@@ -56,6 +56,7 @@ export const MainLayout = ({ children }) => {
             <List>
               {navigation.map((item) => (
                 <ListItem
+                  key={item.name}
                   button
                   onClick={() => {
                     if (item.onClick === undefined) {

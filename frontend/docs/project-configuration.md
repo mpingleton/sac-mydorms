@@ -10,12 +10,6 @@ ESLint is a linting tool for JavaScript. By providing specific configuration def
 
 [ESLint Configuration Example Code](../.eslintrc.json)
 
-#### Prettier
-
-This is a great tool for formatting code. It enforces a consistent code style across your entire codebase. By utilizing the "format on save" feature in your IDE you can automatically format the code based on the configuration provided in the `.prettierrc` file. It will also give you good feedback when something is wrong with the code. If the auto-format doesn't work, something is wrong with the code.
-
-[Prettier Configuration Example Code](../.prettierrc.json)
-
 #### Husky
 
 Husky is a tool for executing git hooks. Use Husky to run your code validations before every commit, thus making sure the code is in the best shape possible at any point of time and no faulty commits get into the repo. It can run linting, code formatting and type checking, etc. before it allows pushing the code. You can check how to configure it [here](https://typicode.github.io/husky/#/?id=usage).

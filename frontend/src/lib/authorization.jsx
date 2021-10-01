@@ -53,7 +53,7 @@ export const Authorization = ({
     canAccess = checkAccess({ allowedRoles });
   }
 
-  if (typeof policyCheck !== 'undefined') {
+  if (policyCheck && typeof policyCheck !== 'undefined') {
     canAccess = policyCheck;
   }
 
@@ -61,7 +61,7 @@ export const Authorization = ({
 };
 
 Authorization.propTypes = {
-  policyCheck: PropTypes.bool.isRequired,
+  policyCheck: PropTypes.bool,
   allowedRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
   forbiddenFallback: PropTypes.node,
   children: PropTypes.oneOfType([
@@ -71,5 +71,6 @@ Authorization.propTypes = {
 };
 
 Authorization.defaultProps = {
+  policyCheck: null,
   forbiddenFallback: null,
 };
