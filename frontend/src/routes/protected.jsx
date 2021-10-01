@@ -5,6 +5,7 @@ import { MainLayout } from '@/components/layout';
 
 import { Dashboard } from '@/features/misc';
 import { Residents } from '@/features/residents';
+import { Rooms } from '@/features/rooms';
 import { Profile, Users } from '@/features/users';
 
 const App = () => (
@@ -21,6 +22,7 @@ export const protectedRoutes = [
       { path: '/app/users', element: <Users /> },
       { path: '/app/profile', element: <Profile /> },
       { path: '/app/residents', element: <Residents /> },
+      { path: '/app/rooms', element: <Rooms /> },
       { path: '/app', element: <Dashboard /> },
       { path: '/app/*', element: <Navigate to="." /> },
     ],
