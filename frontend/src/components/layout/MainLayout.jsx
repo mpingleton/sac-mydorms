@@ -44,6 +44,7 @@ export const MainLayout = ({ children }) => {
     { name: 'Residents', to: './residents' },
     { name: 'Rooms', to: './rooms' },
     { name: 'Work Orders', to: './workorders' },
+    { name: 'Inspections', to: './inspections' },
     { name: 'Common Area', to: './commonarea' },
     { name: 'Events', to: './events' },
     { name: 'Messages', to: './messages' },
