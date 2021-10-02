@@ -8,6 +8,7 @@ datasource db {
 }
 
 model User {
+
   id Int @id @default(autoincrement())
   email String @unique
   password String
@@ -15,6 +16,9 @@ model User {
   name  String?
   isEmailVerified Boolean
   tokens Token[]
+
+  userEnrollment Enrollments[]
+
 }
 
 model Token {
@@ -68,6 +72,7 @@ model Personnel {
   phone String
   email String
 
+  userEnrollment Enrollments[]
   roomAssignments RoomAssignments[]
   managerOf DormManagerAssignments[]
   workOrders WorkOrders[]
@@ -77,6 +82,17 @@ model Personnel {
   createdEvents Events[]
   posts CommonAreaPosts[]
   madeComments CommonAreaPostComments[]
+
+}
+
+model Enrollments {
+
+  id Int @id @default(autoincrement())
+  user_id Int
+  personnel_id Int
+
+  user User @relation(fields: [user_id], references: [id])
+  personnel Personnel @relation(fields: [personnel_id], references: [id])
 
 }
 
