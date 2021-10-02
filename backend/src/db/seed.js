@@ -26,6 +26,12 @@ const userData = [
     isEmailVerified: false,
   },
   {
+    name: 'Tony',
+    email: 'tony.tony@us.af.mil',
+    password: '123',
+    isEmailVerified: false,
+  },
+  {
     name: 'Mike',
     email: 'mike@prisma.io',
     password: 'test1234',
@@ -161,6 +167,13 @@ const personnelData = [
   },
 ];
 
+const enrollmentsData = [
+  {
+    user_id: 4,
+    personnel_id: 1,
+  },
+];
+
 const roomAssignmentsData = [
   {
     personnel_id: 1,
@@ -231,6 +244,14 @@ async function main() {
       data: p,
     });
     console.log(`Created person ${person.rank} ${person.first_name} ${person.middle_name} ${person.last_name}.`);
+  }
+
+  // Seed enrollments data.
+  for (const e of enrollmentsData) {
+    const enrollment = await prisma.enrollments.create({
+      data: e,
+    });
+    console.log(`Created enrollment of user ${enrollment.user_id} to person ${enrollment.personnel_id}.`);
   }
 
   // Seed room assignments table.
