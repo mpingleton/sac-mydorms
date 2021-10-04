@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Modal, Button } from '@mui/material';
+import { Box, Modal, Button, TextField, Stack } from '@mui/material';
 
 import { ContentLayout } from '@/components/layout';
 
@@ -32,13 +32,27 @@ export const Residents = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={modalStyle}>
-          Hello!
-          <Button
-            variant="contained"
-            onClick={closeModal}
-          >
-            Cancel
-          </Button>
+          <Stack direction="column">
+            <TextField
+              id="new-resident-firstname"
+              label="First Name"
+              variant="standard"
+            />
+            <TextField
+              id="new-resident-middlename"
+              label="Middle Name"
+              variant="standard"
+            />
+            <TextField
+              id="new-resident-lastname"
+              label="Last Name"
+              variant="standard"
+            />
+            <Stack direction="row">
+              <Button variant="contained">Cancel</Button>
+              <Button variant="contained">Create</Button>
+            </Stack>
+          </Stack>
         </Box>
       </Modal>
       <Button
