@@ -14,7 +14,7 @@ export const RoomList = () => {
 
   const columns = [
     { field: 'number', headerName: 'Room Number', width: 150 },
-    { field: 'building', headerName: 'In Building', width: 150 },
+    { field: 'building', headerName: 'In Building', width: 250 },
     { field: 'status', headerName: 'Status', width: 150 },
   ];
 
@@ -22,6 +22,7 @@ export const RoomList = () => {
     {
       id: room.id,
       number: room.room_number,
+      building: room.building_name,
       status: room.status,
     }
   ));
@@ -31,7 +32,7 @@ export const RoomList = () => {
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={10}
+        pageSize={20}
         rowsPerPageOptions={[5]}
         checkboxSelection
       />
