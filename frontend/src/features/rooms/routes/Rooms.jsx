@@ -1,16 +1,13 @@
 import React from 'react';
 
 import { ContentLayout } from '@/components/layout';
-import { useAuth } from '@/lib/auth';
 
-export const Rooms = () => {
-  const { user } = useAuth();
+import { RoomList } from '../components/RoomList';
 
-  return (
-    <ContentLayout title="Rooms">
-      {`Hello ${user?.name} from the rooms page!`}
-    </ContentLayout>
-  );
-};
+export const Rooms = () => (
+  <ContentLayout title="Rooms">
+    <RoomList />
+  </ContentLayout>
+);
 
 export default Rooms;
