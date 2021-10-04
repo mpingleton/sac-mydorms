@@ -27,7 +27,7 @@ export const Residents = () => {
     <ContentLayout title="Residents">
       <Modal
         open={modalOpen}
-        onClose={() => {}}
+        onClose={closeModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
