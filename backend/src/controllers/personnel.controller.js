@@ -5,6 +5,12 @@ const getPersonnel = async (req, res) => {
   res.send(200, personnel);
 };
 
+const getPersonnelById = async (req, res) => {
+  const person = await personnelService.getPersonnelById(Number(req.params.id));
+  res.send(200, person);
+};
+
 module.exports = {
   getPersonnel,
+  getPersonnelById,
 };

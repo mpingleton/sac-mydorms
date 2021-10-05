@@ -7,6 +7,16 @@ const getPersonnel = async () => {
   return personnel;
 };
 
+const getPersonnelById = async (personId) => {
+  const person = await prisma.personnel.findUnique({
+    where: {
+      id: personId,
+    },
+  });
+  return person;
+};
+
 module.exports = {
   getPersonnel,
+  getPersonnelById,
 };
