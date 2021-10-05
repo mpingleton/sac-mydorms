@@ -22,8 +22,8 @@ export const Residents = () => {
         modalOpen={isViewResidentDialogOpen}
         onClose={() => setViewResidentDialogOpen(false)}
       />
-      <Stack direction="column">
-        <Stack direction="row">
+      <Stack direction="column" spacing={1}>
+        <Stack direction="row" spacing={1}>
           <Button
             variant="contained"
             onClick={() => setNewResidentDialogOpen(true)}

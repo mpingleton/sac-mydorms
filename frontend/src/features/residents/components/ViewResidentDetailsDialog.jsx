@@ -23,22 +23,22 @@ export const ViewResidentDetailsDialog = ({ modalOpen, onClose }) => (
     aria-describedby="modal-modal-description"
   >
     <Box sx={modalStyle}>
-      <Stack direction="column">
-        <Stack direction="row">
+      <Stack direction="column" spacing={1}>
+        <Stack direction="row" spacing={1}>
           <Typography>A1C</Typography>
           <Typography>First</Typography>
           <Typography>Middle</Typography>
           <Typography>Last</Typography>
         </Stack>
-        <Stack direction="row">
+        <Stack direction="row" spacing={1}>
           <Typography>Phone:</Typography>
           <Typography>1234567890</Typography>
         </Stack>
-        <Stack direction="row">
+        <Stack direction="row" spacing={1}>
           <Typography>Email:</Typography>
           <Typography>first.last@us.af.mil</Typography>
         </Stack>
-        <Stack direction="row">
+        <Stack direction="row" spacing={1}>
           <Button variant="contained">Cancel</Button>
         </Stack>
       </Stack>

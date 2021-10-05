@@ -23,7 +23,7 @@ export const NewResidentDialog = ({ modalOpen, onClose }) => (
     aria-describedby="modal-modal-description"
   >
     <Box sx={modalStyle}>
-      <Stack direction="column">
+      <Stack direction="column" spacing={1}>
         <TextField
           id="new-resident-first-name"
           label="First Name"
@@ -49,7 +49,7 @@ export const NewResidentDialog = ({ modalOpen, onClose }) => (
           label="Phone Number"
           variant="standard"
         />
-        <Stack direction="row">
+        <Stack direction="row" spacing={1}>
           <Button variant="contained">Cancel</Button>
           <Button variant="contained">Create</Button>
         </Stack>
