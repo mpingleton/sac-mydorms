@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 
 import { ContentLayout } from '@/components/layout';
 
@@ -14,17 +14,21 @@ export const Residents = () => {
 
   return (
     <ContentLayout title="Residents">
-      <Button
-        variant="contained"
-        onClick={openModal}
-      >
-        New Resident
-      </Button>
       <NewResidentDialog
         modalOpen={modalOpen}
         onClose={closeModal}
       />
-      <ResidentList />
+      <Stack direction="column">
+        <Stack direction="row">
+          <Button
+            variant="contained"
+            onClick={openModal}
+          >
+            New Resident
+          </Button>
+        </Stack>
+        <ResidentList />
+      </Stack>
     </ContentLayout>
   );
 };
