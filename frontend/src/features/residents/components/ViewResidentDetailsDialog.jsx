@@ -31,6 +31,14 @@ export const ViewResidentDetailsDialog = ({ modalOpen, onClose }) => (
           <Typography>Last</Typography>
         </Stack>
         <Stack direction="row">
+          <Typography>Phone:</Typography>
+          <Typography>1234567890</Typography>
+        </Stack>
+        <Stack direction="row">
+          <Typography>Email:</Typography>
+          <Typography>first.last@us.af.mil</Typography>
+        </Stack>
+        <Stack direction="row">
           <Button variant="contained">Cancel</Button>
         </Stack>
       </Stack>
