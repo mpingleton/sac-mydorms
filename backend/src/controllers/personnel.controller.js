@@ -10,7 +10,13 @@ const getPersonnelById = async (req, res) => {
   res.send(200, person);
 };
 
+const createPersonnel = async (req, res) => {
+  await personnelService.createPersonnel(req.body);
+  res.send(200, 'Created personnel.');
+};
+
 module.exports = {
   getPersonnel,
   getPersonnelById,
+  createPersonnel,
 };

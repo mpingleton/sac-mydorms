@@ -16,7 +16,12 @@ const getPersonnelById = async (personId) => {
   return person;
 };
 
+const createPersonnel = async (data) => {
+  await prisma.personnel.create({ data });
+};
+
 module.exports = {
   getPersonnel,
   getPersonnelById,
+  createPersonnel,
 };
