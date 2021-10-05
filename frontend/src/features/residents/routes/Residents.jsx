@@ -6,30 +6,33 @@ import { ContentLayout } from '@/components/layout';
 
 import { ResidentList } from '../components/ResidentList';
 import { NewResidentDialog } from '../components/NewResidentDialog';
+import { ViewResidentDetailsDialog } from '../components/ViewResidentDetailsDialog';
 
 export const Residents = () => {
-  const [modalOpen, setModalState] = React.useState(false);
-  const openModal = () => setModalState(true);
-  const closeModal = () => setModalState(false);
+  const [isNewResidentDialogOpen, setNewResidentDialogOpen] = React.useState(false);
+  const [isViewResidentDialogOpen, setViewResidentDialogOpen] = React.useState(false);
 
   return (
     <ContentLayout title="Residents">
       <NewResidentDialog
-        modalOpen={modalOpen}
-        onClose={closeModal}
+        modalOpen={isNewResidentDialogOpen}
+        onClose={() => setNewResidentDialogOpen(false)}
+      />
+      <ViewResidentDetailsDialog
+        modalOpen={isViewResidentDialogOpen}
+        onClose={() => setViewResidentDialogOpen(false)}
       />
       <Stack direction="column">
         <Stack direction="row">
           <Button
             variant="contained"
-            onClick={openModal}
+            onClick={() => setNewResidentDialogOpen(true)}
           >
             New
           </Button>
           <Button
             variant="contained"
-            onClick={() => {}}
-            disabled
+            onClick={() => setViewResidentDialogOpen(true)}
           >
             View
           </Button>
