@@ -24,7 +24,20 @@ export const Residents = () => {
             variant="contained"
             onClick={openModal}
           >
-            New Resident
+            New
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => {}}
+            disabled
+          >
+            View
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => {}}
+          >
+            Assign To Room
           </Button>
         </Stack>
         <ResidentList />
