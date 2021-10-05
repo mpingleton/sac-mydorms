@@ -34,18 +34,28 @@ export const Residents = () => {
         <Box sx={modalStyle}>
           <Stack direction="column">
             <TextField
-              id="new-resident-firstname"
+              id="new-resident-first-name"
               label="First Name"
               variant="standard"
             />
             <TextField
-              id="new-resident-middlename"
+              id="new-resident-middle-name"
               label="Middle Name"
               variant="standard"
             />
             <TextField
-              id="new-resident-lastname"
+              id="new-resident-last-name"
               label="Last Name"
+              variant="standard"
+            />
+            <TextField
+              id="new-resident-email"
+              label="Email"
+              variant="standard"
+            />
+            <TextField
+              id="new-resident-phone"
+              label="Phone Number"
               variant="standard"
             />
             <Stack direction="row">
