@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, Box, Modal, Stack } from '@mui/material';
+import { Button, Box, Modal, Stack, Typography } from '@mui/material';
 
 const modalStyle = {
   position: 'absolute',
@@ -24,6 +24,12 @@ export const ViewResidentDetailsDialog = ({ modalOpen, onClose }) => (
   >
     <Box sx={modalStyle}>
       <Stack direction="column">
+        <Stack direction="row">
+          <Typography>A1C</Typography>
+          <Typography>First</Typography>
+          <Typography>Middle</Typography>
+          <Typography>Last</Typography>
+        </Stack>
         <Stack direction="row">
           <Button variant="contained">Cancel</Button>
         </Stack>
