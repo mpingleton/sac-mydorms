@@ -50,7 +50,7 @@ export const NewResidentDialog = ({ modalOpen, onClose }) => (
           variant="standard"
         />
         <Stack direction="row" spacing={1}>
-          <Button variant="contained">Cancel</Button>
+          <Button variant="contained" onClick={onClose}>Cancel</Button>
           <Button variant="contained">Create</Button>
         </Stack>
       </Stack>

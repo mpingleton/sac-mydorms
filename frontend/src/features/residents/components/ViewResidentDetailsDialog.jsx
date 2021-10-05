@@ -39,7 +39,7 @@ export const ViewResidentDetailsDialog = ({ modalOpen, onClose }) => (
           <Typography>first.last@us.af.mil</Typography>
         </Stack>
         <Stack direction="row" spacing={1}>
-          <Button variant="contained">Cancel</Button>
+          <Button variant="contained" onClick={onClose}>Cancel</Button>
         </Stack>
       </Stack>
     </Box>
