@@ -15,48 +15,75 @@ const modalStyle = {
   p: 4,
 };
 
-export const NewResidentDialog = ({ modalOpen, onClose }) => (
-  <Modal
-    open={modalOpen}
-    onClose={onClose}
-    aria-labelledby="modal-modal-title"
-    aria-describedby="modal-modal-description"
-  >
-    <Box sx={modalStyle}>
-      <Stack direction="column" spacing={1}>
-        <TextField
-          id="new-resident-first-name"
-          label="First Name"
-          variant="standard"
-        />
-        <TextField
-          id="new-resident-middle-name"
-          label="Middle Name"
-          variant="standard"
-        />
-        <TextField
-          id="new-resident-last-name"
-          label="Last Name"
-          variant="standard"
-        />
-        <TextField
-          id="new-resident-email"
-          label="Email"
-          variant="standard"
-        />
-        <TextField
-          id="new-resident-phone"
-          label="Phone Number"
-          variant="standard"
-        />
-        <Stack direction="row" spacing={1}>
-          <Button variant="contained" onClick={onClose}>Cancel</Button>
-          <Button variant="contained">Create</Button>
+export const NewResidentDialog = ({ modalOpen, onClose }) => {
+  const [resFirstName, setFirstName] = React.useState('');
+  const [resMiddleName, setMiddleName] = React.useState('');
+  const [resLastName, setLastName] = React.useState('');
+  const [resEmail, setEmail] = React.useState('');
+  const [resPhone, setPhone] = React.useState('');
+
+  return (
+    <Modal
+      open={modalOpen}
+      onClose={onClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={modalStyle}>
+        <Stack direction="column" spacing={1}>
+          <TextField
+            id="new-resident-first-name"
+            label="First Name"
+            variant="standard"
+            onChange={(event) => { setFirstName(event.target.value); }}
+          />
+          <TextField
+            id="new-resident-middle-name"
+            label="Middle Name"
+            variant="standard"
+            onChange={(event) => { setMiddleName(event.target.value); }}
+          />
+          <TextField
+            id="new-resident-last-name"
+            label="Last Name"
+            variant="standard"
+            onChange={(event) => { setLastName(event.target.value); }}
+          />
+          <TextField
+            id="new-resident-email"
+            label="Email"
+            variant="standard"
+            onChange={(event) => { setEmail(event.target.value); }}
+          />
+          <TextField
+            id="new-resident-phone"
+            label="Phone Number"
+            variant="standard"
+            onChange={(event) => { setPhone(event.target.value); }}
+          />
+          <Stack direction="row" spacing={1}>
+            <Button variant="contained" onClick={onClose}>Cancel</Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                const data = {
+                  first_name: resFirstName,
+                  middle_name: resMiddleName,
+                  last_name: resLastName,
+                  email: resEmail,
+                  phone: resPhone,
+                };
+                console.log(data);
+              }}
+            >
+              Create
+            </Button>
+          </Stack>
         </Stack>
-      </Stack>
-    </Box>
-  </Modal>
-);
+      </Box>
+    </Modal>
+  );
+};
 
 NewResidentDialog.propTypes = {
   modalOpen: PropTypes.bool,
