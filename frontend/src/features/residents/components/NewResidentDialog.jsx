@@ -22,6 +22,17 @@ export const NewResidentDialog = ({ modalOpen, onClose }) => {
   const [resEmail, setEmail] = React.useState('');
   const [resPhone, setPhone] = React.useState('');
 
+  const submitResident = () => {
+    const data = {
+      first_name: resFirstName,
+      middle_name: resMiddleName,
+      last_name: resLastName,
+      email: resEmail,
+      phone: resPhone,
+    };
+    console.log(data);
+  };
+
   return (
     <Modal
       open={modalOpen}
@@ -63,21 +74,7 @@ export const NewResidentDialog = ({ modalOpen, onClose }) => {
           />
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Cancel</Button>
-            <Button
-              variant="contained"
-              onClick={() => {
-                const data = {
-                  first_name: resFirstName,
-                  middle_name: resMiddleName,
-                  last_name: resLastName,
-                  email: resEmail,
-                  phone: resPhone,
-                };
-                console.log(data);
-              }}
-            >
-              Create
-            </Button>
+            <Button variant="contained" onClick={submitResident}>Create</Button>
           </Stack>
         </Stack>
       </Box>
