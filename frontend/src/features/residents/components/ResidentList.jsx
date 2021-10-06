@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { useResidents } from '../api/getResidents';
 
-export const ResidentList = () => {
+export const ResidentList = ({ onSelectionChange }) => {
   const residentsQuery = useResidents();
 
   if (!residentsQuery.data) {
@@ -38,11 +39,19 @@ export const ResidentList = () => {
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
-        onSelectionModelChange={(newSelectionModel) => { console.log(newSelectionModel); }}
+        onSelectionModelChange={onSelectionChange}
         disableMultipleSelection
       />
     </Box>
   );
+};
+
+ResidentList.propTypes = {
+  onSelectionChange: PropTypes.func,
+};
+
+ResidentList.defaultProps = {
+  onSelectionChange: () => {},
 };
 
 export default ResidentList;

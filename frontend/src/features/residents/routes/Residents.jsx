@@ -9,6 +9,7 @@ import { NewResidentDialog } from '../components/NewResidentDialog';
 import { ViewResidentDetailsDialog } from '../components/ViewResidentDetailsDialog';
 
 export const Residents = () => {
+  const [currentResidentListSelection, setResidentListSelection] = React.useState([]);
   const [isNewResidentDialogOpen, setNewResidentDialogOpen] = React.useState(false);
   const [isViewResidentDialogOpen, setViewResidentDialogOpen] = React.useState(false);
 
@@ -33,17 +34,12 @@ export const Residents = () => {
           <Button
             variant="contained"
             onClick={() => setViewResidentDialogOpen(true)}
+            disabled={currentResidentListSelection.length !== 1}
           >
             View
           </Button>
-          <Button
-            variant="contained"
-            onClick={() => {}}
-          >
-            Assign To Room
-          </Button>
         </Stack>
-        <ResidentList />
+        <ResidentList onSelectionChange={setResidentListSelection} />
       </Stack>
     </ContentLayout>
   );
