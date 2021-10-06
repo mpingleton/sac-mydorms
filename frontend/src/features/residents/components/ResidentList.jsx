@@ -13,11 +13,11 @@ export const ResidentList = () => {
   }
 
   const columns = [
-    { field: 'rank', headerName: 'Rank', width: 150 },
+    { field: 'rank', headerName: 'Rank', width: 100 },
     { field: 'first_name', headerName: 'First Name', width: 150 },
     { field: 'middle_name', headerName: 'Middle Name', width: 150 },
     { field: 'last_name', headerName: 'Last Name', width: 150 },
-    { field: 'email', headerName: 'Email', width: 150 },
+    { field: 'email', headerName: 'Email', width: 350 },
   ];
 
   const rows = residentsQuery.data.map((resident) => (
@@ -38,6 +38,7 @@ export const ResidentList = () => {
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
+        onSelectionModelChange={(newSelectionModel) => { console.log(newSelectionModel); }}
         disableMultipleSelection
       />
     </Box>
