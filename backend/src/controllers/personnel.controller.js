@@ -6,7 +6,7 @@ const getPersonnel = async (req, res) => {
 };
 
 const getPersonnelById = async (req, res) => {
-  const person = await personnelService.getPersonnelById(Number(req.params.id));
+  const person = await personnelService.getPersonnelById(parseInt(req.params.id, 10));
   res.send(200, person);
 };
 
