@@ -44,6 +44,10 @@ export const ViewRoomDetailsDialog = ({ modalOpen, onClose, roomId }) => {
             <Typography>{room.room_number}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
+            <Typography>Status:</Typography>
+            <Typography>{room.status}</Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Cancel</Button>
           </Stack>
         </Stack>
