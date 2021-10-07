@@ -12,7 +12,7 @@ const getPersonnelById = async (req, res) => {
 
 const createPersonnel = async (req, res) => {
   await personnelService.createPersonnel(req.body);
-  res.send(200, 'Created personnel.');
+  res.send(200);
 };
 
 module.exports = {
