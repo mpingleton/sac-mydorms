@@ -5,5 +5,6 @@ const roomAssignmentController = require('@/controllers/roomassignment.controlle
 const router = express.Router();
 
 router.get('/', roomAssignmentController.getRoomAssignments);
+router.put('/:personnel_id/:room_id', roomAssignmentController.createRoomAssignment);
 
 module.exports = router;

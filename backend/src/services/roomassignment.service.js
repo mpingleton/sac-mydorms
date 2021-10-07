@@ -7,6 +7,15 @@ const getRoomAssignments = async () => {
   return roomassignments;
 };
 
+const createRoomAssignment = async (personnelId, roomId) => {
+  const data = {
+    personnel_id: personnelId,
+    room_id: roomId,
+  };
+  await prisma.roomAssignments.create({ data });
+};
+
 module.exports = {
   getRoomAssignments,
+  createRoomAssignment,
 };

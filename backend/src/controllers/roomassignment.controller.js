@@ -5,6 +5,15 @@ const getRoomAssignments = async (req, res) => {
   res.send(200, roomAssignments);
 };
 
+const createRoomAssignment = async (req, res) => {
+  await roomAssignmentService.createRoomAssignment(
+    parseInt(req.params.personnel_id, 10),
+    parseInt(req.params.room_id, 10),
+  );
+  res.send(200);
+};
+
 module.exports = {
   getRoomAssignments,
+  createRoomAssignment,
 };
