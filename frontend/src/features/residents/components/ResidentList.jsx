@@ -39,7 +39,7 @@ export const ResidentList = ({ onSelectionChange }) => {
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={5}
+        pageSize={20}
         rowsPerPageOptions={[5]}
         onSelectionModelChange={onSelectionChange}
         disableMultipleSelection
