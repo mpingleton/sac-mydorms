@@ -22,6 +22,7 @@ export const Residents = () => {
       <ViewResidentDetailsDialog
         modalOpen={isViewResidentDialogOpen}
         onClose={() => setViewResidentDialogOpen(false)}
+        residentId={currentResidentListSelection[0]}
       />
       <Stack direction="column" spacing={1}>
         <Stack direction="row" spacing={1}>

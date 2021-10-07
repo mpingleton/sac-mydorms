@@ -4,14 +4,16 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
-import { useResidents } from '../api/getResidents';
+import getResidents from '../api/getResidents';
 
 export const ResidentList = ({ onSelectionChange }) => {
-  const residentsQuery = useResidents();
+  const [residents, setResidents] = React.useState([]);
 
-  if (!residentsQuery.data) {
-    return null;
-  }
+  React.useEffect(() => {
+    if (residents.length === 0) {
+      getResidents().then((responseData) => setResidents(responseData));
+    }
+  });
 
   const columns = [
     { field: 'rank', headerName: 'Rank', width: 100 },
@@ -21,7 +23,7 @@ export const ResidentList = ({ onSelectionChange }) => {
     { field: 'email', headerName: 'Email', width: 350 },
   ];
 
-  const rows = residentsQuery.data.map((resident) => (
+  const rows = residents.map((resident) => (
     {
       id: resident.id,
       rank: resident.rank,
