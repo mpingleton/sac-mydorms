@@ -3,14 +3,16 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
-import { useRooms } from '../api/getRooms';
+import getRooms from '../api/getRooms';
 
 export const RoomList = () => {
-  const roomsQuery = useRooms();
+  const [rooms, setRooms] = React.useState([]);
 
-  if (!roomsQuery.data) {
-    return null;
-  }
+  React.useEffect(() => {
+    if (rooms.length === 0) {
+      getRooms().then((roomsData) => setRooms(roomsData));
+    }
+  });
 
   const columns = [
     { field: 'number', headerName: 'Room Number', width: 150 },
@@ -18,7 +20,7 @@ export const RoomList = () => {
     { field: 'status', headerName: 'Status', width: 150 },
   ];
 
-  const rows = roomsQuery.data.map((room) => (
+  const rows = rooms.map((room) => (
     {
       id: room.id,
       number: room.room_number,
