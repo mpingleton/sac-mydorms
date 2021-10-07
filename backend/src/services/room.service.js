@@ -20,6 +20,16 @@ const getRooms = async () => {
   return rooms;
 };
 
+const getRoomById = async (roomId) => {
+  const room = await prisma.rooms.findUnique({
+    where: {
+      id: roomId,
+    },
+  });
+  return room;
+};
+
 module.exports = {
   getRooms,
+  getRoomById,
 };
