@@ -18,6 +18,7 @@ const modalStyle = {
 };
 
 export const NewResidentDialog = ({ modalOpen, onClose }) => {
+  const [resRank, setRank] = React.useState('');
   const [resFirstName, setFirstName] = React.useState('');
   const [resMiddleName, setMiddleName] = React.useState('');
   const [resLastName, setLastName] = React.useState('');
@@ -26,7 +27,7 @@ export const NewResidentDialog = ({ modalOpen, onClose }) => {
 
   const submitResident = () => {
     const data = {
-      rank: 'DbA',
+      rank: resRank,
       first_name: resFirstName,
       middle_name: resMiddleName,
       last_name: resLastName,
@@ -47,6 +48,12 @@ export const NewResidentDialog = ({ modalOpen, onClose }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
+          <TextField
+            id="new-resident-rank"
+            label="Rank"
+            variant="standard"
+            onChange={(event) => { setRank(event.target.value); }}
+          />
           <TextField
             id="new-resident-first-name"
             label="First Name"
