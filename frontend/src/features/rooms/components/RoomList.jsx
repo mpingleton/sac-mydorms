@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
 import getRooms from '../api/getRooms';
 
-export const RoomList = () => {
+export const RoomList = ({ onSelectionChange }) => {
   const [rooms, setRooms] = React.useState([]);
 
   React.useEffect(() => {
@@ -36,10 +37,19 @@ export const RoomList = () => {
         columns={columns}
         pageSize={20}
         rowsPerPageOptions={[5]}
-        checkboxSelection
+        onSelectionModelChange={onSelectionChange}
+        disableMultipleSelection
       />
     </Box>
   );
+};
+
+RoomList.propTypes = {
+  onSelectionChange: PropTypes.func,
+};
+
+RoomList.defaultProps = {
+  onSelectionChange: () => {},
 };
 
 export default RoomList;

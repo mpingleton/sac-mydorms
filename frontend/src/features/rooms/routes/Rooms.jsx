@@ -6,26 +6,32 @@ import { ContentLayout } from '@/components/layout';
 
 import { RoomList } from '../components/RoomList';
 
-export const Rooms = () => (
-  <ContentLayout title="Rooms">
-    <Stack direction="column" spacing={1}>
-      <Stack direction="row" spacing={1}>
-        <Button
-          variant="contained"
-          onClick={() => {}}
-        >
-          View
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => {}}
-        >
-          Assign Resident
-        </Button>
+export const Rooms = () => {
+  const [currentRoomListSelection, setRoomListSelection] = React.useState([]);
+
+  return (
+    <ContentLayout title="Rooms">
+      <Stack direction="column" spacing={1}>
+        <Stack direction="row" spacing={1}>
+          <Button
+            variant="contained"
+            onClick={() => {}}
+            disabled={currentRoomListSelection.length !== 1}
+          >
+            View
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => {}}
+            disabled={currentRoomListSelection.length !== 1}
+          >
+            Assign Resident
+          </Button>
+        </Stack>
+        <RoomList onSelectionChange={setRoomListSelection} />
       </Stack>
-      <RoomList />
-    </Stack>
-  </ContentLayout>
-);
+    </ContentLayout>
+  );
+};
 
 export default Rooms;
