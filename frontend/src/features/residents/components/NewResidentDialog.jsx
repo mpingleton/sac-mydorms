@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { Box, Modal, Button, TextField, Stack } from '@mui/material';
 
+import createResident from '../api/createResident';
+
 const modalStyle = {
   position: 'absolute',
   top: '50%',
@@ -24,13 +26,16 @@ export const NewResidentDialog = ({ modalOpen, onClose }) => {
 
   const submitResident = () => {
     const data = {
+      rank: 'DbA',
       first_name: resFirstName,
       middle_name: resMiddleName,
       last_name: resLastName,
       email: resEmail,
       phone: resPhone,
     };
-    console.log(data);
+    createResident(data).then(() => {
+      onClose();
+    });
   };
 
   return (
