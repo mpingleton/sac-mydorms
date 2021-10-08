@@ -7,6 +7,24 @@ const getRoomAssignments = async () => {
   return roomassignments;
 };
 
+const getRoomAssignmentsForPersonnel = async (personnelId) => {
+  const roomassignments = await prisma.roomAssignments.findMany({
+    where: {
+      personnel_id: personnelId,
+    },
+  });
+  return roomassignments;
+};
+
+const getPersonnelAssignedToRoom = async (roomId) => {
+  const roomassignments = await prisma.roomAssignments.findMany({
+    where: {
+      room_id: roomId,
+    },
+  });
+  return roomassignments;
+};
+
 const createRoomAssignment = async (personnelId, roomId) => {
   const data = {
     personnel_id: personnelId,
@@ -17,5 +35,7 @@ const createRoomAssignment = async (personnelId, roomId) => {
 
 module.exports = {
   getRoomAssignments,
+  getRoomAssignmentsForPersonnel,
+  getPersonnelAssignedToRoom,
   createRoomAssignment,
 };
