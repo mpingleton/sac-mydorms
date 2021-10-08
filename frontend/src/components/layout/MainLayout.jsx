@@ -41,6 +41,16 @@ export const MainLayout = ({ children }) => {
 
   const navigation = [
     { name: 'Dashboard', to: '.' },
+    { name: 'Residents', to: './residents' },
+    { name: 'Rooms', to: './rooms' },
+    { name: 'Work Orders', to: './workorders' },
+    { name: 'Inspections', to: './inspections' },
+    { name: 'Common Area', to: './commonarea' },
+    { name: 'Events', to: './events' },
+    { name: 'Messages', to: './messages' },
+  ].filter(Boolean);
+
+  const navigationTwo = [
     checkAccess({ allowedRoles: [ROLES.ADMIN] })
       && { name: 'Users', to: './users' },
     { name: 'Your Profile', to: './profile' },
@@ -100,16 +110,25 @@ export const MainLayout = ({ children }) => {
           <Divider />
           <Box sx={{ overflow: 'auto' }}>
             <List>
-              <ListItem
-                key="My Account"
-                button
-                onClick={() => {}}
-              >
-                <ListItemIcon>
-                  <MenuIcon />
-                </ListItemIcon>
-                <ListItemText primary="My Account" />
-              </ListItem>
+              {navigationTwo.map((item) => (
+                <ListItem
+                  key={item.name}
+                  button
+                  onClick={() => {
+                    closeRightDrawer();
+                    if (item.onClick === undefined) {
+                      navigate(item.to);
+                    } else {
+                      item.onClick();
+                    }
+                  }}
+                >
+                  <ListItemIcon>
+                    <MenuIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={item.name} />
+                </ListItem>
+              ))}
             </List>
           </Box>
         </Drawer>

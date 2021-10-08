@@ -1,13 +1,22 @@
-const catchAsync = require('../utils/catchAsync');
-const {
-  dataService,
-} = require('../services');
+const personnelService = require('@/services/personnel.service');
 
-const getPersonnel = catchAsync(async (req, res) => {
-  const personnel = await dataService.getPersonnel();
+const getPersonnel = async (req, res) => {
+  const personnel = await personnelService.getPersonnel();
   res.send(200, personnel);
-});
+};
+
+const getPersonnelById = async (req, res) => {
+  const person = await personnelService.getPersonnelById(parseInt(req.params.id, 10));
+  res.send(200, person);
+};
+
+const createPersonnel = async (req, res) => {
+  await personnelService.createPersonnel(req.body);
+  res.send(200);
+};
 
 module.exports = {
   getPersonnel,
+  getPersonnelById,
+  createPersonnel,
 };

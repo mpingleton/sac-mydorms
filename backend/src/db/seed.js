@@ -26,6 +26,12 @@ const userData = [
     isEmailVerified: false,
   },
   {
+    name: 'Tony',
+    email: 'tony.doe@us.af.mil',
+    password: '123',
+    isEmailVerified: false,
+  },
+  {
     name: 'Mike',
     email: 'mike@prisma.io',
     password: 'test1234',
@@ -36,12 +42,12 @@ const userData = [
 const buildingsData = [
   {
     building_number: '123',
-    building_name: 'Tony Hall',
+    building_name: 'Tony Manor',
     address: '123 Main St, Barksdale AFB 71037',
   },
   {
     building_number: '456',
-    building_name: 'Ezekiel Hall',
+    building_name: 'Ezekiel Manor',
     address: '456 Main St, Barksdale AFB 71037',
   },
 ];
@@ -138,18 +144,18 @@ const personnelData = [
   {
     rank: 'AB',
     first_name: 'Tony',
-    middle_name: 'Tony',
-    last_name: 'Tony',
+    middle_name: 'Randy',
+    last_name: 'Doe',
     phone: '123-456-7891',
-    email: 'tony.tony.1@us.af.mil',
+    email: 'tony.doe.1@us.af.mil',
   },
   {
     rank: 'A1C',
-    first_name: 'Ezekiel',
-    middle_name: 'Ezekiel',
-    last_name: 'Ezekiel',
+    first_name: 'James',
+    middle_name: 'Brad',
+    last_name: 'Mosely',
     phone: '123-456-7891',
-    email: 'ezekiel.ezekiel.10@us.af.mil',
+    email: 'james.mosely.10@us.af.mil',
   },
   {
     rank: 'SSgt',
@@ -158,6 +164,13 @@ const personnelData = [
     last_name: 'Snuffy',
     phone: '123-456-7891',
     email: 'john.snuffy@us.af.mil',
+  },
+];
+
+const enrollmentsData = [
+  {
+    user_id: 4,
+    personnel_id: 1,
   },
 ];
 
@@ -231,6 +244,14 @@ async function main() {
       data: p,
     });
     console.log(`Created person ${person.rank} ${person.first_name} ${person.middle_name} ${person.last_name}.`);
+  }
+
+  // Seed enrollments data.
+  for (const e of enrollmentsData) {
+    const enrollment = await prisma.enrollments.create({
+      data: e,
+    });
+    console.log(`Created enrollment of user ${enrollment.user_id} to person ${enrollment.personnel_id}.`);
   }
 
   // Seed room assignments table.

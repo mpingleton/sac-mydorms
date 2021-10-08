@@ -1,8 +1,11 @@
 const express = require('express');
-const dataController = require('../../controllers/personnel.controller');
+
+const personnelController = require('@/controllers/personnel.controller');
 
 const router = express.Router();
 
-router.get('/', dataController.getPersonnel);
+router.get('/', personnelController.getPersonnel);
+router.get('/:id', personnelController.getPersonnelById);
+router.put('/', personnelController.createPersonnel);
 
 module.exports = router;
