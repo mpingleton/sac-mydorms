@@ -6,6 +6,7 @@ import { DataGrid } from '@mui/x-data-grid';
 
 import getRoomById from '../api/getRoomById';
 import getResidents from '@/features/residents/api/getResidents';
+import createRoomAssignment from '../api/createRoomAssignment';
 
 const modalStyle = {
   position: 'absolute',
@@ -54,6 +55,19 @@ export const AssignResidentDialog = ({ modalOpen, onClose, roomId }) => {
     }
   ));
 
+  const submitRoomAssignment = () => {
+    const promises = [];
+
+    selectedResidents.forEach((residentId) => {
+      promises.push(createRoomAssignment(residentId, roomId));
+    });
+
+    Promise.all(promises)
+      .then(() => {
+        onClose();
+      });
+  };
+
   return (
     <Modal
       open={modalOpen}
@@ -78,9 +92,7 @@ export const AssignResidentDialog = ({ modalOpen, onClose, roomId }) => {
           </Box>
           <Stack direction="row">
             <Button variant="contained" onClick={onClose}>Cancel</Button>
-            <Typography>
-              {`${selectedResidents.length} residents currently selected.`}
-            </Typography>
+            <Button variant="contained" onClick={submitRoomAssignment}>Create</Button>
           </Stack>
         </Stack>
       </Box>
