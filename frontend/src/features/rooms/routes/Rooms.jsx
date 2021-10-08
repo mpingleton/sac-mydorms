@@ -6,16 +6,23 @@ import { ContentLayout } from '@/components/layout';
 
 import { RoomList } from '../components/RoomList';
 import { ViewRoomDetailsDialog } from '../components/ViewRoomDetailsDialog';
+import { AssignResidentDialog } from '../components/AssignResidentDialog';
 
 export const Rooms = () => {
   const [currentRoomListSelection, setRoomListSelection] = React.useState([]);
   const [isViewRoomDialogOpen, setViewRoomDialogOpen] = React.useState(false);
+  const [isAssignResdientDialogOpen, setAssignResidentDialogOpen] = React.useState(false);
 
   return (
     <ContentLayout title="Rooms">
       <ViewRoomDetailsDialog
         modalOpen={isViewRoomDialogOpen}
         onClose={() => setViewRoomDialogOpen(false)}
+        roomId={currentRoomListSelection[0]}
+      />
+      <AssignResidentDialog
+        modalOpen={isAssignResdientDialogOpen}
+        onClose={() => setAssignResidentDialogOpen(false)}
         roomId={currentRoomListSelection[0]}
       />
       <Stack direction="column" spacing={1}>
@@ -29,7 +36,7 @@ export const Rooms = () => {
           </Button>
           <Button
             variant="contained"
-            onClick={() => {}}
+            onClick={() => setAssignResidentDialogOpen(true)}
             disabled={currentRoomListSelection.length !== 1}
           >
             Assign Resident
