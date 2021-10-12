@@ -58,7 +58,7 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
             <Typography>{workOrder.creator_remarks}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Button variant="contained" onClick={onClose}>Cancel</Button>
+            <Button variant="contained" onClick={onClose}>Close</Button>
           </Stack>
         </Stack>
       </Box>
