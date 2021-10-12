@@ -5,14 +5,20 @@ import { Button, Stack } from '@mui/material';
 import { ContentLayout } from '@/components/layout';
 
 import { WorkOrderList } from '../components/WorkOrderList';
+import { NewWorkOrderDialog } from '../components/NewWorkOrderDialog';
 import { ViewWorkOrderDetailsDialog } from '../components/ViewWorkOrderDetailsDialog';
 
 export const WorkOrders = () => {
   const [currentWorkOrderListSelection, setWorkOrderListSelection] = React.useState([]);
+  const [isNewWorkOrderDialogOpen, setNewWorkOrderDialogOpen] = React.useState(false);
   const [isViewWorkOrderDialogOpen, setViewWorkOrderDialogOpen] = React.useState(false);
 
   return (
     <ContentLayout title="Work Orders">
+      <NewWorkOrderDialog
+        modalOpen={isNewWorkOrderDialogOpen}
+        onClose={() => setNewWorkOrderDialogOpen(false)}
+      />
       <ViewWorkOrderDetailsDialog
         modalOpen={isViewWorkOrderDialogOpen}
         onClose={() => setViewWorkOrderDialogOpen(false)}
@@ -22,7 +28,7 @@ export const WorkOrders = () => {
         <Stack direction="row" spacing={1}>
           <Button
             variant="contained"
-            onClick={() => {}}
+            onClick={() => setNewWorkOrderDialogOpen(true)}
           >
             New
           </Button>
