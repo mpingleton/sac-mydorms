@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Stack } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 
 import { ContentLayout } from '@/components/layout';
 
@@ -12,8 +12,22 @@ export const WorkOrders = () => {
   return (
     <ContentLayout title="Work Orders">
       <Stack direction="column" spacing={1}>
-        {`Current selection: ${currentWorkOrderListSelection}.`}
+        <Stack direction="row" spacing={1}>
+          <Button
+            variant="contained"
+            onClick={() => {}}
+          >
+            New
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => {}}
+          >
+            View
+          </Button>
+        </Stack>
         <WorkOrderList onSelectionChange={setWorkOrderListSelection} />
+        {`Current selection: ${currentWorkOrderListSelection}.`}
       </Stack>
     </ContentLayout>
   );
