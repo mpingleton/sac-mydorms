@@ -41,7 +41,6 @@ export const WorkOrders = () => {
           </Button>
         </Stack>
         <WorkOrderList onSelectionChange={setWorkOrderListSelection} />
-        {`Current selection: ${currentWorkOrderListSelection}.`}
       </Stack>
     </ContentLayout>
   );
