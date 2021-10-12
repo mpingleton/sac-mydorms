@@ -1,14 +1,20 @@
 import React from 'react';
 
+import { Stack } from '@mui/material';
+
 import { ContentLayout } from '@/components/layout';
-import { useAuth } from '@/lib/auth';
+
+import { WorkOrderList } from '../components/WorkOrderList';
 
 export const WorkOrders = () => {
-  const { user } = useAuth();
+  const [currentWorkOrderListSelection, setWorkOrderListSelection] = React.useState([]);
 
   return (
     <ContentLayout title="Work Orders">
-      {`Hello ${user?.name} from the work orders page!`}
+      <Stack direction="column" spacing={1}>
+        {`Current selection: ${currentWorkOrderListSelection}.`}
+        <WorkOrderList onSelectionChange={setWorkOrderListSelection} />
+      </Stack>
     </ContentLayout>
   );
 };
