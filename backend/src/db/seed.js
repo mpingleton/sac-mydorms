@@ -195,16 +195,18 @@ const dormManagerAssignmentsData = [
 const workOrdersData = [
   {
     room_id: 1,
+    subject: 'Broken Sink',
     created_by: 3,
-    creator_remarks: 'Sink is broken.',
+    creator_remarks: 'Sink is leaking water into the cabinet below.',
     created_timestamp: '2021-09-20T00:00:00.000Z',
     status: 1,
     status_timestamp: '2021-09-20T00:00:00.000Z',
   },
   {
     room_id: 11,
+    subject: 'Broken A/C.',
     created_by: 2,
-    creator_remarks: 'A/C is broken.',
+    creator_remarks: 'Air conditioner is blowing hot air.',
     created_timestamp: '2021-09-20T00:00:00.000Z',
     status: 1,
     status_timestamp: '2021-09-20T00:00:00.000Z',

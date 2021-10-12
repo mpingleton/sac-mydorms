@@ -18,13 +18,17 @@ export const WorkOrderList = ({ onSelectionChange }) => {
   const columns = [
     { field: 'room', headerName: 'Room', width: 100 },
     { field: 'subject', headerName: 'Subject', width: 200 },
+    { field: 'remarks', headerName: 'Creator Remarks', width: 300 },
+    { field: 'status', headerName: 'Status', width: 100 },
   ];
 
   const rows = workOrders.map((workOrder) => (
     {
       id: workOrder.id,
       room: workOrder.room_id,
-      subject: workOrder.creator_remarks,
+      subject: workOrder.subject,
+      remarks: workOrder.creator_remarks,
+      status: workOrder.status,
     }
   ));
 
