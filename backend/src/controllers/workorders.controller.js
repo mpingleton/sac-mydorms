@@ -5,6 +5,12 @@ const getWorkOrders = async (req, res) => {
   res.send(200, workOrders);
 };
 
+const getWorkOrderById = async (req, res) => {
+  const workOrder = await workOrdersService.getWorkOrderById(parseInt(req.params.id, 10));
+  res.send(200, workOrder);
+};
+
 module.exports = {
   getWorkOrders,
+  getWorkOrderById,
 };

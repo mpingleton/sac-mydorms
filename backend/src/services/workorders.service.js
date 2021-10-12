@@ -7,6 +7,16 @@ const getWorkOrders = async () => {
   return workOrders;
 };
 
+const getWorkOrderById = async (workOrderId) => {
+  const workOrder = await prisma.workOrders.findUnique({
+    where: {
+      id: workOrderId,
+    },
+  });
+  return workOrder;
+};
+
 module.exports = {
   getWorkOrders,
+  getWorkOrderById,
 };
