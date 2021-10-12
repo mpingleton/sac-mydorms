@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, Box, Modal, Stack } from '@mui/material';
+import { Button, Box, Modal, Stack, Typography } from '@mui/material';
 
 import getWorkOrderById from '../api/getWorkOrderById';
 
@@ -39,6 +39,24 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
+          <Stack direction="row" spacing={1}>
+            <Typography>Subject:</Typography>
+            <Typography>{workOrder.subject}</Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <Typography>Room:</Typography>
+            <Typography>{workOrder.room_id}</Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <Typography>Created by:</Typography>
+            <Typography>{workOrder.created_by}</Typography>
+            <Typography>at:</Typography>
+            <Typography>{workOrder.created_timestamp}</Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <Typography>Remarks:</Typography>
+            <Typography>{workOrder.creator_remarks}</Typography>
+          </Stack>
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Cancel</Button>
           </Stack>
