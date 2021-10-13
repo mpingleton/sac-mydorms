@@ -15,43 +15,59 @@ const modalStyle = {
   p: 4,
 };
 
-export const NewWorkOrderDialog = ({ modalOpen, onClose }) => (
-  <Modal
-    open={modalOpen}
-    onClose={onClose}
-    aria-labelledby="modal-modal-title"
-    aria-describedby="modal-modal-description"
-  >
-    <Box sx={modalStyle}>
-      <Stack direction="column" spacing={1}>
-        <TextField
-          id="new-work-order-subject"
-          label="Subject"
-          variant="standard"
-          onChange={() => {}}
-        />
-        <TextField
-          id="new-work-order-room"
-          label="For Room"
-          variant="standard"
-          onChange={() => {}}
-        />
-        <TextField
-          id="new-work-order-remarks"
-          label="Remarks"
-          variant="standard"
-          multiline
-          maxRows={3}
-          onChange={() => {}}
-        />
-        <Stack direction="row" spacing={1}>
-          <Button variant="contained" onClick={onClose}>Cancel</Button>
-          <Button variant="contained" onClick={() => {}}>Create</Button>
+export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
+  const [resSubject, setSubject] = React.useState('');
+  const [resRoomId, setRoomId] = React.useState('');
+  const [resRemarks, setRemarks] = React.useState('');
+
+  const submitWorkOrder = () => {
+    const data = {
+      subject: resSubject,
+      room_id: resRoomId,
+      remarks: resRemarks,
+    };
+
+    console.log(data);
+  };
+
+  return (
+    <Modal
+      open={modalOpen}
+      onClose={onClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={modalStyle}>
+        <Stack direction="column" spacing={1}>
+          <TextField
+            id="new-work-order-subject"
+            label="Subject"
+            variant="standard"
+            onChange={(event) => { setSubject(event.target.value); }}
+          />
+          <TextField
+            id="new-work-order-room"
+            label="For Room"
+            variant="standard"
+            onChange={(event) => { setRoomId(event.target.value); }}
+          />
+          <TextField
+            id="new-work-order-remarks"
+            label="Remarks"
+            variant="standard"
+            multiline
+            maxRows={3}
+            onChange={(event) => { setRemarks(event.target.value); }}
+          />
+          <Stack direction="row" spacing={1}>
+            <Button variant="contained" onClick={onClose}>Cancel</Button>
+            <Button variant="contained" onClick={submitWorkOrder}>Create</Button>
+          </Stack>
         </Stack>
-      </Stack>
-    </Box>
-  </Modal>
-);
+      </Box>
+    </Modal>
+  );
+};
 
 NewWorkOrderDialog.propTypes = {
   modalOpen: PropTypes.bool,
