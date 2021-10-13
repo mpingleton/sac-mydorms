@@ -26,11 +26,7 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
     const data = {
       subject: resSubject,
       room_id: Number(resRoomId),
-      creator_remarks: resRemarks,
-      status: 0,
-      created_by: 1,
-      created_timestamp: '2021-09-20T00:00:00.000Z',
-      status_timestamp: '2021-09-20T00:00:00.000Z',
+      remarks: resRemarks,
     };
 
     createWorkOrder(data).then(() => {
