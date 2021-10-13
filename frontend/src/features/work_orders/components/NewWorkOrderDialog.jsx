@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Box, Modal, Button, Stack } from '@mui/material';
+import { Box, Modal, Button, TextField, Stack } from '@mui/material';
 
 const modalStyle = {
   position: 'absolute',
@@ -24,6 +24,26 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => (
   >
     <Box sx={modalStyle}>
       <Stack direction="column" spacing={1}>
+        <TextField
+          id="new-work-order-subject"
+          label="Subject"
+          variant="standard"
+          onChange={() => {}}
+        />
+        <TextField
+          id="new-work-order-room"
+          label="For Room"
+          variant="standard"
+          onChange={() => {}}
+        />
+        <TextField
+          id="new-work-order-remarks"
+          label="Remarks"
+          variant="standard"
+          multiline
+          maxRows={3}
+          onChange={() => {}}
+        />
         <Stack direction="row" spacing={1}>
           <Button variant="contained" onClick={onClose}>Cancel</Button>
           <Button variant="contained" onClick={() => {}}>Create</Button>
