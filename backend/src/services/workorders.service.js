@@ -16,7 +16,12 @@ const getWorkOrderById = async (workOrderId) => {
   return workOrder;
 };
 
+const createWorkOrder = async (data) => {
+  await prisma.workOrders.create({ data });
+};
+
 module.exports = {
   getWorkOrders,
   getWorkOrderById,
+  createWorkOrder,
 };

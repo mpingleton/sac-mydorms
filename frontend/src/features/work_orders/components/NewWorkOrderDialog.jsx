@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { Box, Modal, Button, TextField, Stack } from '@mui/material';
 
+import createWorkOrder from '../api/createWorkOrder';
+
 const modalStyle = {
   position: 'absolute',
   top: '50%',
@@ -23,11 +25,17 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
   const submitWorkOrder = () => {
     const data = {
       subject: resSubject,
-      room_id: resRoomId,
-      remarks: resRemarks,
+      room_id: Number(resRoomId),
+      creator_remarks: resRemarks,
+      status: 0,
+      created_by: 1,
+      created_timestamp: '2021-09-20T00:00:00.000Z',
+      status_timestamp: '2021-09-20T00:00:00.000Z',
     };
 
-    console.log(data);
+    createWorkOrder(data).then(() => {
+      onClose();
+    });
   };
 
   return (

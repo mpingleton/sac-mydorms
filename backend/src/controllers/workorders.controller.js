@@ -10,7 +10,13 @@ const getWorkOrderById = async (req, res) => {
   res.send(200, workOrder);
 };
 
+const createWorkOrder = async (req, res) => {
+  await workOrdersService.createWorkOrder(req.body);
+  res.send(200);
+};
+
 module.exports = {
   getWorkOrders,
   getWorkOrderById,
+  createWorkOrder,
 };

@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.get('/', workOrdersController.getWorkOrders);
 router.get('/:id', workOrdersController.getWorkOrderById);
+router.put('/', workOrdersController.createWorkOrder);
 
 module.exports = router;
