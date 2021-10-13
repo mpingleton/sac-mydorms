@@ -40,7 +40,7 @@ export const WorkOrderList = ({ onSelectionChange }) => {
         pageSize={20}
         rowsPerPageOptions={[5]}
         onSelectionModelChange={onSelectionChange}
-        checkboxSelection
+        disableMultipleSelection
       />
     </Box>
   );
