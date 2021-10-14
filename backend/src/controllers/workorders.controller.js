@@ -21,6 +21,7 @@ const createWorkOrder = async (req, res) => {
     user.id,
     req.body.remarks,
     new Date().toISOString(),
+    0,
     new Date().toISOString());
 
   res.send(200);
