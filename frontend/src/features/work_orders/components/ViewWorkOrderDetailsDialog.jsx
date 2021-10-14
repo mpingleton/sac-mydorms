@@ -50,6 +50,9 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
 
     createWorkOrderComment(data).then(() => {
       setNewWorkOrderComment('');
+      getCommentsByWorkOrderId(workOrderId).then(
+        (responseData) => setWorkOrderComments(responseData),
+      );
     });
   };
 
