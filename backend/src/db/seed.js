@@ -195,19 +195,42 @@ const dormManagerAssignmentsData = [
 const workOrdersData = [
   {
     room_id: 1,
+    subject: 'Broken Sink',
     created_by: 3,
-    creator_remarks: 'Sink is broken.',
+    creator_remarks: 'Sink is leaking water into the cabinet below.',
     created_timestamp: '2021-09-20T00:00:00.000Z',
     status: 1,
     status_timestamp: '2021-09-20T00:00:00.000Z',
   },
   {
     room_id: 11,
+    subject: 'Broken A/C.',
     created_by: 2,
-    creator_remarks: 'A/C is broken.',
+    creator_remarks: 'Air conditioner is blowing hot air.',
     created_timestamp: '2021-09-20T00:00:00.000Z',
     status: 1,
     status_timestamp: '2021-09-20T00:00:00.000Z',
+  },
+];
+
+const workOrderCommentsData = [
+  {
+    work_order_id: 1,
+    personnel_id: 3,
+    timestamp: '2021-09-20T00:00:00.000Z',
+    comment: 'Water damage was found near the sink from leakage.',
+  },
+  {
+    work_order_id: 1,
+    personnel_id: 3,
+    timestamp: '2021-09-20T00:00:00.000Z',
+    comment: 'CE will need to cut out some of the drywall near the sink due to water damage.',
+  },
+  {
+    work_order_id: 2,
+    personnel_id: 3,
+    timestamp: '2021-09-20T00:00:00.000Z',
+    comment: 'Thermostat was found on the heat setting.  Closing work order.',
   },
 ];
 
@@ -276,6 +299,14 @@ async function main() {
       data: wo,
     });
     console.log(`Work order ${workOrder.creator_remarks} created.`);
+  }
+
+  // Seed work order comments table.
+  for (const wc of workOrderCommentsData) {
+    const workOrderComment = await prisma.workOrderComments.create({
+      data: wc,
+    });
+    console.log(`Created new work order comment: ${workOrderComment.comment}.`);
   }
 
   console.log('Seeding finished.');

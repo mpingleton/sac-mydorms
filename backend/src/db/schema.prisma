@@ -122,6 +122,7 @@ model WorkOrders {
 
   id Int @id @default(autoincrement())
   room_id Int
+  subject String
   creator_remarks String
   created_by Int
   created_timestamp DateTime
