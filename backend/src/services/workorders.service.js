@@ -68,6 +68,15 @@ const createWorkOrderComment = async (
   await prisma.workOrderComments.create({ data });
 };
 
+const getAllCommentsForWorkOrder = async (workOrderId) => {
+  const comments = await prisma.workOrderComments.findMany({
+    where: {
+      work_order_id: workOrderId,
+    },
+  });
+  return comments;
+};
+
 module.exports = {
   getWorkOrders,
   getWorkOrderById,
@@ -75,4 +84,5 @@ module.exports = {
   getAllWorkOrderComments,
   getWorkOrderCommentById,
   createWorkOrderComment,
+  getAllCommentsForWorkOrder,
 };
