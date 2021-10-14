@@ -213,6 +213,27 @@ const workOrdersData = [
   },
 ];
 
+const workOrderCommentsData = [
+  {
+    work_order_id: 1,
+    personnel_id: 3,
+    timestamp: '2021-09-20T00:00:00.000Z',
+    comment: 'Water damage was found near the sink from leakage.',
+  },
+  {
+    work_order_id: 1,
+    personnel_id: 3,
+    timestamp: '2021-09-20T00:00:00.000Z',
+    comment: 'CE will need to cut out some of the drywall near the sink due to water damage.',
+  },
+  {
+    work_order_id: 2,
+    personnel_id: 3,
+    timestamp: '2021-09-20T00:00:00.000Z',
+    comment: 'Thermostat was found on the heat setting.  Closing work order.',
+  },
+];
+
 async function main() {
   console.log('Start seeding ...');
 
@@ -278,6 +299,14 @@ async function main() {
       data: wo,
     });
     console.log(`Work order ${workOrder.creator_remarks} created.`);
+  }
+
+  // Seed work order comments table.
+  for (const wc of workOrderCommentsData) {
+    const workOrderComment = await prisma.workOrderComments.create({
+      data: wc,
+    });
+    console.log(`Created new work order comment: ${workOrderComment.comment}.`);
   }
 
   console.log('Seeding finished.');
