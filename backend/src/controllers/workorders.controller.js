@@ -31,9 +31,27 @@ const getAllWorkOrderComments = async (req, res) => {
   res.send(200, comments);
 };
 
+const getWorkOrderCommentById = async (req, res) => {
+  const comment = await workOrdersService.getWorkOrderCommentById(parseInt(req.params.id, 10));
+  res.send(200, comment);
+};
+
+const createWorkOrderComment = async (req, res) => {
+  const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
+  await workOrdersService.createWorkOrderComment(
+    req.body.workOrderId,
+    user.id,
+    new Date().toISOString(),
+    req.body.comment,
+  );
+  res.send(200);
+};
+
 module.exports = {
   getWorkOrders,
   getWorkOrderById,
   createWorkOrder,
   getAllWorkOrderComments,
+  getWorkOrderCommentById,
+  createWorkOrderComment,
 };

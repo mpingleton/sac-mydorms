@@ -39,8 +39,33 @@ const createWorkOrder = async (
 };
 
 const getAllWorkOrderComments = async () => {
-  const comments = prisma.workOrderComments.findMany({});
+  const comments = await prisma.workOrderComments.findMany({});
   return comments;
+};
+
+const getWorkOrderCommentById = async (commentId) => {
+  const comment = await prisma.workOrderComments.findUnique({
+    where: {
+      id: commentId,
+    },
+  });
+  return comment;
+};
+
+const createWorkOrderComment = async (
+  workOrderId,
+  personnelId,
+  commentTimestamp,
+  commentString,
+) => {
+  const data = {
+    work_order_id: workOrderId,
+    personnel_id: personnelId,
+    timestamp: commentTimestamp,
+    comment: commentString,
+  };
+
+  await prisma.workOrderComments.create({ data });
 };
 
 module.exports = {
@@ -48,4 +73,6 @@ module.exports = {
   getWorkOrderById,
   createWorkOrder,
   getAllWorkOrderComments,
+  getWorkOrderCommentById,
+  createWorkOrderComment,
 };
