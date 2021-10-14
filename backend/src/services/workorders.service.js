@@ -38,8 +38,14 @@ const createWorkOrder = async (
   await prisma.workOrders.create({ data });
 };
 
+const getAllWorkOrderComments = async () => {
+  const comments = prisma.workOrderComments.findMany({});
+  return comments;
+};
+
 module.exports = {
   getWorkOrders,
   getWorkOrderById,
   createWorkOrder,
+  getAllWorkOrderComments,
 };

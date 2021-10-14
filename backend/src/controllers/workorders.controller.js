@@ -26,8 +26,14 @@ const createWorkOrder = async (req, res) => {
   res.send(200);
 };
 
+const getAllWorkOrderComments = async (req, res) => {
+  const comments = await workOrdersService.getAllWorkOrderComments();
+  res.send(200, comments);
+};
+
 module.exports = {
   getWorkOrders,
   getWorkOrderById,
   createWorkOrder,
+  getAllWorkOrderComments,
 };
