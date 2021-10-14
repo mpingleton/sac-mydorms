@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, Box, Modal, Stack, Typography } from '@mui/material';
+import { Button, Box, Modal, Stack, Typography, TextField } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import getWorkOrderById from '../api/getWorkOrderById';
 import getCommentsByWorkOrderId from '../api/getCommentsByWorkOrderId';
+import createWorkOrderComment from '../api/createWorkOrderComment';
 
 const modalStyle = {
   position: 'absolute',
@@ -22,6 +23,7 @@ const modalStyle = {
 export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) => {
   const [workOrder, setWorkOrder] = React.useState({});
   const [workOrderComments, setWorkOrderComments] = React.useState([]);
+  const [newWorkOrderComment, setNewWorkOrderComment] = React.useState('');
 
   React.useEffect(() => {
     if (workOrder.id !== workOrderId && workOrderId > 0) {
@@ -35,6 +37,21 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
   if (workOrder.id === undefined) {
     return null;
   }
+
+  const submitComment = () => {
+    if (newWorkOrderComment.length === 0) {
+      return;
+    }
+
+    const data = {
+      workOrderId,
+      comment: newWorkOrderComment,
+    };
+
+    createWorkOrderComment(data).then(() => {
+      setNewWorkOrderComment('');
+    });
+  };
 
   const commentColumns = [
     { field: 'timestamp', headerName: 'Timestamp', width: 100 },
@@ -81,7 +98,7 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
           <Stack direction="row" spacing={1}>
             <Typography>Comments:</Typography>
           </Stack>
-          <Stack direction="row" spacing={1} sx={{ height: 200 }}>
+          <Stack direction="row" spacing={1} sx={{ height: 300 }}>
             <DataGrid
               rows={commentRows}
               columns={commentColumns}
@@ -89,6 +106,19 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
               rowsPerPageOptions={[5]}
               disableMultipleSelection
             />
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <TextField
+              id="new-work-order-comment"
+              label="Comment"
+              variant="standard"
+              multiline
+              maxRows={3}
+              value={newWorkOrderComment}
+              onChange={(event) => { setNewWorkOrderComment(event.target.value); }}
+              sx={{ width: '100%' }}
+            />
+            <Button variant="contained" onClick={submitComment} disabled={newWorkOrderComment.length === 0}>Send</Button>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Close</Button>
