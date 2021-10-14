@@ -17,7 +17,12 @@ const createWorkOrder = async (req, res) => {
   const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
 
   await workOrdersService.createWorkOrder(req.body.subject,
-    req.body.room_id, user.id, req.body.remarks);
+    req.body.room_id,
+    user.id,
+    req.body.remarks,
+    new Date().toISOString(),
+    new Date().toISOString());
+
   res.send(200);
 };
 

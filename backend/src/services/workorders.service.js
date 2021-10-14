@@ -16,15 +16,21 @@ const getWorkOrderById = async (workOrderId) => {
   return workOrder;
 };
 
-const createWorkOrder = async (subjectLine, roomId, createdBy, creatorRemarks) => {
+const createWorkOrder = async (subjectLine,
+  roomId,
+  createdBy,
+  creatorRemarks,
+  createdTimestamp,
+  status,
+  statusTimestamp) => {
   const data = {
     subject: subjectLine,
     room_id: roomId,
     created_by: createdBy,
     creator_remarks: creatorRemarks,
-    created_timestamp: new Date().toISOString(),
+    created_timestamp: createdTimestamp,
     status: 0,
-    status_timestamp: new Date().toISOString(),
+    status_timestamp: statusTimestamp,
   };
 
   await prisma.workOrders.create({ data });
