@@ -16,13 +16,15 @@ const getWorkOrderById = async (workOrderId) => {
   return workOrder;
 };
 
-const createWorkOrder = async (subjectLine,
+const createWorkOrder = async (
+  subjectLine,
   roomId,
   createdBy,
   creatorRemarks,
   createdTimestamp,
   status,
-  statusTimestamp) => {
+  statusTimestamp,
+) => {
   const data = {
     subject: subjectLine,
     room_id: roomId,
