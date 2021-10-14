@@ -17,7 +17,10 @@ export const WorkOrders = () => {
     <ContentLayout title="Work Orders">
       <NewWorkOrderDialog
         modalOpen={isNewWorkOrderDialogOpen}
-        onClose={() => setNewWorkOrderDialogOpen(false)}
+        onClose={() => {
+          setNewWorkOrderDialogOpen(false);
+          window.location.reload();
+        }}
       />
       <ViewWorkOrderDetailsDialog
         modalOpen={isViewWorkOrderDialogOpen}
