@@ -22,8 +22,8 @@ const createWorkOrder = async (req, res) => {
     status: 0,
     created_by: user.id,
     creator_remarks: req.body.remarks,
-    created_timestamp: '2021-09-20T00:00:00.000Z',
-    status_timestamp: '2021-09-20T00:00:00.000Z',
+    created_timestamp: new Date().toISOString(),
+    status_timestamp: new Date().toISOString(),
   };
 
   await workOrdersService.createWorkOrder(workOrderData);
