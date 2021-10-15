@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import { Box, Modal, Typography } from '@mui/material';
+import { Box, Button, Modal, Stack, TextField, Typography } from '@mui/material';
 
 const modalStyle = {
   position: 'absolute',
@@ -16,7 +15,7 @@ const modalStyle = {
 };
 
 export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
-  const some = 'fjad';
+  const some = 'dfds';
   return (
     <Modal
       open={modalOpen}
@@ -25,6 +24,31 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={modalStyle}>
+        <Stack direction="column" spacing={1}>
+          <TextField
+            id="room"
+            label="Room"
+            variant="outlined"
+          />
+          <TextField
+            id="time"
+            label="Time"
+            variant="outlined"
+          />
+          <TextField
+            id="inspector"
+            label="Inspector"
+            variant="outlined"
+          />
+          <TextField
+            id="filled-multiline-static"
+            label="Comments"
+            multiline
+            rows={4}
+            variant="outlined"
+          />
+        </Stack>
+        <Button variant="contained">Send</Button>
         <Typography>{some}</Typography>
       </Box>
     </Modal>
