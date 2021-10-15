@@ -7,6 +7,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import getWorkOrderById from '../api/getWorkOrderById';
 import getCommentsByWorkOrderId from '../api/getCommentsByWorkOrderId';
 import createWorkOrderComment from '../api/createWorkOrderComment';
+import getRoomById from '../api/getRoomById';
 
 const modalStyle = {
   position: 'absolute',
@@ -24,15 +25,21 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
   const [workOrder, setWorkOrder] = React.useState({});
   const [workOrderComments, setWorkOrderComments] = React.useState([]);
   const [newWorkOrderComment, setNewWorkOrderComment] = React.useState('');
+  const [roomObject, setRoomObject] = React.useState({});
 
   React.useEffect(() => {
     if (workOrder.id !== workOrderId && workOrderId > 0) {
+      setRoomObject({});
       getWorkOrderById(workOrderId).then((responseData) => setWorkOrder(responseData));
       getCommentsByWorkOrderId(workOrderId).then(
         (responseData) => setWorkOrderComments(responseData),
       );
     }
-  });
+
+    if (workOrder.id === workOrderId && roomObject.id === undefined) {
+      getRoomById(workOrder.room_id).then((responseData) => setRoomObject(responseData));
+    }
+  }, [workOrder.id, workOrder.room_id, workOrderId, roomObject.id]);
 
   if (workOrder.id === undefined) {
     return null;
@@ -86,7 +93,7 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Room:</Typography>
-            <Typography>{workOrder.room_id}</Typography>
+            <Typography>{roomObject.room_number}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Created by:</Typography>
