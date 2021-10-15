@@ -24,8 +24,9 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={modalStyle} />
-      <Typography>{some}</Typography>
+      <Box sx={modalStyle}>
+        <Typography>{some}</Typography>
+      </Box>
     </Modal>
   );
 };
