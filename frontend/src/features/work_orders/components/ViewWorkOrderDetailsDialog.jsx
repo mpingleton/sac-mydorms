@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, Box, Modal, Stack, Typography, TextField } from '@mui/material';
+import { Button, Box, Modal, Stack, Typography, TextField, Select, InputLabel, MenuItem } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import getWorkOrderById from '../api/getWorkOrderById';
@@ -127,6 +127,17 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
             <Typography>Remarks:</Typography>
             <Typography>{workOrder.creator_remarks}</Typography>
           </Stack>
+          <InputLabel id="work-order-status-label">Status:</InputLabel>
+          <Select
+            labelId="work-order-status-label"
+            id="work-order-status"
+            label="Status"
+          >
+            <MenuItem value={0}>Not Started</MenuItem>
+            <MenuItem value={1}>In Progress</MenuItem>
+            <MenuItem value={2}>Stalled</MenuItem>
+            <MenuItem value={3}>Complete</MenuItem>
+          </Select>
           <Stack direction="row" spacing={1}>
             <Typography>Comments:</Typography>
           </Stack>
