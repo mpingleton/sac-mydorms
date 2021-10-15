@@ -9,6 +9,7 @@ import getCommentsByWorkOrderId from '../api/getCommentsByWorkOrderId';
 import createWorkOrderComment from '../api/createWorkOrderComment';
 import getRoomById from '../api/getRoomById';
 import getPersonnelById from '../api/getPersonnelById';
+import updateWorkOrderStatus from '../api/updateWorkOrderStatus';
 
 const modalStyle = {
   position: 'absolute',
@@ -132,6 +133,13 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
             labelId="work-order-status-label"
             id="work-order-status"
             label="Status"
+            value={workOrder.status}
+            onChange={(event) => {
+              updateWorkOrderStatus(workOrder.id, event.target.value)
+                .then(() => {
+                  getWorkOrderById(workOrderId).then((responseData) => setWorkOrder(responseData));
+                });
+            }}
           >
             <MenuItem value={0}>Not Started</MenuItem>
             <MenuItem value={1}>In Progress</MenuItem>

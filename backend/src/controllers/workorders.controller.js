@@ -53,6 +53,11 @@ const getAllCommentsForWorkOrder = async (req, res) => {
   res.send(200, comments);
 };
 
+const updateWorkOrderStatus = async (req, res) => {
+  await workOrdersService.updateWorkOrderStatus(req.body.id, req.body.status);
+  res.send(200);
+};
+
 module.exports = {
   getWorkOrders,
   getWorkOrderById,
@@ -61,4 +66,5 @@ module.exports = {
   getWorkOrderCommentById,
   createWorkOrderComment,
   getAllCommentsForWorkOrder,
+  updateWorkOrderStatus,
 };

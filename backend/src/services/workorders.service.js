@@ -77,6 +77,17 @@ const getAllCommentsForWorkOrder = async (workOrderId) => {
   return comments;
 };
 
+const updateWorkOrderStatus = async (workOrderId, newStatus) => {
+  await prisma.workOrders.updateMany({
+    data: {
+      status: newStatus,
+    },
+    where: {
+      id: workOrderId,
+    },
+  });
+};
+
 module.exports = {
   getWorkOrders,
   getWorkOrderById,
@@ -85,4 +96,5 @@ module.exports = {
   getWorkOrderCommentById,
   createWorkOrderComment,
   getAllCommentsForWorkOrder,
+  updateWorkOrderStatus,
 };
