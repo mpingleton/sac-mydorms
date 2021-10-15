@@ -30,6 +30,10 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
     }
   });
 
+  const submitIsEnabled = () => resRemarks.length !== 0
+    && resRoomId >= 0
+    && resSubject.length !== 0;
+
   const submitWorkOrder = () => {
     const data = {
       subject: resSubject,
@@ -80,7 +84,7 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
           />
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Cancel</Button>
-            <Button variant="contained" onClick={submitWorkOrder} disabled={resRoomId <= 0}>Create</Button>
+            <Button variant="contained" onClick={submitWorkOrder} disabled={!submitIsEnabled()}>Create</Button>
           </Stack>
         </Stack>
       </Box>
