@@ -8,6 +8,7 @@ import getWorkOrderById from '../api/getWorkOrderById';
 import getCommentsByWorkOrderId from '../api/getCommentsByWorkOrderId';
 import createWorkOrderComment from '../api/createWorkOrderComment';
 import getRoomById from '../api/getRoomById';
+import getPersonnelById from '../api/getPersonnelById';
 
 const modalStyle = {
   position: 'absolute',
@@ -26,10 +27,12 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
   const [workOrderComments, setWorkOrderComments] = React.useState([]);
   const [newWorkOrderComment, setNewWorkOrderComment] = React.useState('');
   const [roomObject, setRoomObject] = React.useState({});
+  const [personnelObject, setPersonnelObject] = React.useState({});
 
   React.useEffect(() => {
     if (workOrder.id !== workOrderId && workOrderId > 0) {
       setRoomObject({});
+      setPersonnelObject({});
       getWorkOrderById(workOrderId).then((responseData) => setWorkOrder(responseData));
       getCommentsByWorkOrderId(workOrderId).then(
         (responseData) => setWorkOrderComments(responseData),
@@ -39,7 +42,20 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
     if (workOrder.id === workOrderId && roomObject.id === undefined) {
       getRoomById(workOrder.room_id).then((responseData) => setRoomObject(responseData));
     }
-  }, [workOrder.id, workOrder.room_id, workOrderId, roomObject.id]);
+
+    if (workOrder.id === workOrderId && personnelObject.id === undefined) {
+      getPersonnelById(workOrder.created_by).then(
+        (responseData) => setPersonnelObject(responseData),
+      );
+    }
+  }, [
+    workOrder.id,
+    workOrder.room_id,
+    workOrder.created_by,
+    workOrderId,
+    roomObject.id,
+    personnelObject.id,
+  ]);
 
   if (workOrder.id === undefined) {
     return null;
@@ -97,7 +113,13 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Created by:</Typography>
-            <Typography>{workOrder.created_by}</Typography>
+            <Typography>
+              {
+                `${personnelObject.rank}
+                ${personnelObject.first_name}
+                ${personnelObject.last_name}`
+              }
+            </Typography>
             <Typography>at:</Typography>
             <Typography>{workOrder.created_timestamp}</Typography>
           </Stack>
