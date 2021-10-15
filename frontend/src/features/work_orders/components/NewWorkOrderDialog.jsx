@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Box, Modal, Button, TextField, Stack } from '@mui/material';
+import { Box, Modal, Button, TextField, Stack, Select, InputLabel, MenuItem } from '@mui/material';
 
 import createWorkOrder from '../api/createWorkOrder';
+import getRooms from '../api/getRooms';
 
 const modalStyle = {
   position: 'absolute',
@@ -19,13 +20,20 @@ const modalStyle = {
 
 export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
   const [resSubject, setSubject] = React.useState('');
-  const [resRoomId, setRoomId] = React.useState('');
+  const [resRoomId, setRoomId] = React.useState(-1);
   const [resRemarks, setRemarks] = React.useState('');
+  const [resRoomList, setRoomList] = React.useState([]);
+
+  React.useState(() => {
+    if (resRoomList.length === 0) {
+      getRooms().then((roomsData) => setRoomList(roomsData));
+    }
+  });
 
   const submitWorkOrder = () => {
     const data = {
       subject: resSubject,
-      room_id: Number(resRoomId),
+      room_id: resRoomId,
       remarks: resRemarks,
     };
 
@@ -49,12 +57,19 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
             variant="standard"
             onChange={(event) => { setSubject(event.target.value); }}
           />
-          <TextField
+          <InputLabel id="new-work-order-room-label">For Room</InputLabel>
+          <Select
+            labelId="new-work-order-room-label"
             id="new-work-order-room"
             label="For Room"
-            variant="standard"
             onChange={(event) => { setRoomId(event.target.value); }}
-          />
+          >
+            {
+              resRoomList.map((room) => (
+                <MenuItem value={room.id}>{`${room.room_number} (${room.building_name})`}</MenuItem>
+              ))
+            }
+          </Select>
           <TextField
             id="new-work-order-remarks"
             label="Remarks"
@@ -65,7 +80,7 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
           />
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Cancel</Button>
-            <Button variant="contained" onClick={submitWorkOrder}>Create</Button>
+            <Button variant="contained" onClick={submitWorkOrder} disabled={resRoomId <= 0}>Create</Button>
           </Stack>
         </Stack>
       </Box>
