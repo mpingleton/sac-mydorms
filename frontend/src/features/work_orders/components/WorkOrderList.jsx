@@ -19,18 +19,29 @@ export const WorkOrderList = ({ onSelectionChange }) => {
     { field: 'room', headerName: 'Room', width: 100 },
     { field: 'subject', headerName: 'Subject', width: 200 },
     { field: 'remarks', headerName: 'Creator Remarks', width: 300 },
-    { field: 'status', headerName: 'Status', width: 100 },
+    { field: 'status', headerName: 'Status', width: 120 },
   ];
 
-  const rows = workOrders.map((workOrder) => (
-    {
+  const rows = workOrders.map((workOrder) => {
+    let statusString = '';
+    if (workOrder.status === 0) {
+      statusString = 'Not Started';
+    } else if (workOrder.status === 1) {
+      statusString = 'In Progress';
+    } else if (workOrder.status === 2) {
+      statusString = 'Stalled';
+    } else if (workOrder.status === 3) {
+      statusString = 'Complete';
+    }
+
+    return {
       id: workOrder.id,
       room: workOrder.room_id,
       subject: workOrder.subject,
       remarks: workOrder.creator_remarks,
-      status: workOrder.status,
-    }
-  ));
+      status: statusString,
+    };
+  });
 
   return (
     <Box sx={{ height: '400px', width: '100%' }}>
