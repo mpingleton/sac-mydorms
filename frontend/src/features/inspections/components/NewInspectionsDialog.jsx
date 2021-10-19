@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Button, Modal, Stack, TextField, Typography } from '@mui/material';
+
+import { Box, Button, Modal, Stack, TextField } from '@mui/material';
 
 const modalStyle = {
   position: 'absolute',
@@ -15,7 +16,20 @@ const modalStyle = {
 };
 
 export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
-  const some = 'dfds';
+  const [resRoom, setRoom] = React.useState('');
+  const [resInspectorName, setInspectorName] = React.useState('');
+  const [resInspectorRemarks, setInspectorRemarks] = React.useState('');
+
+  const submitInspection = () => {
+    const data = {
+      room_id: resRoom,
+      inspector_name: resInspectorName,
+      inspector_remarks: resInspectorRemarks,
+    };
+
+    console.log(data);
+  };
+
   return (
     <Modal
       open={modalOpen}
@@ -29,16 +43,13 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
             id="room"
             label="Room"
             variant="outlined"
-          />
-          <TextField
-            id="time"
-            label="Time"
-            variant="outlined"
+            onChange={(event) => { setRoom(event.target.value); }}
           />
           <TextField
             id="inspector"
             label="Inspector"
             variant="outlined"
+            onChange={(event) => { setInspectorName(event.target.value); }}
           />
           <TextField
             id="filled-multiline-static"
@@ -46,10 +57,13 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
             multiline
             rows={4}
             variant="outlined"
+            onChange={(event) => { setInspectorRemarks(event.target.value); }}
           />
+          <Stack direction="row" spacing={1}>
+            <Button variant="contained" onClick={onClose}>Cancel</Button>
+            <Button variant="contained" onClick={submitInspection}>Create</Button>
+          </Stack>
         </Stack>
-        <Button variant="contained">Send</Button>
-        <Typography>{some}</Typography>
       </Box>
     </Modal>
   );
