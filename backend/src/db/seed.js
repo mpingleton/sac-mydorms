@@ -234,6 +234,25 @@ const workOrderCommentsData = [
   },
 ];
 
+const roomInspectionsData = [
+  {
+    room_id: 2,
+    personnel_id: 2,
+    dorm_manager_id: 3,
+    timestamp: '2021-09-20T00:00:00.000Z',
+    inspector_name: 'MSgt Inspector',
+    inspector_remarks: 'No discrepancy.',
+  },
+  {
+    room_id: 1,
+    personnel_id: 1,
+    dorm_manager_id: 3,
+    timestamp: '2021-10-20T00:00:00.000Z',
+    inspector_name: 'MSgt Inspector',
+    inspector_remarks: 'Dirty laundry all over the place.',
+  },
+];
+
 async function main() {
   console.log('Start seeding ...');
 
@@ -307,6 +326,12 @@ async function main() {
       data: wc,
     });
     console.log(`Created new work order comment: ${workOrderComment.comment}.`);
+  }
+
+  // Seed the inspections table.
+  for (const insp of roomInspectionsData) {
+    const inspection = await prisma.roomInspections.create({ data: insp });
+    console.log(`Created room inspection with the following remarks: ${inspection.inspector_remarks}.`);
   }
 
   console.log('Seeding finished.');
