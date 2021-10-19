@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { Box, Button, Modal, Stack, TextField } from '@mui/material';
 
+import createRoomInspection from '../api/createRoomInspection';
+
 const modalStyle = {
   position: 'absolute',
   top: '50%',
@@ -22,12 +24,13 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
 
   const submitInspection = () => {
     const data = {
-      room_id: resRoom,
+      room_id: parseInt(resRoom, 10),
       inspector_name: resInspectorName,
       inspector_remarks: resInspectorRemarks,
     };
-
-    console.log(data);
+    createRoomInspection(data).then(() => {
+      onClose();
+    });
   };
 
   return (

@@ -5,5 +5,6 @@ const roomInspectionController = require('@/controllers/roominspection.controlle
 const router = express.Router();
 
 router.get('/', roomInspectionController.getRoomInspections);
+router.put('/', roomInspectionController.createRoomInspection);
 
 module.exports = router;
