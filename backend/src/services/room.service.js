@@ -26,6 +26,15 @@ const getRoomById = async (roomId) => {
       id: roomId,
     },
   });
+
+  const building = await prisma.buildings.findUnique({
+    where: {
+      id: room.building_id,
+    },
+  });
+
+  room.building_name = building.building_name;
+
   return room;
 };
 

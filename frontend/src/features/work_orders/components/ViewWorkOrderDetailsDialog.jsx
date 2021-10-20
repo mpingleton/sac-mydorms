@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, Box, Modal, Stack, Typography, TextField } from '@mui/material';
+import { Button, Box, Modal, Stack, Typography, TextField, Select, InputLabel, MenuItem } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import getWorkOrderById from '../api/getWorkOrderById';
 import getCommentsByWorkOrderId from '../api/getCommentsByWorkOrderId';
 import createWorkOrderComment from '../api/createWorkOrderComment';
+import getPersonnelById from '../api/getPersonnelById';
+import updateWorkOrderStatus from '../api/updateWorkOrderStatus';
 
 const modalStyle = {
   position: 'absolute',
@@ -24,15 +26,29 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
   const [workOrder, setWorkOrder] = React.useState({});
   const [workOrderComments, setWorkOrderComments] = React.useState([]);
   const [newWorkOrderComment, setNewWorkOrderComment] = React.useState('');
+  const [personnelObject, setPersonnelObject] = React.useState({});
 
   React.useEffect(() => {
     if (workOrder.id !== workOrderId && workOrderId > 0) {
+      setPersonnelObject({});
       getWorkOrderById(workOrderId).then((responseData) => setWorkOrder(responseData));
       getCommentsByWorkOrderId(workOrderId).then(
         (responseData) => setWorkOrderComments(responseData),
       );
     }
-  });
+
+    if (workOrder.id === workOrderId && personnelObject.id === undefined) {
+      getPersonnelById(workOrder.created_by).then(
+        (responseData) => setPersonnelObject(responseData),
+      );
+    }
+  }, [
+    workOrder.id,
+    workOrder.room_id,
+    workOrder.created_by,
+    workOrderId,
+    personnelObject.id,
+  ]);
 
   if (workOrder.id === undefined) {
     return null;
@@ -86,11 +102,17 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Room:</Typography>
-            <Typography>{workOrder.room_id}</Typography>
+            <Typography>{`${workOrder.roomObject.room_number} (${workOrder.roomObject.building_name})`}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Created by:</Typography>
-            <Typography>{workOrder.created_by}</Typography>
+            <Typography>
+              {
+                `${personnelObject.rank}
+                ${personnelObject.first_name}
+                ${personnelObject.last_name}`
+              }
+            </Typography>
             <Typography>at:</Typography>
             <Typography>{workOrder.created_timestamp}</Typography>
           </Stack>
@@ -98,6 +120,24 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
             <Typography>Remarks:</Typography>
             <Typography>{workOrder.creator_remarks}</Typography>
           </Stack>
+          <InputLabel id="work-order-status-label">Status:</InputLabel>
+          <Select
+            labelId="work-order-status-label"
+            id="work-order-status"
+            label="Status"
+            value={workOrder.status}
+            onChange={(event) => {
+              updateWorkOrderStatus(workOrder.id, event.target.value)
+                .then(() => {
+                  getWorkOrderById(workOrderId).then((responseData) => setWorkOrder(responseData));
+                });
+            }}
+          >
+            <MenuItem value={0}>Not Started</MenuItem>
+            <MenuItem value={1}>In Progress</MenuItem>
+            <MenuItem value={2}>Stalled</MenuItem>
+            <MenuItem value={3}>Complete</MenuItem>
+          </Select>
           <Stack direction="row" spacing={1}>
             <Typography>Comments:</Typography>
           </Stack>

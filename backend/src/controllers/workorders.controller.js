@@ -2,14 +2,24 @@ const { ExtractJwt } = require('passport-jwt');
 
 const { authService } = require('@/services');
 const workOrdersService = require('@/services/workorders.service');
+const roomService = require('@/services/room.service');
 
 const getWorkOrders = async (req, res) => {
   const workOrders = await workOrdersService.getWorkOrders();
+  const promises = [];
+  for (let i = 0; i < workOrders.length; i += 1) {
+    promises.push(roomService.getRoomById(workOrders[i].room_id)
+      .then((roomObject) => {
+        workOrders[i].roomObject = roomObject;
+      }));
+  }
+  await Promise.all(promises);
   res.send(200, workOrders);
 };
 
 const getWorkOrderById = async (req, res) => {
   const workOrder = await workOrdersService.getWorkOrderById(parseInt(req.params.id, 10));
+  workOrder.roomObject = await roomService.getRoomById(workOrder.room_id);
   res.send(200, workOrder);
 };
 
@@ -53,6 +63,11 @@ const getAllCommentsForWorkOrder = async (req, res) => {
   res.send(200, comments);
 };
 
+const updateWorkOrderStatus = async (req, res) => {
+  await workOrdersService.updateWorkOrderStatus(req.body.id, req.body.status);
+  res.send(200);
+};
+
 module.exports = {
   getWorkOrders,
   getWorkOrderById,
@@ -61,4 +76,5 @@ module.exports = {
   getWorkOrderCommentById,
   createWorkOrderComment,
   getAllCommentsForWorkOrder,
+  updateWorkOrderStatus,
 };

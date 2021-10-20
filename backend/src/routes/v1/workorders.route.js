@@ -11,5 +11,6 @@ router.get('/comments/:id', workOrdersController.getWorkOrderCommentById);
 router.put('/comments', workOrdersController.createWorkOrderComment);
 router.get('/:id', workOrdersController.getWorkOrderById);
 router.put('/', workOrdersController.createWorkOrder);
+router.post('/status', workOrdersController.updateWorkOrderStatus);
 
 module.exports = router;
