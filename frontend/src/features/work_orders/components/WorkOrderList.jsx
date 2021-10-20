@@ -17,6 +17,7 @@ export const WorkOrderList = ({ onSelectionChange }) => {
 
   const columns = [
     { field: 'room', headerName: 'Room', width: 100 },
+    { field: 'building', headerName: 'Building', width: 150 },
     { field: 'subject', headerName: 'Subject', width: 200 },
     { field: 'remarks', headerName: 'Creator Remarks', width: 300 },
     { field: 'status', headerName: 'Status', width: 120 },
@@ -37,6 +38,7 @@ export const WorkOrderList = ({ onSelectionChange }) => {
     return {
       id: workOrder.id,
       room: workOrder.roomObject.room_number,
+      building: workOrder.roomObject.building_name,
       subject: workOrder.subject,
       remarks: workOrder.creator_remarks,
       status: statusString,
