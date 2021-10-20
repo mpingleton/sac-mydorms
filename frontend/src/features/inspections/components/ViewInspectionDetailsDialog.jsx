@@ -56,6 +56,14 @@ export const ViewInspectionDetailsDialog = ({ modalOpen, onClose, inspectionId }
             <Typography>{inspection.timestamp}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
+            <Typography>Inspector:</Typography>
+            <Typography>{inspection.inspector_name}</Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <Typography>Remarks:</Typography>
+            <Typography>{inspection.inspector_remarks}</Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Close</Button>
           </Stack>
         </Stack>
