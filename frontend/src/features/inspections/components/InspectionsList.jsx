@@ -27,8 +27,11 @@ export const InspectionsList = ({ onSelectionChange }) => {
     {
       id: inspection.id,
       date: inspection.timestamp,
-      room: inspection.room_id,
-      resident: inspection.personnel_id,
+      room: inspection.roomObject.room_number,
+      resident: `
+        ${inspection.personnelObject.rank}
+        ${inspection.personnelObject.last_name}
+      `,
       dorm_manager: inspection.dorm_manager_id,
       inspector: inspection.inspector_name,
     }
