@@ -1,14 +1,13 @@
 import React from 'react';
 import { Button } from '@mui/material';
+
 import { ContentLayout } from '@/components/layout';
-// import { useAuth } from '@/lib/auth';
+
 import { InspectionsList } from '../components/InspectionsList';
 import { NewInspectionsDialog } from '../components/NewInspectionsDialog';
 import { ViewInspectionDetailsDialog } from '../components/ViewInspectionDetailsDialog';
 
 export const Inspections = () => {
-  // const { user } = useAuth();
-
   const [isNewInspectionDialogOpen, setNewInspectionDialogOpen] = React.useState(false);
   const [isViewInspectionDetailsDialogOpen,
     setViewInspectionDetailsDialogOpen] = React.useState(false);
