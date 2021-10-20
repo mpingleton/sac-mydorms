@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import { Button, Box, Modal, Stack, Typography } from '@mui/material';
 
 import getRoomInspectionById from '../api/getRoomInspectionById';
-import getRoomById from '../api/getRoomById';
-import getResidentById from '../api/getResidentById';
 
 const modalStyle = {
   position: 'absolute',
@@ -21,41 +19,12 @@ const modalStyle = {
 
 export const ViewInspectionDetailsDialog = ({ modalOpen, onClose, inspectionId }) => {
   const [inspection, setInspection] = React.useState({});
-  const [roomObject, setRoomObject] = React.useState({});
-  const [personnelObject, setPersonnelObject] = React.useState({});
-  const [dormManagerPersonnelObject, setDormManagerPersonnelObject] = React.useState({});
 
   React.useEffect(() => {
     if (inspection.id !== inspectionId && inspectionId > 0) {
-      setRoomObject({});
-      setPersonnelObject({});
-      setDormManagerPersonnelObject({});
       getRoomInspectionById(inspectionId).then((responseData) => setInspection(responseData));
     }
-
-    if (inspection.id === inspectionId && roomObject.id === undefined) {
-      getRoomById(inspection.room_id).then((responseData) => setRoomObject(responseData));
-    }
-
-    if (inspection.id === inspectionId && personnelObject.id === undefined) {
-      getResidentById(inspection.personnel_id)
-        .then((responseData) => setPersonnelObject(responseData));
-    }
-
-    if (inspection.id === inspectionId && dormManagerPersonnelObject.id === undefined) {
-      getResidentById(inspection.dorm_manager_id)
-        .then((responseData) => setDormManagerPersonnelObject(responseData));
-    }
-  }, [
-    inspection.id,
-    inspection.room_id,
-    inspection.personnel_id,
-    inspection.dorm_manager_id,
-    inspectionId,
-    roomObject.id,
-    personnelObject.id,
-    dormManagerPersonnelObject.id,
-  ]);
+  });
 
   if (inspection.id === undefined) {
     return null;
@@ -72,16 +41,16 @@ export const ViewInspectionDetailsDialog = ({ modalOpen, onClose, inspectionId }
         <Stack direction="column" spacing={1}>
           <Stack direction="row" spacing={1}>
             <Typography>Room:</Typography>
-            <Typography>{roomObject.room_number}</Typography>
+            <Typography>{inspection.roomObject.room_number}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Resident:</Typography>
             <Typography>
               {`
-                ${personnelObject.rank}
-                ${personnelObject.first_name}
-                ${personnelObject.middle_name}
-                ${personnelObject.last_name}
+                ${inspection.personnelObject.rank}
+                ${inspection.personnelObject.first_name}
+                ${inspection.personnelObject.middle_name}
+                ${inspection.personnelObject.last_name}
               `}
             </Typography>
           </Stack>
@@ -89,10 +58,10 @@ export const ViewInspectionDetailsDialog = ({ modalOpen, onClose, inspectionId }
             <Typography>Dorm Manager:</Typography>
             <Typography>
               {`
-                ${dormManagerPersonnelObject.rank}
-                ${dormManagerPersonnelObject.first_name}
-                ${dormManagerPersonnelObject.middle_name}
-                ${dormManagerPersonnelObject.last_name}
+                ${inspection.dormManagerPersonnelObject.rank}
+                ${inspection.dormManagerPersonnelObject.first_name}
+                ${inspection.dormManagerPersonnelObject.middle_name}
+                ${inspection.dormManagerPersonnelObject.last_name}
               `}
             </Typography>
           </Stack>
