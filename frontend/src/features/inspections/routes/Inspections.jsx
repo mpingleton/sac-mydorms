@@ -18,7 +18,7 @@ export const Inspections = () => {
         modalOpen={isNewInspectionDialogOpen}
         onClose={() => {
           setNewInspectionDialogOpen(false);
-          // window.location.reload();
+          window.location.reload();
         }}
       />
       <ViewInspectionDetailsDialog
