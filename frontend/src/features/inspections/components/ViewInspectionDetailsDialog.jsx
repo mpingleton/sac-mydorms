@@ -29,6 +29,7 @@ export const ViewInspectionDetailsDialog = ({ modalOpen, onClose, inspectionId }
     if (inspection.id !== inspectionId && inspectionId > 0) {
       setRoomObject({});
       setPersonnelObject({});
+      setDormManagerPersonnelObject({});
       getRoomInspectionById(inspectionId).then((responseData) => setInspection(responseData));
     }
 
