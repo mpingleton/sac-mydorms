@@ -19,6 +19,7 @@ const getWorkOrders = async (req, res) => {
 
 const getWorkOrderById = async (req, res) => {
   const workOrder = await workOrdersService.getWorkOrderById(parseInt(req.params.id, 10));
+  workOrder.roomObject = await roomService.getRoomById(workOrder.room_id);
   res.send(200, workOrder);
 };
 
