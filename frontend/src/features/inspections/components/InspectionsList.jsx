@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
 import getRoomInspections from '../api/getRoomInspections';
 
-export const InspectionsList = () => {
+export const InspectionsList = ({ onSelectionChange }) => {
   const [roomInspections, setRoomInspections] = React.useState([]);
 
   React.useEffect(() => {
@@ -40,10 +41,19 @@ export const InspectionsList = () => {
         columns={columns}
         pageSize={20}
         rowsPerPageOptions={[5]}
+        onSelectionModelChange={onSelectionChange}
         disableMultipleSelection
       />
     </Box>
   );
+};
+
+InspectionsList.propTypes = {
+  onSelectionChange: PropTypes.func,
+};
+
+InspectionsList.defaultProps = {
+  onSelectionChange: () => {},
 };
 
 export default InspectionsList;

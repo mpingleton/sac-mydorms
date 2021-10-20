@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Box, Modal, Typography } from '@mui/material';
+import { Button, Box, Modal, Stack, Typography } from '@mui/material';
 
 import getRoomInspectionById from '../api/getRoomInspectionById';
 
@@ -38,7 +38,27 @@ export const ViewInspectionDetailsDialog = ({ modalOpen, onClose, inspectionId }
       aria-describedby="modal-modal-description"
     >
       <Box sx={modalStyle}>
-        <Typography>{inspection.inspector_remarks}</Typography>
+        <Stack direction="column" spacing={1}>
+          <Stack direction="row" spacing={1}>
+            <Typography>Room:</Typography>
+            <Typography>{inspection.room_id}</Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <Typography>Resident:</Typography>
+            <Typography>{inspection.personnel_id}</Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <Typography>Dorm Manager:</Typography>
+            <Typography>{inspection.dorm_manager_id}</Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <Typography>Timestamp:</Typography>
+            <Typography>{inspection.timestamp}</Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <Button variant="contained" onClick={onClose}>Close</Button>
+          </Stack>
+        </Stack>
       </Box>
     </Modal>
   );

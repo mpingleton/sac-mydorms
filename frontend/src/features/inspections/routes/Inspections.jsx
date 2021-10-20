@@ -8,6 +8,7 @@ import { NewInspectionsDialog } from '../components/NewInspectionsDialog';
 import { ViewInspectionDetailsDialog } from '../components/ViewInspectionDetailsDialog';
 
 export const Inspections = () => {
+  const [currentInspectionSelection, setInspectionSelection] = React.useState([]);
   const [isNewInspectionDialogOpen, setNewInspectionDialogOpen] = React.useState(false);
   const [isViewInspectionDetailsDialogOpen,
     setViewInspectionDetailsDialogOpen] = React.useState(false);
@@ -26,11 +27,17 @@ export const Inspections = () => {
         onClose={() => {
           setViewInspectionDetailsDialogOpen(false);
         }}
-        inspectionId={6}
+        inspectionId={currentInspectionSelection[0]}
       />
       <Button variant="contained" onClick={() => setNewInspectionDialogOpen(true)}>New</Button>
-      <Button variant="contained" onClick={() => setViewInspectionDetailsDialogOpen(true)}>View</Button>
-      <InspectionsList />
+      <Button
+        variant="contained"
+        onClick={() => setViewInspectionDetailsDialogOpen(true)}
+        disabled={currentInspectionSelection.length !== 1}
+      >
+        View
+      </Button>
+      <InspectionsList onSelectionChange={setInspectionSelection} />
     </ContentLayout>
   );
 };
