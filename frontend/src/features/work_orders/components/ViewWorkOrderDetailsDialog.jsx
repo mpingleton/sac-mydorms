@@ -7,7 +7,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import getWorkOrderById from '../api/getWorkOrderById';
 import getCommentsByWorkOrderId from '../api/getCommentsByWorkOrderId';
 import createWorkOrderComment from '../api/createWorkOrderComment';
-import getRoomById from '../api/getRoomById';
 import getPersonnelById from '../api/getPersonnelById';
 import updateWorkOrderStatus from '../api/updateWorkOrderStatus';
 
@@ -27,21 +26,15 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
   const [workOrder, setWorkOrder] = React.useState({});
   const [workOrderComments, setWorkOrderComments] = React.useState([]);
   const [newWorkOrderComment, setNewWorkOrderComment] = React.useState('');
-  const [roomObject, setRoomObject] = React.useState({});
   const [personnelObject, setPersonnelObject] = React.useState({});
 
   React.useEffect(() => {
     if (workOrder.id !== workOrderId && workOrderId > 0) {
-      setRoomObject({});
       setPersonnelObject({});
       getWorkOrderById(workOrderId).then((responseData) => setWorkOrder(responseData));
       getCommentsByWorkOrderId(workOrderId).then(
         (responseData) => setWorkOrderComments(responseData),
       );
-    }
-
-    if (workOrder.id === workOrderId && roomObject.id === undefined) {
-      getRoomById(workOrder.room_id).then((responseData) => setRoomObject(responseData));
     }
 
     if (workOrder.id === workOrderId && personnelObject.id === undefined) {
@@ -54,7 +47,6 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
     workOrder.room_id,
     workOrder.created_by,
     workOrderId,
-    roomObject.id,
     personnelObject.id,
   ]);
 
@@ -110,7 +102,7 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Room:</Typography>
-            <Typography>{`${roomObject.room_number} (${roomObject.building_name})`}</Typography>
+            <Typography>{`${workOrder.roomObject.room_number} (${workOrder.roomObject.building_name})`}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Created by:</Typography>
