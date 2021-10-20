@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { Button, Box, Modal, Stack, Typography } from '@mui/material';
 
 import getRoomInspectionById from '../api/getRoomInspectionById';
+import getRoomById from '../api/getRoomById';
+import getResidentById from '../api/getResidentById';
 
 const modalStyle = {
   position: 'absolute',
@@ -19,12 +21,40 @@ const modalStyle = {
 
 export const ViewInspectionDetailsDialog = ({ modalOpen, onClose, inspectionId }) => {
   const [inspection, setInspection] = React.useState({});
+  const [roomObject, setRoomObject] = React.useState({});
+  const [personnelObject, setPersonnelObject] = React.useState({});
+  const [dormManagerPersonnelObject, setDormManagerPersonnelObject] = React.useState({});
 
   React.useEffect(() => {
     if (inspection.id !== inspectionId && inspectionId > 0) {
+      setRoomObject({});
+      setPersonnelObject({});
       getRoomInspectionById(inspectionId).then((responseData) => setInspection(responseData));
     }
-  });
+
+    if (inspection.id === inspectionId && roomObject.id === undefined) {
+      getRoomById(inspection.room_id).then((responseData) => setRoomObject(responseData));
+    }
+
+    if (inspection.id === inspectionId && personnelObject.id === undefined) {
+      getResidentById(inspection.personnel_id)
+        .then((responseData) => setPersonnelObject(responseData));
+    }
+
+    if (inspection.id === inspectionId && dormManagerPersonnelObject.id === undefined) {
+      getResidentById(inspection.dorm_manager_id)
+        .then((responseData) => setDormManagerPersonnelObject(responseData));
+    }
+  }, [
+    inspection.id,
+    inspection.room_id,
+    inspection.personnel_id,
+    inspection.dorm_manager_id,
+    inspectionId,
+    roomObject.id,
+    personnelObject.id,
+    dormManagerPersonnelObject.id,
+  ]);
 
   if (inspection.id === undefined) {
     return null;
@@ -41,15 +71,29 @@ export const ViewInspectionDetailsDialog = ({ modalOpen, onClose, inspectionId }
         <Stack direction="column" spacing={1}>
           <Stack direction="row" spacing={1}>
             <Typography>Room:</Typography>
-            <Typography>{inspection.room_id}</Typography>
+            <Typography>{roomObject.room_number}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Resident:</Typography>
-            <Typography>{inspection.personnel_id}</Typography>
+            <Typography>
+              {`
+                ${personnelObject.rank}
+                ${personnelObject.first_name}
+                ${personnelObject.middle_name}
+                ${personnelObject.last_name}
+              `}
+            </Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Dorm Manager:</Typography>
-            <Typography>{inspection.dorm_manager_id}</Typography>
+            <Typography>
+              {`
+                ${dormManagerPersonnelObject.rank}
+                ${dormManagerPersonnelObject.first_name}
+                ${dormManagerPersonnelObject.middle_name}
+                ${dormManagerPersonnelObject.last_name}
+              `}
+            </Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Timestamp:</Typography>
