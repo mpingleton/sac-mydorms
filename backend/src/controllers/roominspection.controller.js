@@ -30,6 +30,13 @@ const getRoomInspectionById = async (req, res) => {
   const roomInspection = await roomInspectionService.getRoomInspectionById(
     parseInt(req.params.id, 10),
   );
+  roomInspection.roomObject = await roomService.getRoomById(roomInspection.room_id);
+  roomInspection.personnelObject = await personnelService.getPersonnelById(
+    roomInspection.personnel_id,
+  );
+  roomInspection.dormManagerPersonnelObject = await personnelService.getPersonnelById(
+    roomInspection.dorm_manager_id,
+  );
   res.send(200, roomInspection);
 };
 
