@@ -2,9 +2,18 @@ const { ExtractJwt } = require('passport-jwt');
 
 const { authService } = require('@/services');
 const workOrdersService = require('@/services/workorders.service');
+const roomService = require('@/services/room.service');
 
 const getWorkOrders = async (req, res) => {
   const workOrders = await workOrdersService.getWorkOrders();
+  const promises = [];
+  for (let i = 0; i < workOrders.length; i += 1) {
+    promises.push(roomService.getRoomById(workOrders[i].room_id)
+      .then((roomObject) => {
+        workOrders[i].roomObject = roomObject;
+      }));
+  }
+  await Promise.all(promises);
   res.send(200, workOrders);
 };
 
