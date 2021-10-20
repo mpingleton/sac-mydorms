@@ -8,6 +8,13 @@ const getRoomInspections = async (req, res) => {
   res.send(200, roomInspections);
 };
 
+const getRoomInspectionById = async (req, res) => {
+  const roomInspection = await roomInspectionService.getRoomInspectionById(
+    parseInt(req.params.id, 10),
+  );
+  res.send(200, roomInspection);
+};
+
 const createRoomInspection = async (req, res) => {
   const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
 
@@ -25,5 +32,6 @@ const createRoomInspection = async (req, res) => {
 
 module.exports = {
   getRoomInspections,
+  getRoomInspectionById,
   createRoomInspection,
 };

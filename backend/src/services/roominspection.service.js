@@ -7,6 +7,15 @@ const getRoomInspections = async () => {
   return roomInspections;
 };
 
+const getRoomInspectionById = async (id) => {
+  const roomInspection = await prisma.roomInspections.findUnique({
+    where: {
+      id,
+    },
+  });
+  return roomInspection;
+};
+
 const createRoomInspection = async (
   timestamp,
   roomId,
@@ -29,5 +38,6 @@ const createRoomInspection = async (
 
 module.exports = {
   getRoomInspections,
+  getRoomInspectionById,
   createRoomInspection,
 };
