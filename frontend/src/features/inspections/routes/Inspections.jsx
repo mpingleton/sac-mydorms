@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button } from '@mui/material';
+
+import { Button, Stack } from '@mui/material';
 
 import { ContentLayout } from '@/components/layout';
 
@@ -29,15 +30,19 @@ export const Inspections = () => {
         }}
         inspectionId={currentInspectionSelection[0]}
       />
-      <Button variant="contained" onClick={() => setNewInspectionDialogOpen(true)}>New</Button>
-      <Button
-        variant="contained"
-        onClick={() => setViewInspectionDetailsDialogOpen(true)}
-        disabled={currentInspectionSelection.length !== 1}
-      >
-        View
-      </Button>
-      <InspectionsList onSelectionChange={setInspectionSelection} />
+      <Stack direction="column" spacing={1}>
+        <Stack direction="row" spacing={1}>
+          <Button variant="contained" onClick={() => setNewInspectionDialogOpen(true)}>New</Button>
+          <Button
+            variant="contained"
+            onClick={() => setViewInspectionDetailsDialogOpen(true)}
+            disabled={currentInspectionSelection.length !== 1}
+          >
+            View
+          </Button>
+        </Stack>
+        <InspectionsList onSelectionChange={setInspectionSelection} />
+      </Stack>
     </ContentLayout>
   );
 };
