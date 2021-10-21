@@ -82,7 +82,7 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
     {
       id: comment.id,
       by: comment.personnel_id,
-      timestamp: comment.timestamp,
+      timestamp: new Date(comment.timestamp).toLocaleString(),
       comment: comment.comment,
     }
   ));
