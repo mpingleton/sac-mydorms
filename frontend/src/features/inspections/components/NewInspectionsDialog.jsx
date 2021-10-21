@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DateTimePicker from '@mui/lab/DateTimePicker';
 import { Box, Button, Modal, Stack, TextField } from '@mui/material';
 
 import createRoomInspection from '../api/createRoomInspection';
@@ -19,12 +22,14 @@ const modalStyle = {
 
 export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
   const [resRoom, setRoom] = React.useState('');
+  const [resTimestamp, setTimestamp] = React.useState(new Date());
   const [resInspectorName, setInspectorName] = React.useState('');
   const [resInspectorRemarks, setInspectorRemarks] = React.useState('');
 
   const submitInspection = () => {
     const data = {
       room_id: parseInt(resRoom, 10),
+      timestamp: resTimestamp.toISOString(),
       inspector_name: resInspectorName,
       inspector_remarks: resInspectorRemarks,
     };
@@ -48,6 +53,16 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
             variant="outlined"
             onChange={(event) => { setRoom(event.target.value); }}
           />
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DateTimePicker
+              renderInput={(props) => <TextField {...props} />}
+              label="Timestamp"
+              value={resTimestamp}
+              onChange={(newTimestamp) => {
+                setTimestamp(newTimestamp);
+              }}
+            />
+          </LocalizationProvider>
           <TextField
             id="inspector"
             label="Inspector"

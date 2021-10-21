@@ -44,7 +44,7 @@ const createRoomInspection = async (req, res) => {
   const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
 
   await roomInspectionService.createRoomInspection(
-    new Date().toISOString(),
+    req.body.timestamp,
     req.body.room_id,
     1,
     user.id,
