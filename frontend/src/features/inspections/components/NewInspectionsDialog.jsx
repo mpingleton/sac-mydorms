@@ -4,7 +4,16 @@ import PropTypes from 'prop-types';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
-import { Box, Button, Modal, Stack, TextField, Select, MenuItem } from '@mui/material';
+import {
+  Box,
+  Button,
+  Modal,
+  Stack,
+  TextField,
+  Select,
+  MenuItem,
+  InputLabel,
+} from '@mui/material';
 
 import getRoom from '../api/getRooms';
 import createRoomInspection from '../api/createRoomInspection';
@@ -54,10 +63,26 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
+          <InputLabel id="room-selector-label">Room</InputLabel>
           <Select
+            labelId="room-selector-label"
+            label="Room"
+            disabled={rooms.length === 0}
             onChange={(event) => { setRoom(event.target.value); }}
           >
-            {rooms.map((room) => (<MenuItem value={room.id}>{room.room_number}</MenuItem>))}
+            <MenuItem value={0} disabled><em>Please select a room...</em></MenuItem>
+            {
+              rooms.map((room) => (
+                <MenuItem value={room.id}>
+                  {
+                    `
+                      ${room.room_number}
+                      (${room.building_name})
+                    `
+                  }
+                </MenuItem>
+              ))
+            }
           </Select>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DateTimePicker
@@ -85,7 +110,13 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
           />
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Cancel</Button>
-            <Button variant="contained" onClick={submitInspection}>Create</Button>
+            <Button
+              variant="contained"
+              onClick={submitInspection}
+              disabled={resRoom <= 0}
+            >
+              Create
+            </Button>
           </Stack>
         </Stack>
       </Box>
