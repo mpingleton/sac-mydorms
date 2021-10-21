@@ -30,6 +30,17 @@ export const ViewRoomDetailsDialog = ({ modalOpen, onClose, roomId }) => {
     return null;
   }
 
+  const getStatusString = (status) => {
+    let statusString = '';
+    if (status === 0) {
+      statusString = 'Unserviceable';
+    } else if (status === 1) {
+      statusString = 'Serviceable';
+    }
+
+    return statusString;
+  };
+
   return (
     <Modal
       open={modalOpen}
@@ -45,7 +56,7 @@ export const ViewRoomDetailsDialog = ({ modalOpen, onClose, roomId }) => {
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Status:</Typography>
-            <Typography>{room.status}</Typography>
+            <Typography>{getStatusString(room.status)}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Close</Button>

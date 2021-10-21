@@ -21,14 +21,21 @@ export const RoomList = ({ onSelectionChange }) => {
     { field: 'status', headerName: 'Status', width: 150 },
   ];
 
-  const rows = rooms.map((room) => (
-    {
+  const rows = rooms.map((room) => {
+    let statusString = '';
+    if (room.status === 0) {
+      statusString = 'Unserviceable';
+    } else if (room.status === 1) {
+      statusString = 'Serviceable';
+    }
+
+    return {
       id: room.id,
       number: room.room_number,
       building: room.building_name,
-      status: room.status,
-    }
-  ));
+      status: statusString,
+    };
+  });
 
   return (
     <Box sx={{ height: 400, width: '100%' }}>
