@@ -16,7 +16,7 @@ export const InspectionsList = ({ onSelectionChange }) => {
   });
 
   const columns = [
-    { field: 'date', headerName: 'Date', width: 150 },
+    { field: 'date', headerName: 'Date', width: 200 },
     { field: 'room', headerName: 'Room', width: 100 },
     { field: 'resident', headerName: 'Resident', width: 200 },
     { field: 'dorm_manager', headerName: 'Dorm Manager', width: 200 },
@@ -26,7 +26,7 @@ export const InspectionsList = ({ onSelectionChange }) => {
   const rows = roomInspections.map((inspection) => (
     {
       id: inspection.id,
-      date: inspection.timestamp,
+      date: new Date(inspection.timestamp).toLocaleString(),
       room: inspection.roomObject.room_number,
       resident: `
         ${inspection.personnelObject.rank}

@@ -67,7 +67,7 @@ export const ViewInspectionDetailsDialog = ({ modalOpen, onClose, inspectionId }
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Timestamp:</Typography>
-            <Typography>{inspection.timestamp}</Typography>
+            <Typography>{new Date(inspection.timestamp).toLocaleString()}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Inspector:</Typography>
