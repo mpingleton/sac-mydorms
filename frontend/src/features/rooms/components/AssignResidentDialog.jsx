@@ -90,7 +90,7 @@ export const AssignResidentDialog = ({ modalOpen, onClose, roomId }) => {
               checkboxSelection
             />
           </Box>
-          <Stack direction="row">
+          <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Cancel</Button>
             <Button variant="contained" onClick={submitRoomAssignment}>Create</Button>
           </Stack>
