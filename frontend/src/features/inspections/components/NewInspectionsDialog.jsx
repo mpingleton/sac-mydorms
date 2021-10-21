@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
-import { Box, Button, Modal, Stack, TextField } from '@mui/material';
+import { Box, Button, Modal, Stack, TextField, Select, MenuItem } from '@mui/material';
 
+import getRoom from '../api/getRooms';
 import createRoomInspection from '../api/createRoomInspection';
 
 const modalStyle = {
@@ -21,14 +22,20 @@ const modalStyle = {
 };
 
 export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
-  const [resRoom, setRoom] = React.useState('');
+  const [rooms, setRooms] = React.useState([]);
+
+  const [resRoom, setRoom] = React.useState(0);
   const [resTimestamp, setTimestamp] = React.useState(new Date());
   const [resInspectorName, setInspectorName] = React.useState('');
   const [resInspectorRemarks, setInspectorRemarks] = React.useState('');
 
+  React.useState(() => {
+    getRoom().then((responseData) => setRooms(responseData));
+  });
+
   const submitInspection = () => {
     const data = {
-      room_id: parseInt(resRoom, 10),
+      room_id: resRoom,
       timestamp: resTimestamp.toISOString(),
       inspector_name: resInspectorName,
       inspector_remarks: resInspectorRemarks,
@@ -47,12 +54,11 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
-          <TextField
-            id="room"
-            label="Room"
-            variant="outlined"
+          <Select
             onChange={(event) => { setRoom(event.target.value); }}
-          />
+          >
+            {rooms.map((room) => (<MenuItem value={room.id}>{room.room_number}</MenuItem>))}
+          </Select>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DateTimePicker
               renderInput={(props) => <TextField {...props} />}
