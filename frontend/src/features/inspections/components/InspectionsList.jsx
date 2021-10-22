@@ -22,16 +22,16 @@ export const InspectionsList = ({ onSelectionChange }) => {
     { field: 'dorm_manager', headerName: 'Dorm Manager', width: 200 },
     { field: 'inspector', headerName: 'Inspector', width: 200 },
   ];
-
+  console.log(roomInspections);
   const rows = roomInspections.map((inspection) => (
     {
       id: inspection.id,
       date: new Date(inspection.timestamp).toLocaleString(),
       room: inspection.roomObject.room_number,
       resident: `
-        ${inspection.personnelObject.rank}
-        ${inspection.personnelObject.last_name},
-        ${inspection.personnelObject.first_name}
+        ${inspection.residentPersonnelObject.rank}
+        ${inspection.residentPersonnelObject.last_name},
+        ${inspection.residentPersonnelObject.first_name}
       `,
       dorm_manager: `
         ${inspection.dormManagerPersonnelObject.rank}

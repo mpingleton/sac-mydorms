@@ -152,14 +152,14 @@ model RoomInspections {
 
   id Int @id @default(autoincrement())
   room_id Int
-  personnel_id Int
+  resident_id Int
   dorm_manager_id Int
   timestamp DateTime
   inspector_name String
   inspector_remarks String
 
   room Rooms @relation(fields: [room_id], references: [id])
-  roomOccupant Personnel @relation("RoomOccupant", fields: [personnel_id], references: [id])
+  roomOccupant Personnel @relation("RoomOccupant", fields: [resident_id], references: [id])
   dormManager Personnel @relation("RoomInspector", fields: [dorm_manager_id], references: [id])
 
 }

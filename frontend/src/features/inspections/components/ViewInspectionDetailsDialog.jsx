@@ -47,10 +47,10 @@ export const ViewInspectionDetailsDialog = ({ modalOpen, onClose, inspectionId }
             <Typography>Resident:</Typography>
             <Typography>
               {`
-                ${inspection.personnelObject.rank}
-                ${inspection.personnelObject.first_name}
-                ${inspection.personnelObject.middle_name}
-                ${inspection.personnelObject.last_name}
+                ${inspection.residentPersonnelObject.rank}
+                ${inspection.residentPersonnelObject.first_name}
+                ${inspection.residentPersonnelObject.middle_name}
+                ${inspection.residentPersonnelObject.last_name}
               `}
             </Typography>
           </Stack>

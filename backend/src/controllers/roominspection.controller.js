@@ -13,9 +13,9 @@ const getRoomInspections = async (req, res) => {
       .then((roomObject) => {
         roomInspections[i].roomObject = roomObject;
       }));
-    promises.push(personnelService.getPersonnelById(roomInspections[i].personnel_id)
+    promises.push(personnelService.getPersonnelById(roomInspections[i].resident_id)
       .then((personnelObject) => {
-        roomInspections[i].personnelObject = personnelObject;
+        roomInspections[i].residentPersonnelObject = personnelObject;
       }));
     promises.push(personnelService.getPersonnelById(roomInspections[i].dorm_manager_id)
       .then((personnelObject) => {
@@ -31,8 +31,8 @@ const getRoomInspectionById = async (req, res) => {
     parseInt(req.params.id, 10),
   );
   roomInspection.roomObject = await roomService.getRoomById(roomInspection.room_id);
-  roomInspection.personnelObject = await personnelService.getPersonnelById(
-    roomInspection.personnel_id,
+  roomInspection.residentPersonnelObject = await personnelService.getPersonnelById(
+    roomInspection.resident_id,
   );
   roomInspection.dormManagerPersonnelObject = await personnelService.getPersonnelById(
     roomInspection.dorm_manager_id,

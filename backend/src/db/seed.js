@@ -237,7 +237,7 @@ const workOrderCommentsData = [
 const roomInspectionsData = [
   {
     room_id: 2,
-    personnel_id: 2,
+    resident_id: 2,
     dorm_manager_id: 3,
     timestamp: '2021-09-20T00:00:00.000Z',
     inspector_name: 'MSgt Inspector',
@@ -245,7 +245,7 @@ const roomInspectionsData = [
   },
   {
     room_id: 1,
-    personnel_id: 1,
+    resident_id: 1,
     dorm_manager_id: 3,
     timestamp: '2021-10-20T00:00:00.000Z',
     inspector_name: 'MSgt Inspector',
