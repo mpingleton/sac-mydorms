@@ -70,7 +70,9 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
           >
             {
               resRoomList.map((room) => (
-                <MenuItem value={room.id}>{`${room.room_number} (${room.building_name})`}</MenuItem>
+                <MenuItem value={room.id}>
+                  {`${room.room_number} (${room.buildingObject.building_name})`}
+                </MenuItem>
               ))
             }
           </Select>

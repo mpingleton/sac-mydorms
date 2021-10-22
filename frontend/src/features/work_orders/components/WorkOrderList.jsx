@@ -38,7 +38,7 @@ export const WorkOrderList = ({ onSelectionChange }) => {
     return {
       id: workOrder.id,
       room: workOrder.roomObject.room_number,
-      building: workOrder.roomObject.building_name,
+      building: workOrder.roomObject.buildingObject.building_name,
       subject: workOrder.subject,
       remarks: workOrder.creator_remarks,
       status: statusString,

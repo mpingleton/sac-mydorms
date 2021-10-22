@@ -32,7 +32,7 @@ export const RoomList = ({ onSelectionChange }) => {
     return {
       id: room.id,
       number: room.room_number,
-      building: room.building_name,
+      building: room.buildingObject.building_name,
       status: statusString,
     };
   });

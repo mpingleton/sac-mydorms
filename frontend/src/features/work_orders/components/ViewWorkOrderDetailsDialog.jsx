@@ -102,7 +102,14 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Room:</Typography>
-            <Typography>{`${workOrder.roomObject.room_number} (${workOrder.roomObject.building_name})`}</Typography>
+            <Typography>
+              {
+                `
+                ${workOrder.roomObject.room_number}
+                (${workOrder.roomObject.buildingObject.building_name})
+                `
+              }
+            </Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Created by:</Typography>
