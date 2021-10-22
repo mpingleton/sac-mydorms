@@ -77,7 +77,7 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
                   {
                     `
                       ${room.room_number}
-                      (${room.building_name})
+                      (${room.buildingObject.building_name})
                     `
                   }
                 </MenuItem>
