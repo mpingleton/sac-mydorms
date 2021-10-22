@@ -22,7 +22,7 @@ export const InspectionsList = ({ onSelectionChange }) => {
     { field: 'dorm_manager', headerName: 'Dorm Manager', width: 200 },
     { field: 'inspector', headerName: 'Inspector', width: 200 },
   ];
-  console.log(roomInspections);
+
   const rows = roomInspections.map((inspection) => (
     {
       id: inspection.id,
