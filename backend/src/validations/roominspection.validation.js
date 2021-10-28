@@ -2,16 +2,16 @@ const Joi = require('joi');
 
 const getRoomInspectionById = {
   params: Joi.object().keys({
-    id: Joi.number().integer(),
+    id: Joi.number().integer().required(),
   }),
 };
 
 const createRoomInspection = {
   body: Joi.object().keys({
-    timestamp: Joi.string(),
-    room_id: Joi.number().integer(),
-    inspector_name: Joi.string(),
-    inspector_remarks: Joi.string(),
+    timestamp: Joi.string().required(),
+    room_id: Joi.number().integer().required(),
+    inspector_name: Joi.string().required(),
+    inspector_remarks: Joi.string().required(),
   }),
 };
 

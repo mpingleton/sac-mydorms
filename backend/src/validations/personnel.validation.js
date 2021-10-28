@@ -9,12 +9,12 @@ const getPersonnelById = {
 const putPersonnel = {
   body: Joi.object()
     .keys({
-      rank: Joi.string(),
-      first_name: Joi.string(),
-      middle_name: Joi.string(),
-      last_name: Joi.string(),
-      phone: Joi.string(),
-      email: Joi.string().email(),
+      rank: Joi.string().required(),
+      first_name: Joi.string().required(),
+      middle_name: Joi.string().required(),
+      last_name: Joi.string().required(),
+      phone: Joi.string().required(),
+      email: Joi.string().email().required(),
     }).min(1),
 };
 
