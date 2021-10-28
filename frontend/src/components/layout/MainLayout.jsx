@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
-import { Container, Stack, Box, AppBar, Toolbar, IconButton, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Stack, Box, AppBar, Toolbar, IconButton, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { Menu as MenuIcon, AccountBox as AccountBoxIcon, NavigateBefore as BackIcon, NavigateNext as ForwardIcon } from '@mui/icons-material';
 
 import { useAuth } from '@/lib/auth';
@@ -58,8 +58,8 @@ export const MainLayout = ({ children }) => {
   ].filter(Boolean);
 
   return (
-    <Container disableGutters maxWidth={false}>
-      <Stack>
+    <Stack direction="column" sx={{ width: '100vw', height: '100vh' }}>
+      <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" sx={{ zIndex: 1 }}>
           <Toolbar>
             <IconButton edge="start" color="inherit" sx={{ marginRight: 'auto' }} onClick={openLeftDrawer}>
@@ -132,9 +132,9 @@ export const MainLayout = ({ children }) => {
             </List>
           </Box>
         </Drawer>
-      </Stack>
+      </Box>
       {children}
-    </Container>
+    </Stack>
   );
 };
 

@@ -46,7 +46,7 @@ export const WorkOrderList = ({ onSelectionChange }) => {
   });
 
   return (
-    <Box sx={{ height: '400px', width: '100%' }}>
+    <Box sx={{ width: '100%', height: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}

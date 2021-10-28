@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Typography } from '@mui/material';
+
 import { ContentLayout } from '@/components/layout';
 import { useAuth } from '@/lib/auth';
 
@@ -8,7 +10,7 @@ export const Dashboard = () => {
 
   return (
     <ContentLayout title="Dashboard">
-      {`Hello ${user?.name}!`}
+      <Typography>{`Hello ${user?.name}!`}</Typography>
     </ContentLayout>
   );
 };

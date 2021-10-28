@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Typography } from '@mui/material';
+
 import { ContentLayout } from '@/components/layout';
 import { useAuth } from '@/lib/auth';
 
@@ -8,7 +10,7 @@ export const CommonArea = () => {
 
   return (
     <ContentLayout title="Common Area">
-      {`Hello ${user?.name} from the common area page!`}
+      <Typography>{`Hello ${user?.name} from the common area page!`}</Typography>
     </ContentLayout>
   );
 };

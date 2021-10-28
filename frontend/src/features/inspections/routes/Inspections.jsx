@@ -30,7 +30,7 @@ export const Inspections = () => {
         }}
         inspectionId={currentInspectionSelection[0]}
       />
-      <Stack direction="column" spacing={1}>
+      <Stack direction="column" spacing={1} sx={{ width: '100%', height: '100%' }}>
         <Stack direction="row" spacing={1}>
           <Button variant="contained" onClick={() => setNewInspectionDialogOpen(true)}>New</Button>
           <Button

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Typography } from '@mui/material';
+
 import { ContentLayout } from '@/components/layout';
 import { useAuth } from '@/lib/auth';
 
@@ -8,7 +10,7 @@ export const Events = () => {
 
   return (
     <ContentLayout title="Events">
-      {`Hello ${user?.name} from the events page!`}
+      <Typography>{`Hello ${user?.name} from the events page!`}</Typography>
     </ContentLayout>
   );
 };
