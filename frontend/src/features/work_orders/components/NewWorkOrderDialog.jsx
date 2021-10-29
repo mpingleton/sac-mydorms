@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Box, Modal, Button, TextField, Stack, Select, InputLabel, MenuItem } from '@mui/material';
+import { Box, Modal, Button, TextField, Stack, Select, InputLabel, MenuItem, Typography } from '@mui/material';
 
 import createWorkOrder from '../api/createWorkOrder';
 import getRooms from '../api/getRooms';
@@ -55,6 +55,7 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
+          <Typography variant="h6" style={{ marginLeft: 'auto', marginRight: 'auto' }}>New Work Order</Typography>
           <TextField
             id="new-work-order-subject"
             label="Subject"
