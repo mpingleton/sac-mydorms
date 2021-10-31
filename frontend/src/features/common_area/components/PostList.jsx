@@ -8,6 +8,7 @@ export const PostList = () => (
   <Stack direction="column" spacing={1} sx={{ minWidth: 350, maxWidth: '95vw', marginLeft: 'auto', marginRight: 'auto' }}>
     <Post />
     <Post />
+    <Post />
   </Stack>
 );
 
