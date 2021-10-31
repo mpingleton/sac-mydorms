@@ -54,6 +54,16 @@ const createWorkOrder = async (req, res) => {
 
 const getAllWorkOrderComments = async (req, res) => {
   const comments = await workOrdersService.getAllWorkOrderComments();
+
+  const promises = [];
+  for (let i = 0; i < comments.length; i += 1) {
+    promises.push(personnelService.getPersonnelById(comments[i].personnel_id)
+      .then((personnelObject) => {
+        comments[i].personnelObject = personnelObject;
+      }));
+  }
+  await Promise.all(promises);
+
   res.send(200, comments);
 };
 
