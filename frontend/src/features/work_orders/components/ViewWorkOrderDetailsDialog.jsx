@@ -77,11 +77,11 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
     { field: 'by', headerName: 'By', width: 150 },
     { field: 'comment', headerName: 'Comment', width: 390 },
   ];
-
+  console.log(workOrderComments);
   const commentRows = workOrderComments.map((comment) => (
     {
       id: comment.id,
-      by: comment.personnel_id,
+      by: `${comment.personnelObject.rank} ${comment.personnelObject.first_name} ${comment.personnelObject.last_name}`,
       timestamp: new Date(comment.timestamp).toLocaleString(),
       comment: comment.comment,
     }
