@@ -3,6 +3,7 @@ const { ExtractJwt } = require('passport-jwt');
 const { authService } = require('@/services');
 const workOrdersService = require('@/services/workorders.service');
 const roomService = require('@/services/room.service');
+const personnelService = require('@/services/personnel.service');
 
 const getWorkOrders = async (req, res) => {
   const workOrders = await workOrdersService.getWorkOrders();
@@ -58,6 +59,7 @@ const getAllWorkOrderComments = async (req, res) => {
 
 const getWorkOrderCommentById = async (req, res) => {
   const comment = await workOrdersService.getWorkOrderCommentById(parseInt(req.params.id, 10));
+  comment.personnelObject = await personnelService.getPersonnelById(comment.personnel_id);
   res.send(200, comment);
 };
 
