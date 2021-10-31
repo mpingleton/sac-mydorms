@@ -1,18 +1,20 @@
 import React from 'react';
 
-import { Typography } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 
 import { ContentLayout } from '@/components/layout';
-import { useAuth } from '@/lib/auth';
 
-export const Messages = () => {
-  const { user } = useAuth();
+import { MessageList } from '../components/MessageList';
 
-  return (
-    <ContentLayout title="Messages">
-      <Typography>{`Hello ${user?.name} from the messages page!`}</Typography>
-    </ContentLayout>
-  );
-};
+export const Messages = () => (
+  <ContentLayout title="Messages">
+    <Stack direction="column" spacing={1} sx={{ width: '100%', height: '100%' }}>
+      <Stack direction="row" spacing={1}>
+        <Button variant="contained" onClick={() => {}}>New</Button>
+      </Stack>
+      <MessageList />
+    </Stack>
+  </ContentLayout>
+);
 
 export default Messages;
