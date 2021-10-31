@@ -160,7 +160,8 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
           <Stack direction="row" spacing={1}>
             <TextField
               id="new-work-order-comment"
-              label="Comment"
+              label={`Comment: (${newWorkOrderComment.length}/250)`}
+              error={newWorkOrderComment.length > 250}
               variant="standard"
               multiline
               maxRows={3}
@@ -168,7 +169,7 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
               onChange={(event) => { setNewWorkOrderComment(event.target.value); }}
               sx={{ width: '100%' }}
             />
-            <Button variant="contained" onClick={submitComment} disabled={newWorkOrderComment.length === 0}>Send</Button>
+            <Button variant="contained" onClick={submitComment} disabled={newWorkOrderComment.length === 0 || newWorkOrderComment.length > 250}>Send</Button>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Close</Button>
