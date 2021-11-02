@@ -7,6 +7,7 @@ import {
   Stack,
   Button,
   Typography,
+  TextField,
 } from '@mui/material';
 
 const modalStyle = {
@@ -21,30 +22,58 @@ const modalStyle = {
   p: 4,
 };
 
-export const NewEventDialog = ({ modalOpen, onClose }) => (
-  <Modal
-    open={modalOpen}
-    onClose={onClose}
-    aria-labelledby="modal-modal-title"
-    aria-describedby="modal-modal-description"
-  >
-    <Box sx={modalStyle}>
-      <Stack direction="column" spacing={1}>
-        <Typography variant="h6" style={{ marginLeft: 'auto', marginRight: 'auto' }}>New Event</Typography>
-        <Stack direction="row" spacing={1}>
-          <Button variant="contained" onClick={onClose}>Cancel</Button>
-          <Button
-            variant="contained"
-            onClick={onClose}
-            disabled={false}
-          >
-            Post
-          </Button>
+export const NewEventDialog = ({ modalOpen, onClose }) => {
+  const [resSubject, setSubject] = React.useState('');
+  const [resLocation, setLocation] = React.useState('');
+  const [resDesc, setDesc] = React.useState('');
+
+  const submitEvent = () => {
+    console.log(resSubject, resLocation, resDesc);
+    onClose();
+  };
+
+  return (
+    <Modal
+      open={modalOpen}
+      onClose={onClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={modalStyle}>
+        <Stack direction="column" spacing={1}>
+          <Typography variant="h6" style={{ marginLeft: 'auto', marginRight: 'auto' }}>New Event</Typography>
+          <TextField
+            variant="outlined"
+            label="Subject"
+            onChange={(event) => setSubject(event.target.value)}
+          />
+          <TextField
+            variant="outlined"
+            label="Location"
+            onChange={(event) => setLocation(event.target.value)}
+          />
+          <TextField
+            variant="outlined"
+            label="Description"
+            multiline
+            rows={4}
+            onChange={(event) => setDesc(event.target.value)}
+          />
+          <Stack direction="row" spacing={1}>
+            <Button variant="contained" onClick={onClose}>Cancel</Button>
+            <Button
+              variant="contained"
+              onClick={submitEvent}
+              disabled={false}
+            >
+              Post
+            </Button>
+          </Stack>
         </Stack>
-      </Stack>
-    </Box>
-  </Modal>
-);
+      </Box>
+    </Modal>
+  );
+};
 
 NewEventDialog.propTypes = {
   modalOpen: PropTypes.bool,
