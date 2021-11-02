@@ -7,6 +7,7 @@ export const Event = ({ eventObject }) => (
   <Card variant="outlined">
     <CardContent>
       <Typography>{eventObject.subject}</Typography>
+      <Typography>{eventObject.location}</Typography>
       <Typography>{eventObject.scheduled}</Typography>
       <Typography>{eventObject.description}</Typography>
     </CardContent>
