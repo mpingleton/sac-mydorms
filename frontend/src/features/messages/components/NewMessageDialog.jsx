@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Box, Modal, Typography } from '@mui/material';
+import { Box, Modal, Stack, TextField, Select, MenuItem } from '@mui/material';
 
 const style = {
   position: 'absolute',
@@ -23,7 +23,28 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => (
     aria-describedby="modal-modal-description"
   >
     <Box sx={style}>
-      <Typography>Hello world!</Typography>
+      <Stack direction="column" spacing={1}>
+        <Select
+          label="To"
+          onChange={() => {}}
+        >
+          <MenuItem value={0} disabled>
+            <em>Please select a person to send this message to...</em>
+          </MenuItem>
+        </Select>
+        <TextField
+          label="Subject"
+          variant="outlined"
+          onChange={() => {}}
+        />
+        <TextField
+          label="Body"
+          variant="outlined"
+          multiline
+          rows={4}
+          onChange={() => {}}
+        />
+      </Stack>
     </Box>
   </Modal>
 );
