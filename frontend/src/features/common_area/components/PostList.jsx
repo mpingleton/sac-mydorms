@@ -14,7 +14,11 @@ export const PostList = () => {
       const data = [];
       responseData.map((responsePost) => data.push({
         id: responsePost.id,
-        header: 'No Data',
+        header: `
+          ${responsePost.personnelObject.rank}
+          ${responsePost.personnelObject.first_name}
+          ${responsePost.personnelObject.last_name}
+        `,
         postBody: responsePost.text,
       }));
       setPosts(data);
