@@ -1,7 +1,18 @@
 const commonAreaService = require('@/services/commonarea.service');
+const personnelService = require('@/services/personnel.service');
 
 const getPosts = async (req, res) => {
   const posts = await commonAreaService.getPosts();
+
+  const postPromises = [];
+  for (let i = 0; i < posts.length; i += 1) {
+    postPromises.push(personnelService.getPersonnelById(posts[i].posted_by)
+      .then((personnelObject) => {
+        posts[i].personnelObject = personnelObject;
+      }));
+  }
+  await Promise.all(postPromises);
+
   res.send(200, posts);
 };
 
