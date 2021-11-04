@@ -4,38 +4,24 @@ import { Stack } from '@mui/material';
 
 import { Event } from './Event';
 
+import getEvents from '../api/getEvents';
+
 export const EventList = () => {
   const [events, setEvents] = React.useState([]);
 
   React.useEffect(() => {
-    const data = [
-      {
-        id: 1,
-        created_by: 1,
-        scheduled: new Date().toISOString(),
-        location: 'Ezekiel Hall Lobby',
-        subject: 'Cookout',
-        description: 'FSS will be hosting a cookout in the lobby of Ezekiel Hall!',
-      },
-      {
-        id: 2,
-        created_by: 1,
-        scheduled: new Date().toISOString(),
-        location: 'Tony Hall Lobby',
-        subject: 'Test Event',
-        description: 'This is another test event, but this time, in Tony Hall!',
-      },
-      {
-        id: 3,
-        created_by: 1,
-        scheduled: new Date().toISOString(),
-        location: 'Tony Hall Lobby',
-        subject: 'Another Test Event',
-        description: 'This is yet another test event, but this time, in Tony Hall!',
-      },
-    ];
-
-    setEvents(data);
+    getEvents().then((responseData) => {
+      const data = [];
+      responseData.map((responseEvent) => data.push({
+        id: responseEvent.id,
+        created_by: responseEvent.created_by,
+        scheduled: responseEvent.scheduled,
+        location: responseEvent.location,
+        subject: responseEvent.subject,
+        description: responseEvent.description,
+      }));
+      setEvents(data);
+    });
   }, []);
 
   return (
