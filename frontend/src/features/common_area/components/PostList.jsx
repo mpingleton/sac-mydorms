@@ -4,19 +4,21 @@ import { Stack } from '@mui/material';
 
 import { Post } from './Post';
 
+import getPosts from '../api/getPosts';
+
 export const PostList = () => {
   const [posts, setPosts] = React.useState([]);
 
   React.useEffect(() => {
-    const data = [
-      { id: 1, header: 'SSgt Michael Pingleton', postBody: 'This is the first test post.' },
-      { id: 2, header: 'A1C John Doe', postBody: 'This is the second test post.' },
-      { id: 3, header: 'AB Tony Smith', postBody: 'This is the third test post.' },
-      { id: 4, header: 'TSgt Abc Defg', postBody: 'This is the fourth test post.' },
-      { id: 5, header: 'TSgt Abc Defg', postBody: 'This is the fifth test post.' },
-    ];
-
-    setPosts(data);
+    getPosts().then((responseData) => {
+      const data = [];
+      responseData.map((responsePost) => data.push({
+        id: responsePost.id,
+        header: 'No Data',
+        postBody: responsePost.text,
+      }));
+      setPosts(data);
+    });
   }, []);
 
   return (
