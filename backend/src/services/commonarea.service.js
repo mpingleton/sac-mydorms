@@ -48,6 +48,16 @@ const getCommentById = async (id) => {
   return comment;
 };
 
+const getCommentsByPost = async (id) => {
+  const comments = await prisma.commonAreaPostComments.findMany({
+    where: {
+      post_id: id,
+    },
+  });
+
+  return comments;
+};
+
 const createComment = async (
   postId,
   commenterId,
@@ -72,5 +82,6 @@ module.exports = {
   createPost,
   getComments,
   getCommentById,
+  getCommentsByPost,
   createComment,
 };

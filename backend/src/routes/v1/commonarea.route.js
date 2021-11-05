@@ -40,6 +40,13 @@ router.get(
   commonAreaController.getCommentById,
 );
 
+router.get(
+  '/comments/post/:id',
+  auth(),
+  validate(commonAreaValidation.getCommentsByPost),
+  commonAreaController.getCommentsByPost,
+);
+
 router.put(
   '/comments',
   auth(),

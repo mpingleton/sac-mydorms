@@ -69,6 +69,21 @@ const getCommentById = async (req, res) => {
   res.send(200, comment);
 };
 
+const getCommentsByPost = async (req, res) => {
+  const comments = await commonAreaService.getCommentsByPost(parseInt(req.params.id, 10));
+
+  const commentPromises = [];
+  for (let i = 0; i < comments.length; i += 1) {
+    commentPromises.push(personnelService.getPersonnelById(comments[i].commenter_id)
+      .then((personnelObject) => {
+        comments[i].personnelObject = personnelObject;
+      }));
+  }
+  await Promise.all(commentPromises);
+
+  res.send(200, comments);
+};
+
 const createComment = async (req, res) => {
   const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
 
@@ -89,5 +104,6 @@ module.exports = {
   createPost,
   getComments,
   getCommentById,
+  getCommentsByPost,
   createComment,
 };
