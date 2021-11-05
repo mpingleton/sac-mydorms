@@ -36,7 +36,7 @@ const columns = [
 ];
 
 export const ViewPostDialog = ({ postObject, modalOpen, onClose }) => {
-  const [resPost, setPost] = React.useState('');
+  const [resNewComment, setNewComment] = React.useState('');
 
   return (
     <Modal
@@ -49,7 +49,7 @@ export const ViewPostDialog = ({ postObject, modalOpen, onClose }) => {
         <Stack direction="column" spacing={1}>
           <Typography variant="h9" style={{ marginLeft: 'auto', marginRight: 'auto' }}>{postObject.header}</Typography>
           <Typography variant="h5" style={{ marginLeft: 'auto', marginRight: 'auto' }}>{postObject.postBody}</Typography>
-          <Box sx={{ width: '100%', height: 200 }}>
+          <Box sx={{ width: '100%', height: 300 }}>
             <DataGrid
               rows={rows}
               columns={columns}
@@ -64,15 +64,15 @@ export const ViewPostDialog = ({ postObject, modalOpen, onClose }) => {
               variant="filled"
               label="Comment"
               fullWidth="100"
-              onChange={(event) => { setPost(event.target.value); }}
-              error={resPost.length > 1000}
+              onChange={(event) => { setNewComment(event.target.value); }}
+              error={resNewComment.length > 1000}
             />
             <Button
               variant="contained"
               onClick={onClose}
-              disabled={resPost.length <= 0 || resPost.length > 1000}
+              disabled={resNewComment.length <= 0 || resNewComment.length > 1000}
             >
-              Comment
+              Send
             </Button>
           </Stack>
           <Stack direction="row" spacing={1}>
