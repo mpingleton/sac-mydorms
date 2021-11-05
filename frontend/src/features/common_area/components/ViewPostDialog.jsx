@@ -68,8 +68,8 @@ export const ViewPostDialog = ({ postObject, modalOpen, onClose }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
-          <Typography variant="h9" style={{ marginLeft: 'auto', marginRight: 'auto' }}>{postObject.header}</Typography>
-          <Typography variant="h5" style={{ marginLeft: 'auto', marginRight: 'auto' }}>{postObject.postBody}</Typography>
+          <Typography variant="h6">{postObject.header}</Typography>
+          <Typography>{postObject.postBody}</Typography>
           <Box sx={{ width: '100%', height: 300 }}>
             <DataGrid
               rows={rows}
@@ -82,8 +82,8 @@ export const ViewPostDialog = ({ postObject, modalOpen, onClose }) => {
           <Stack direction="row" spacing={1}>
             <TextField
               id="filled-basic"
-              variant="filled"
               label="Comment"
+              variant="standard"
               fullWidth="100"
               value={resNewComment}
               onChange={(event) => { setNewComment(event.target.value); }}
