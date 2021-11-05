@@ -11,6 +11,8 @@ import {
   Typography,
 } from '@mui/material';
 
+import getCommentsByPost from '../api/getCommentsByPost';
+
 const modalStyle = {
   position: 'absolute',
   top: '50%',
@@ -23,20 +25,28 @@ const modalStyle = {
   p: 4,
 };
 
-const rows = [
-  { id: 1, User: 'Hello', Comment: 'World' },
-  { id: 2, User: 'DataGridPro', Comment: 'is Awesome' },
-  { id: 3, User: 'MUI', Comment: 'is Amazing' },
-];
-
-const columns = [
-  { field: 'User', headerName: 'User', width: 100 },
-  { field: 'Comment', headerName: 'Comment', width: 390 },
-  { field: 'TimeStamp', headerName: 'TimeStamp', width: 100 },
-];
-
 export const ViewPostDialog = ({ postObject, modalOpen, onClose }) => {
+  const [comments, setComments] = React.useState([]);
   const [resNewComment, setNewComment] = React.useState('');
+
+  React.useEffect(() => {
+    getCommentsByPost(postObject.id).then((responseData) => setComments(responseData));
+  }, [postObject.id]);
+
+  const columns = [
+    { field: 'commenter', headerName: 'Commenter', width: 100 },
+    { field: 'text', headerName: 'Text', width: 390 },
+    { field: 'timestamp', headerName: 'TimeStamp', width: 100 },
+  ];
+
+  const rows = comments.map((comment) => (
+    {
+      id: comment.id,
+      commenter: `${comment.personnelObject.rank} ${comment.personnelObject.first_name} ${comment.personnelObject.last_name}`,
+      text: comment.text,
+      timestamp: comment.timestamp,
+    }
+  ));
 
   return (
     <Modal
