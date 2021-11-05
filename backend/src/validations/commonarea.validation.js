@@ -18,6 +18,12 @@ const getCommentById = {
   }),
 };
 
+const getCommentsByPost = {
+  params: Joi.object().keys({
+    id: Joi.number().integer(),
+  }),
+};
+
 const createComment = {
   body: Joi.object().keys({
     post_id: Joi.number().integer().required(),
@@ -29,5 +35,6 @@ module.exports = {
   getPostById,
   createPost,
   getCommentById,
+  getCommentsByPost,
   createComment,
 };
