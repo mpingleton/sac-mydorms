@@ -20,6 +20,13 @@ router.get(
   commonAreaController.getPostById,
 );
 
+router.put(
+  '/',
+  auth(),
+  validate(commonAreaValidation.createPost),
+  commonAreaController.createPost,
+);
+
 router.get(
   '/comments',
   auth(),
@@ -31,6 +38,13 @@ router.get(
   auth(),
   validate(commonAreaValidation.getCommentById),
   commonAreaController.getCommentById,
+);
+
+router.put(
+  '/comments',
+  auth(),
+  validate(commonAreaValidation.createComment),
+  commonAreaController.createComment,
 );
 
 module.exports = router;

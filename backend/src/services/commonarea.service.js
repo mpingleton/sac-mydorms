@@ -17,6 +17,22 @@ const getPostById = async (id) => {
   return post;
 };
 
+const createPost = async (
+  postedBy,
+  timestamp,
+  text,
+  commentsEnabled,
+) => {
+  const data = {
+    posted_by: postedBy,
+    timestamp,
+    text,
+    comments_enabled: commentsEnabled,
+  };
+
+  await prisma.commonAreaPosts.create({ data });
+};
+
 const getComments = async () => {
   const comments = await prisma.commonAreaPostComments.findMany({});
   return comments;
@@ -32,9 +48,29 @@ const getCommentById = async (id) => {
   return comment;
 };
 
+const createComment = async (
+  postId,
+  commenterId,
+  timestamp,
+  text,
+  isVisible,
+) => {
+  const data = {
+    post_id: postId,
+    commenter_id: commenterId,
+    timestamp,
+    text,
+    is_visible: isVisible,
+  };
+
+  await prisma.commonAreaPostComments.create({ data });
+};
+
 module.exports = {
   getPosts,
   getPostById,
+  createPost,
   getComments,
   getCommentById,
+  createComment,
 };

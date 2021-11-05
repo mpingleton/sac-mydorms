@@ -1,3 +1,6 @@
+const { ExtractJwt } = require('passport-jwt');
+
+const { authService } = require('@/services');
 const commonAreaService = require('@/services/commonarea.service');
 const personnelService = require('@/services/personnel.service');
 
@@ -27,6 +30,19 @@ const getPostById = async (req, res) => {
   res.send(200, post);
 };
 
+const createPost = async (req, res) => {
+  const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
+
+  await commonAreaService.createPost(
+    user.id,
+    new Date().toISOString(),
+    req.body.text,
+    true,
+  );
+
+  res.send(200);
+};
+
 const getComments = async (req, res) => {
   const comments = await commonAreaService.getComments();
 
@@ -53,9 +69,25 @@ const getCommentById = async (req, res) => {
   res.send(200, comment);
 };
 
+const createComment = async (req, res) => {
+  const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
+
+  await commonAreaService.createComment(
+    req.body.post_id,
+    user.id,
+    new Date().toISOString(),
+    req.body.text,
+    true,
+  );
+
+  res.send(200);
+};
+
 module.exports = {
   getPosts,
   getPostById,
+  createPost,
   getComments,
   getCommentById,
+  createComment,
 };
