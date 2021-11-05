@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 
 import getCommentsByPost from '../api/getCommentsByPost';
+import createComment from '../api/createComment';
 
 const modalStyle = {
   position: 'absolute',
@@ -32,6 +33,16 @@ export const ViewPostDialog = ({ postObject, modalOpen, onClose }) => {
   React.useEffect(() => {
     getCommentsByPost(postObject.id).then((responseData) => setComments(responseData));
   }, [postObject.id]);
+
+  const submitComment = () => {
+    createComment({
+      post_id: postObject.id,
+      text: resNewComment,
+    }).then(() => {
+      setNewComment('');
+      getCommentsByPost(postObject.id).then((responseData) => setComments(responseData));
+    });
+  };
 
   const columns = [
     { field: 'commenter', headerName: 'Commenter', width: 100 },
@@ -74,12 +85,13 @@ export const ViewPostDialog = ({ postObject, modalOpen, onClose }) => {
               variant="filled"
               label="Comment"
               fullWidth="100"
+              value={resNewComment}
               onChange={(event) => { setNewComment(event.target.value); }}
               error={resNewComment.length > 1000}
             />
             <Button
               variant="contained"
-              onClick={onClose}
+              onClick={submitComment}
               disabled={resNewComment.length <= 0 || resNewComment.length > 1000}
             >
               Send
