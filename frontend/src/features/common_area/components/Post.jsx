@@ -26,16 +26,9 @@ export const Post = ({ postObject }) => {
             onClick={() => {
               setViewPostDialogOpen(true);
             }}
-            sx={{ marginRight: 'auto' }}
-          >
-            View Post
-          </Button>
-          <Button
-            variant="contained"
-            onClick={() => {}}
             sx={{ marginLeft: 'auto' }}
           >
-            3 Comments
+            View Post
           </Button>
         </Stack>
       </CardContent>
