@@ -3,17 +3,33 @@ import PropTypes from 'prop-types';
 
 import { Typography, Card, CardContent } from '@mui/material';
 
-export const Event = ({ eventObject }) => (
-  <Card variant="outlined">
-    <CardContent>
-      <Typography>{eventObject.subject}</Typography>
-      <Typography>{eventObject.created_by}</Typography>
-      <Typography>{eventObject.location}</Typography>
-      <Typography>{eventObject.scheduled}</Typography>
-      <Typography>{eventObject.description}</Typography>
-    </CardContent>
-  </Card>
-);
+import getPersonnelById from '../api/getPersonnelById';
+
+export const Event = ({ eventObject }) => {
+  const [creator, setCreator] = React.useState({});
+
+  React.useEffect(() => {
+    getPersonnelById(eventObject.created_by).then((data) => setCreator(data));
+  }, [eventObject.created_by]);
+
+  return (
+    <Card variant="outlined">
+      <CardContent>
+        <Typography>{eventObject.subject}</Typography>
+        <Typography>
+          {`
+            ${creator.rank}
+            ${creator.first_name}
+            ${creator.last_name}
+          `}
+        </Typography>
+        <Typography>{eventObject.location}</Typography>
+        <Typography>{eventObject.scheduled}</Typography>
+        <Typography>{eventObject.description}</Typography>
+      </CardContent>
+    </Card>
+  );
+};
 
 Event.propTypes = {
   eventObject: PropTypes.shape(
