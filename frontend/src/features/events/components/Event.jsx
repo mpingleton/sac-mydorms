@@ -24,7 +24,7 @@ export const Event = ({ eventObject }) => {
           `}
         </Typography>
         <Typography>{eventObject.location}</Typography>
-        <Typography>{eventObject.scheduled}</Typography>
+        <Typography>{new Date(eventObject.scheduled).toLocaleString()}</Typography>
         <Typography>{eventObject.description}</Typography>
       </CardContent>
     </Card>
