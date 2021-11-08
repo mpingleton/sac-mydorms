@@ -47,7 +47,7 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => (
         <Stack direction="row" spacing={1}>
           <Button
             variant="contained"
-            onClick={() => {}}
+            onClick={() => onClose()}
           >
             Cancel
           </Button>
