@@ -10,6 +10,8 @@ import {
   TextField,
 } from '@mui/material';
 
+import createEvent from '../api/createEvent';
+
 const modalStyle = {
   position: 'absolute',
   top: '50%',
@@ -28,8 +30,12 @@ export const NewEventDialog = ({ modalOpen, onClose }) => {
   const [resDesc, setDesc] = React.useState('');
 
   const submitEvent = () => {
-    console.log(resSubject, resLocation, resDesc);
-    onClose();
+    createEvent(
+      new Date().toISOString(),
+      resLocation,
+      resSubject,
+      resDesc,
+    ).then(() => { onClose(); });
   };
 
   return (

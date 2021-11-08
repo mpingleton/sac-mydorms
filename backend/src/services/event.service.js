@@ -17,7 +17,26 @@ const getEventById = async (id) => {
   return evnt;
 };
 
+const createEvent = async (
+  createdBy,
+  scheduled,
+  location,
+  subject,
+  description,
+) => {
+  const data = {
+    created_by: createdBy,
+    scheduled,
+    location,
+    subject,
+    description,
+  };
+
+  await prisma.events.create({ data });
+};
+
 module.exports = {
   getEvents,
   getEventById,
+  createEvent,
 };

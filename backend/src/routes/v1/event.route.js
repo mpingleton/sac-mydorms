@@ -20,4 +20,11 @@ router.get(
   eventController.getEventById,
 );
 
+router.put(
+  '/',
+  auth(),
+  validate(eventValidation.createEvent),
+  eventController.createEvent,
+);
+
 module.exports = router;

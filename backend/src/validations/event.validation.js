@@ -6,6 +6,16 @@ const getEventById = {
   }),
 };
 
+const createEvent = {
+  body: Joi.object().keys({
+    scheduled: Joi.string().required(),
+    location: Joi.string().required(),
+    subject: Joi.string().required(),
+    description: Joi.string().required(),
+  }),
+};
+
 module.exports = {
   getEventById,
+  createEvent,
 };
