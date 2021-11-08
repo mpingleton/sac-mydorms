@@ -121,7 +121,7 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
               }
             </Typography>
             <Typography>at:</Typography>
-            <Typography>{workOrder.created_timestamp}</Typography>
+            <Typography>{new Date(workOrder.created_timestamp).toLocaleString()}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Remarks:</Typography>
