@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DateTimePicker from '@mui/lab/DateTimePicker';
 import {
   Box,
   Modal,
@@ -25,13 +28,14 @@ const modalStyle = {
 };
 
 export const NewEventDialog = ({ modalOpen, onClose }) => {
+  const [resScheduled, setScheduled] = React.useState(new Date());
   const [resSubject, setSubject] = React.useState('');
   const [resLocation, setLocation] = React.useState('');
   const [resDesc, setDesc] = React.useState('');
 
   const submitEvent = () => {
     createEvent(
-      new Date().toISOString(),
+      resScheduled.toISOString(),
       resLocation,
       resSubject,
       resDesc,
@@ -53,6 +57,16 @@ export const NewEventDialog = ({ modalOpen, onClose }) => {
             label="Subject"
             onChange={(event) => setSubject(event.target.value)}
           />
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DateTimePicker
+              renderInput={(props) => <TextField {...props} />}
+              label="Scheduled"
+              value={resScheduled}
+              onChange={(newTimestamp) => {
+                setScheduled(newTimestamp);
+              }}
+            />
+          </LocalizationProvider>
           <TextField
             variant="outlined"
             label="Location"
