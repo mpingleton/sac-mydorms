@@ -10,6 +10,8 @@ import {
   Typography,
 } from '@mui/material';
 
+import createPost from '../api/createPost';
+
 const modalStyle = {
   position: 'absolute',
   top: '50%',
@@ -25,6 +27,12 @@ const modalStyle = {
 export const NewPostDialog = ({ modalOpen, onClose }) => {
   const [resPost, setPost] = React.useState('');
 
+  const submitPost = () => {
+    createPost({
+      text: resPost,
+    }).then(() => { onClose(); });
+  };
+
   return (
     <Modal
       open={modalOpen}
@@ -34,7 +42,9 @@ export const NewPostDialog = ({ modalOpen, onClose }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
-          <Typography variant="h6" style={{ marginLeft: 'auto', marginRight: 'auto' }}>New Post</Typography>
+          <Typography variant="h6" style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+            New Post
+          </Typography>
           <TextField
             label={`Begin typing here: (${resPost.length}/1000)`}
             multiline
@@ -46,7 +56,7 @@ export const NewPostDialog = ({ modalOpen, onClose }) => {
             <Button variant="contained" onClick={onClose}>Cancel</Button>
             <Button
               variant="contained"
-              onClick={onClose}
+              onClick={submitPost}
               disabled={resPost.length <= 0 || resPost.length > 1000}
             >
               Post

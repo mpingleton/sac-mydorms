@@ -82,7 +82,7 @@ export const ViewPostDialog = ({ postObject, modalOpen, onClose }) => {
           <Stack direction="row" spacing={1}>
             <TextField
               id="filled-basic"
-              label="Comment"
+              label={`Comment: (${resNewComment.length}/1000)`}
               variant="standard"
               fullWidth="100"
               value={resNewComment}

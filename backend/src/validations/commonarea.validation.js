@@ -8,7 +8,7 @@ const getPostById = {
 
 const createPost = {
   body: Joi.object().keys({
-    text: Joi.string().required(),
+    text: Joi.string().max(1000).required(),
   }),
 };
 
@@ -27,7 +27,7 @@ const getCommentsByPost = {
 const createComment = {
   body: Joi.object().keys({
     post_id: Joi.number().integer().required(),
-    text: Joi.string().required(),
+    text: Joi.string().max(1000).required(),
   }),
 };
 
