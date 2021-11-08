@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Box, Modal, Stack, TextField, Select, MenuItem } from '@mui/material';
+import { Box, Modal, Stack, TextField, Select, MenuItem, Button } from '@mui/material';
 
 const style = {
   position: 'absolute',
@@ -44,6 +44,21 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => (
           rows={4}
           onChange={() => {}}
         />
+        <Stack direction="row" spacing={1}>
+          <Button
+            variant="contained"
+            onClick={() => {}}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            disabled
+            onClick={() => {}}
+          >
+            Send
+          </Button>
+        </Stack>
       </Stack>
     </Box>
   </Modal>
