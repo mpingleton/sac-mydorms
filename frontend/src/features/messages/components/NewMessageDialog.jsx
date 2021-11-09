@@ -61,7 +61,7 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => {
             </Button>
             <Button
               variant="contained"
-              disabled
+              disabled={resSubject.length === 0 || resMessageBody.length === 0}
               onClick={() => sendMessage()}
             >
               Send
