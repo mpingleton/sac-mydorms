@@ -7,6 +7,16 @@ const getMessages = async () => {
   return messages;
 };
 
+const getMessageById = async (id) => {
+  const message = await prisma.messages.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  return message;
+};
+
 const sendMessage = async (timestamp, senderId, recipientId, subject, body) => {
   const data = {
     timestamp,
@@ -21,5 +31,6 @@ const sendMessage = async (timestamp, senderId, recipientId, subject, body) => {
 
 module.exports = {
   getMessages,
+  getMessageById,
   sendMessage,
 };

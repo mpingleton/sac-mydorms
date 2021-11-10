@@ -13,6 +13,13 @@ router.get(
   messageController.getMessages,
 );
 
+router.get(
+  '/id/:id',
+  auth(),
+  validate(messageValidation.getMessageById),
+  messageController.getMessageById,
+);
+
 router.put(
   '/send',
   auth(),

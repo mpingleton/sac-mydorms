@@ -1,5 +1,11 @@
 const Joi = require('joi');
 
+const getMessageById = {
+  params: Joi.object().keys({
+    id: Joi.number().integer(),
+  }),
+};
+
 const sendMessage = {
   body: Joi.object().keys({
     recipient_id: Joi.number().integer().required(),
@@ -9,5 +15,6 @@ const sendMessage = {
 };
 
 module.exports = {
+  getMessageById,
   sendMessage,
 };
