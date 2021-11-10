@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
 import getMessages from '../api/getMessages';
 
-export const MessageList = () => {
+export const MessageList = ({ onSelectionChange }) => {
   const [messageList, setMessageList] = React.useState([]);
 
   React.useEffect(() => {
@@ -38,10 +39,19 @@ export const MessageList = () => {
         columns={columns}
         pageSize={20}
         rowsPerPageOptions={[5]}
+        onSelectionModelChange={onSelectionChange}
         disableMultipleSelection
       />
     </Box>
   );
+};
+
+MessageList.propTypes = {
+  onSelectionChange: PropTypes.func,
+};
+
+MessageList.defaultProps = {
+  onSelectionChange: () => {},
 };
 
 export default MessageList;
