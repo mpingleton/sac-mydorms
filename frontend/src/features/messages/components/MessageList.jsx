@@ -22,7 +22,11 @@ export const MessageList = () => {
     {
       id: message.id,
       time: new Date(message.timestamp).toLocaleString(),
-      from: message.sender_id,
+      from: `
+        ${message.senderObject.rank}
+        ${message.senderObject.first_name}
+        ${message.senderObject.last_name}
+      `,
       subject: message.subject,
     }
   ));
