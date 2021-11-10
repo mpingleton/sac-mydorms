@@ -1,0 +1,13 @@
+const Joi = require('joi');
+
+const sendMessage = {
+  body: Joi.object().keys({
+    recipient_id: Joi.number().integer().required(),
+    subject: Joi.string().required(),
+    body: Joi.string().required(),
+  }),
+};
+
+module.exports = {
+  sendMessage,
+};
