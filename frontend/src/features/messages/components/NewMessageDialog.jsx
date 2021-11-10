@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { Box, Modal, Stack, TextField, Select, MenuItem, Button } from '@mui/material';
 
+import getPersonnel from '../api/getPersonnel';
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -16,8 +18,13 @@ const style = {
 };
 
 export const NewMessageDialog = ({ modalOpen, onClose }) => {
+  const [personnel, setPersonnel] = React.useState([]);
   const [resSubject, setSubject] = React.useState('');
   const [resMessageBody, setMessageBody] = React.useState('');
+
+  React.useEffect(() => {
+    getPersonnel().then((data) => setPersonnel(data));
+  }, []);
 
   const sendMessage = () => {
     console.log(resSubject, resMessageBody);
@@ -39,6 +46,16 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => {
             <MenuItem value={0} disabled>
               <em>Please select a person to send this message to...</em>
             </MenuItem>
+            {personnel.map((person) => (
+              <MenuItem value={person.id}>
+                {`
+                  ${person.rank}
+                  ${person.first_name}
+                  ${person.middle_name}
+                  ${person.last_name}
+                `}
+              </MenuItem>
+            ))}
           </Select>
           <TextField
             label="Subject"
