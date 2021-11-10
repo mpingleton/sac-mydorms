@@ -3,33 +3,29 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
+import getMessages from '../api/getMessages';
+
 export const MessageList = () => {
+  const [messageList, setMessageList] = React.useState([]);
+
+  React.useEffect(() => {
+    getMessages().then((data) => setMessageList(data));
+  }, []);
+
   const columns = [
     { field: 'time', headerName: 'Date/Time', width: 150 },
     { field: 'from', headerName: 'From', width: 200 },
     { field: 'subject', headerName: 'Subject', width: 450 },
   ];
 
-  const rows = [
+  const rows = messageList.map((message) => (
     {
-      id: 1,
-      time: '1/1/2021',
-      from: 'A1C John Doe',
-      subject: 'BAH Concerns',
-    },
-    {
-      id: 2,
-      time: '1/14/2021',
-      from: 'AB Josh Snuffy',
-      subject: 'A/C Work Order Status',
-    },
-    {
-      id: 3,
-      time: '2/1/2021',
-      from: 'SrA Jane Doe',
-      subject: 'BAH Letter',
-    },
-  ];
+      id: message.id,
+      time: new Date(message.timestamp).toLocaleString(),
+      from: message.sender_id,
+      subject: message.subject,
+    }
+  ));
 
   return (
     <Box sx={{ height: '100%', width: '100%' }}>

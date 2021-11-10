@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Box, Modal, Stack, TextField, Select, MenuItem, Button } from '@mui/material';
 
 import getPersonnel from '../api/getPersonnel';
+import sendMessage from '../api/sendMessage';
 
 const style = {
   position: 'absolute',
@@ -19,6 +20,7 @@ const style = {
 
 export const NewMessageDialog = ({ modalOpen, onClose }) => {
   const [personnel, setPersonnel] = React.useState([]);
+  const [resRecipientId, setRecipientId] = React.useState(-1);
   const [resSubject, setSubject] = React.useState('');
   const [resMessageBody, setMessageBody] = React.useState('');
 
@@ -26,8 +28,8 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => {
     getPersonnel().then((data) => setPersonnel(data));
   }, []);
 
-  const sendMessage = () => {
-    console.log(resSubject, resMessageBody);
+  const send = () => {
+    sendMessage(resRecipientId, resSubject, resMessageBody).then(() => { onClose(); });
   };
 
   return (
@@ -41,7 +43,7 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => {
         <Stack direction="column" spacing={1}>
           <Select
             label="To"
-            onChange={() => {}}
+            onChange={(event) => setRecipientId(event.target.value)}
           >
             <MenuItem value={0} disabled>
               <em>Please select a person to send this message to...</em>
@@ -79,7 +81,7 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => {
             <Button
               variant="contained"
               disabled={resSubject.length === 0 || resMessageBody.length === 0}
-              onClick={() => sendMessage()}
+              onClick={() => send()}
             >
               Send
             </Button>
