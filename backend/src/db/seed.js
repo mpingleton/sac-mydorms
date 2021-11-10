@@ -253,6 +253,30 @@ const roomInspectionsData = [
   },
 ];
 
+const messagesData = [
+  {
+    sender_id: 3,
+    recipient_id: 1,
+    timestamp: '2021-09-20T00:00:00.000Z',
+    subject: 'BAH Concerns',
+    body: 'Sir,\n\nI need a copy of your LES in order to get your BAH authorization going.',
+  },
+  {
+    sender_id: 3,
+    recipient_id: 2,
+    timestamp: '2021-09-20T00:00:00.000Z',
+    subject: 'A/C Work Order',
+    body: 'Sir,\n\nI am currently working on the work order for your air conditioning system.',
+  },
+  {
+    sender_id: 3,
+    recipient_id: 2,
+    timestamp: '2021-09-20T00:00:00.000Z',
+    subject: 'A/C Work Order Progress',
+    body: 'Sir,\n\nWe found mold inside the air handler, you may need to change rooms.',
+  },
+];
+
 async function main() {
   console.log('Start seeding ...');
 
@@ -332,6 +356,12 @@ async function main() {
   for (const insp of roomInspectionsData) {
     const inspection = await prisma.roomInspections.create({ data: insp });
     console.log(`Created room inspection with the following remarks: ${inspection.inspector_remarks}.`);
+  }
+
+  // Seed the messages table.
+  for (const mess of messagesData) {
+    const message = await prisma.messages.create({ data: mess });
+    console.log(`Created message from ${message.sender_id} to ${message.recipient_id} with a subject of ${message.subject}: ${message.body}.`);
   }
 
   console.log('Seeding finished.');
