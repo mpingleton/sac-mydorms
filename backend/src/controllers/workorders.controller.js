@@ -3,6 +3,7 @@ const { ExtractJwt } = require('passport-jwt');
 const { authService } = require('@/services');
 const workOrdersService = require('@/services/workorders.service');
 const roomService = require('@/services/room.service');
+const personnelService = require('@/services/personnel.service');
 
 const getWorkOrders = async (req, res) => {
   const workOrders = await workOrdersService.getWorkOrders();
@@ -53,11 +54,22 @@ const createWorkOrder = async (req, res) => {
 
 const getAllWorkOrderComments = async (req, res) => {
   const comments = await workOrdersService.getAllWorkOrderComments();
+
+  const promises = [];
+  for (let i = 0; i < comments.length; i += 1) {
+    promises.push(personnelService.getPersonnelById(comments[i].personnel_id)
+      .then((personnelObject) => {
+        comments[i].personnelObject = personnelObject;
+      }));
+  }
+  await Promise.all(promises);
+
   res.send(200, comments);
 };
 
 const getWorkOrderCommentById = async (req, res) => {
   const comment = await workOrdersService.getWorkOrderCommentById(parseInt(req.params.id, 10));
+  comment.personnelObject = await personnelService.getPersonnelById(comment.personnel_id);
   res.send(200, comment);
 };
 
@@ -74,6 +86,16 @@ const createWorkOrderComment = async (req, res) => {
 
 const getAllCommentsForWorkOrder = async (req, res) => {
   const comments = await workOrdersService.getAllCommentsForWorkOrder(parseInt(req.params.id, 10));
+
+  const promises = [];
+  for (let i = 0; i < comments.length; i += 1) {
+    promises.push(personnelService.getPersonnelById(comments[i].personnel_id)
+      .then((personnelObject) => {
+        comments[i].personnelObject = personnelObject;
+      }));
+  }
+  await Promise.all(promises);
+
   res.send(200, comments);
 };
 

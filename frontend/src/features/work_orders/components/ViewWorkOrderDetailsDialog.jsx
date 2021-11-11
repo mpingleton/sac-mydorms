@@ -77,11 +77,11 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
     { field: 'by', headerName: 'By', width: 150 },
     { field: 'comment', headerName: 'Comment', width: 390 },
   ];
-
+  console.log(workOrderComments);
   const commentRows = workOrderComments.map((comment) => (
     {
       id: comment.id,
-      by: comment.personnel_id,
+      by: `${comment.personnelObject.rank} ${comment.personnelObject.first_name} ${comment.personnelObject.last_name}`,
       timestamp: new Date(comment.timestamp).toLocaleString(),
       comment: comment.comment,
     }
@@ -121,7 +121,7 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
               }
             </Typography>
             <Typography>at:</Typography>
-            <Typography>{workOrder.created_timestamp}</Typography>
+            <Typography>{new Date(workOrder.created_timestamp).toLocaleString()}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Remarks:</Typography>
@@ -160,7 +160,8 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
           <Stack direction="row" spacing={1}>
             <TextField
               id="new-work-order-comment"
-              label="Comment"
+              label={`Comment: (${newWorkOrderComment.length}/250)`}
+              error={newWorkOrderComment.length > 250}
               variant="standard"
               multiline
               maxRows={3}
@@ -168,7 +169,7 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
               onChange={(event) => { setNewWorkOrderComment(event.target.value); }}
               sx={{ width: '100%' }}
             />
-            <Button variant="contained" onClick={submitComment} disabled={newWorkOrderComment.length === 0}>Send</Button>
+            <Button variant="contained" onClick={submitComment} disabled={newWorkOrderComment.length === 0 || newWorkOrderComment.length > 250}>Send</Button>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Close</Button>
