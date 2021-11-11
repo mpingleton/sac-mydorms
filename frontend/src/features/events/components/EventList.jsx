@@ -20,6 +20,25 @@ export const EventList = () => {
         subject: responseEvent.subject,
         description: responseEvent.description,
       }));
+
+      if (data.length >= 2) {
+        let swapCount = 0;
+        do {
+          swapCount = 0;
+          for (let i = 1; i < data.length; i += 1) {
+            const d0 = new Date(data[i - 1].scheduled);
+            const d1 = new Date(data[i].scheduled);
+
+            if (d0.getTime() < d1.getTime()) {
+              const tmp = data[i - 1];
+              data[i - 1] = data[i];
+              data[i] = tmp;
+              swapCount += 1;
+            }
+          }
+        } while (swapCount > 0);
+      }
+
       setEvents(data);
     });
   }, []);
