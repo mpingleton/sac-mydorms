@@ -19,6 +19,7 @@ export const Post = ({ postObject }) => {
       />
       <CardContent>
         <Typography variant="h6">{postObject.header}</Typography>
+        <Typography>{new Date(postObject.timestamp).toLocaleString()}</Typography>
         <Typography>{postObject.postBody}</Typography>
         <Stack direction="row">
           <Button
@@ -39,13 +40,14 @@ export const Post = ({ postObject }) => {
 Post.propTypes = {
   postObject: PropTypes.shape({
     id: PropTypes.number,
+    timestamp: PropTypes.string,
     header: PropTypes.string,
     postBody: PropTypes.string,
   }),
 };
 
 Post.defaultProps = {
-  postObject: { id: 0, header: 'Loading...', postBody: 'Loading content...' },
+  postObject: { id: 0, timestamp: new Date().toISOString(), header: 'Loading...', postBody: 'Loading content...' },
 };
 
 export default Post;

@@ -69,6 +69,7 @@ export const ViewPostDialog = ({ postObject, modalOpen, onClose }) => {
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
           <Typography variant="h6">{postObject.header}</Typography>
+          <Typography>{new Date(postObject.timestamp).toLocaleString()}</Typography>
           <Typography>{postObject.postBody}</Typography>
           <Box sx={{ width: '100%', height: 300 }}>
             <DataGrid
@@ -109,6 +110,7 @@ export const ViewPostDialog = ({ postObject, modalOpen, onClose }) => {
 ViewPostDialog.propTypes = {
   postObject: PropTypes.shape({
     id: PropTypes.number,
+    timestamp: PropTypes.string,
     header: PropTypes.string,
     postBody: PropTypes.string,
   }),
@@ -117,7 +119,12 @@ ViewPostDialog.propTypes = {
 };
 
 ViewPostDialog.defaultProps = {
-  postObject: { id: 0, header: 'Loading...', postBody: 'Loading content...' },
+  postObject: {
+    id: 0,
+    timestamp: new Date().toISOString(),
+    header: 'Loading...',
+    postBody: 'Loading content...',
+  },
   modalOpen: false,
   onClose: () => {},
 };
