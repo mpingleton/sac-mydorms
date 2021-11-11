@@ -82,6 +82,8 @@ model Personnel {
   createdEvents Events[]
   posts CommonAreaPosts[]
   madeComments CommonAreaPostComments[]
+  receivedMessages Messages[] @relation("ReceivedMessages")
+  sentMessages Messages[] @relation("SendMessages")
 
 }
 
@@ -201,5 +203,19 @@ model CommonAreaPostComments {
 
   post CommonAreaPosts @relation(fields: [post_id], references: [id])
   commenter Personnel @relation(fields: [commenter_id], references: [id])
+
+}
+
+model Messages {
+
+  id Int @id @default(autoincrement())
+  sender_id Int
+  recipient_id Int
+  timestamp DateTime
+  subject String
+  body String
+
+  sender Personnel @relation("SendMessages", fields: [sender_id], references: [id])
+  recipient Personnel @relation("ReceivedMessages", fields: [recipient_id], references: [id])
 
 }
