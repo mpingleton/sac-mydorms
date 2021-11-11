@@ -15,7 +15,7 @@ const getWorkOrderCommentById = {
 const createWorkOrderComment = {
   body: Joi.object().keys({
     workOrderId: Joi.number().integer().required(),
-    comment: Joi.string().required(),
+    comment: Joi.string().max(250).required(),
   }),
 };
 
