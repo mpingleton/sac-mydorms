@@ -6,6 +6,7 @@ const roomRoute = require('./room.route');
 const roomAssignmentRoute = require('./roomassignment.route');
 const workOrdersRoute = require('./workorders.route');
 const roomInspectionRoute = require('./roominspection.route');
+const commonAreaRoute = require('./commonarea.route');
 const eventRoute = require('./event.route');
 
 const router = express.Router();
@@ -38,6 +39,10 @@ const defaultRoutes = [
   {
     path: '/roominspection',
     route: roomInspectionRoute,
+  },
+  {
+    path: '/commonarea',
+    route: commonAreaRoute,
   },
   {
     path: '/event',
