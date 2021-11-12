@@ -16,8 +16,8 @@ import {
   Typography,
 } from '@mui/material';
 
-import getRoom from '../api/getRooms';
-import createRoomInspection from '../api/createRoomInspection';
+import getRoom from '@/api/getRooms';
+import createRoomInspection from '@/api/createRoomInspection';
 
 const modalStyle = {
   position: 'absolute',

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
-import getWorkOrders from '../api/getWorkOrders';
+import getWorkOrders from '@/api/getWorkOrders';
 
 export const WorkOrderList = ({ onSelectionChange }) => {
   const [workOrders, setWorkOrders] = React.useState([]);

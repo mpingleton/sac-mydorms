@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Typography, Card, CardContent } from '@mui/material';
 
-import getPersonnelById from '../api/getPersonnelById';
+import getPersonnelById from '@/api/getPersonnelById';
 
 export const Event = ({ eventObject }) => {
   const [creator, setCreator] = React.useState({});

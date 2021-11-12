@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
-import getRoomInspections from '../api/getRoomInspections';
+import getRoomInspections from '@/api/getRoomInspections';
 
 export const InspectionsList = ({ onSelectionChange }) => {
   const [roomInspections, setRoomInspections] = React.useState([]);

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { Button, Box, Modal, Stack, Typography } from '@mui/material';
 
-import getRoomById from '../api/getRoomById';
-import getRoomAssignmentsByRoom from '../api/getRoomAssignmentsByRoom';
+import getRoomById from '@/api/getRoomById';
+import getRoomAssignmentsByRoom from '@/api/getRoomAssignmentsByRoom';
 
 const modalStyle = {
   position: 'absolute',

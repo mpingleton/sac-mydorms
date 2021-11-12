@@ -4,7 +4,7 @@ import { Stack } from '@mui/material';
 
 import { Event } from './Event';
 
-import getEvents from '../api/getEvents';
+import getEvents from '@/api/getEvents';
 
 export const EventList = () => {
   const [events, setEvents] = React.useState([]);

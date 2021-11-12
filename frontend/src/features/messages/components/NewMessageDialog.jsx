@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { Box, Modal, Stack, TextField, Select, MenuItem, Button } from '@mui/material';
 
-import getPersonnel from '../api/getPersonnel';
-import sendMessage from '../api/sendMessage';
+import getPersonnel from '@/api/getPersonnel';
+import sendMessage from '@/api/sendMessage';
 
 const style = {
   position: 'absolute',

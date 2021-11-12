@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import createPost from '../api/createPost';
+import createPost from '@/api/createPost';
 
 const modalStyle = {
   position: 'absolute',

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
-import getMessages from '../api/getMessages';
+import getMessages from '@/api/getMessages';
 
 export const MessageList = ({ onSelectionChange }) => {
   const [messageList, setMessageList] = React.useState([]);

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Button, Stack, Box, Modal, Typography } from '@mui/material';
 
-import getMessageById from '../api/getMessageById';
+import getMessageById from '@/api/getMessageById';
 
 const style = {
   position: 'absolute',

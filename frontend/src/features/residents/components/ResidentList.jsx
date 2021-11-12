@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
-import getResidents from '../api/getResidents';
+import getResidents from '@/api/getResidents';
 
 export const ResidentList = ({ onSelectionChange }) => {
   const [residents, setResidents] = React.useState([]);

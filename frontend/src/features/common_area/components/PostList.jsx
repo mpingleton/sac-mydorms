@@ -4,7 +4,7 @@ import { Stack } from '@mui/material';
 
 import { Post } from './Post';
 
-import getPosts from '../api/getPosts';
+import getPosts from '@/api/getPosts';
 
 export const PostList = () => {
   const [posts, setPosts] = React.useState([]);

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { Button, Box, Modal, Stack, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
-import getRoomById from '../api/getRoomById';
-import getResidents from '@/features/residents/api/getResidents';
-import createRoomAssignment from '../api/createRoomAssignment';
+import getRoomById from '@/api/getRoomById';
+import getResidents from '@/api/getResidents';
+import createRoomAssignment from '@/api/createRoomAssignment';
 
 const modalStyle = {
   position: 'absolute',

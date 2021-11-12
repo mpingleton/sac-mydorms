@@ -11,8 +11,8 @@ import {
   Typography,
 } from '@mui/material';
 
-import getCommentsByPost from '../api/getCommentsByPost';
-import createComment from '../api/createComment';
+import getCommentsByPost from '@/api/getCommentsByPost';
+import createComment from '@/api/createComment';
 
 const modalStyle = {
   position: 'absolute',

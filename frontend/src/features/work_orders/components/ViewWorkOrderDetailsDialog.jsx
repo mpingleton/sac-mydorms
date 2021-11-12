@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { Button, Box, Modal, Stack, Typography, TextField, Select, InputLabel, MenuItem } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
-import getWorkOrderById from '../api/getWorkOrderById';
-import getCommentsByWorkOrderId from '../api/getCommentsByWorkOrderId';
-import createWorkOrderComment from '../api/createWorkOrderComment';
-import getPersonnelById from '../api/getPersonnelById';
-import updateWorkOrderStatus from '../api/updateWorkOrderStatus';
+import getWorkOrderById from '@/api/getWorkOrderById';
+import getCommentsByWorkOrderId from '@/api/getCommentsByWorkOrderId';
+import createWorkOrderComment from '@/api/createWorkOrderComment';
+import getPersonnelById from '@/api/getPersonnelById';
+import updateWorkOrderStatus from '@/api/updateWorkOrderStatus';
 
 const modalStyle = {
   position: 'absolute',

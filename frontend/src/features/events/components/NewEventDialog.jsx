@@ -13,7 +13,7 @@ import {
   TextField,
 } from '@mui/material';
 
-import createEvent from '../api/createEvent';
+import createEvent from '@/api/createEvent';
 
 const modalStyle = {
   position: 'absolute',
