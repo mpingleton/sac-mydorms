@@ -17,9 +17,7 @@ export const ResidentList = ({ onSelectionChange }) => {
 
   const columns = [
     { field: 'rank', headerName: 'Rank', width: 100 },
-    { field: 'first_name', headerName: 'First Name', width: 150 },
-    { field: 'middle_name', headerName: 'Middle Name', width: 150 },
-    { field: 'last_name', headerName: 'Last Name', width: 150 },
+    { field: 'name', headerName: 'Name', width: 300 },
     { field: 'email', headerName: 'Email', width: 350 },
   ];
 
@@ -27,9 +25,11 @@ export const ResidentList = ({ onSelectionChange }) => {
     {
       id: resident.id,
       rank: resident.rank,
-      first_name: resident.first_name,
-      middle_name: resident.middle_name,
-      last_name: resident.last_name,
+      name: `
+        ${resident.first_name}
+        ${resident.middle_name}
+        ${resident.last_name}
+      `,
       email: resident.email,
     }
   ));
