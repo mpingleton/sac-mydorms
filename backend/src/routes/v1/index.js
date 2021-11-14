@@ -9,6 +9,7 @@ const roomInspectionRoute = require('./roominspection.route');
 const messageRoute = require('./message.route');
 const commonAreaRoute = require('./commonarea.route');
 const eventRoute = require('./event.route');
+const enrollmentRoute = require('./enrollment.route');
 
 const router = express.Router();
 
@@ -52,6 +53,10 @@ const defaultRoutes = [
   {
     path: '/event',
     route: eventRoute,
+  },
+  {
+    path: '/enrollment',
+    route: enrollmentRoute,
   },
 ];
 
