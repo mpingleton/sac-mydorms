@@ -14,6 +14,12 @@ router.get(
 );
 
 router.get(
+  '/my',
+  auth(),
+  messageController.getMyMessages,
+);
+
+router.get(
   '/id/:id',
   auth(),
   validate(messageValidation.getMessageById),

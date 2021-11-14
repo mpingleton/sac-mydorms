@@ -40,6 +40,14 @@ export const ViewMessageDialog = ({ modalOpen, onClose, messageId }) => {
           <Typography>{message.subject}</Typography>
           <Typography>
             {`
+              To:
+              ${message.recipientObject.rank}
+              ${message.recipientObject.first_name}
+              ${message.recipientObject.last_name}
+            `}
+          </Typography>
+          <Typography>
+            {`
               From:
               ${message.senderObject.rank}
               ${message.senderObject.first_name}

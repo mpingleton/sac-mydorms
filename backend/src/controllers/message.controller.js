@@ -23,6 +23,26 @@ const getMessages = async (req, res) => {
   res.send(200, messages);
 };
 
+const getMyMessages = async (req, res) => {
+  const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
+  const messages = await messageService.getMessagesByRecipientId(user.id);
+
+  const messagePromises = [];
+  for (let i = 0; i < messages.length; i += 1) {
+    messagePromises.push(personnelService.getPersonnelById(messages[i].sender_id)
+      .then((personnelObject) => {
+        messages[i].senderObject = personnelObject;
+      }));
+    messagePromises.push(personnelService.getPersonnelById(messages[i].recipient_id)
+      .then((personnelObject) => {
+        messages[i].recipientObject = personnelObject;
+      }));
+  }
+  await Promise.all(messagePromises);
+
+  res.send(200, messages);
+};
+
 const getMessageById = async (req, res) => {
   const message = await messageService.getMessageById(parseInt(req.params.id, 10));
 
@@ -56,6 +76,7 @@ const sendMessage = async (req, res) => {
 
 module.exports = {
   getMessages,
+  getMyMessages,
   getMessageById,
   sendMessage,
 };

@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
-import getMessages from '@/api/getMessages';
+import getMyMessages from '@/api/getMyMessages';
 
 export const MessageList = ({ onSelectionChange }) => {
   const [messageList, setMessageList] = React.useState([]);
 
   React.useEffect(() => {
-    getMessages().then((data) => setMessageList(data));
+    getMyMessages().then((data) => setMessageList(data));
   }, []);
 
   const columns = [
