@@ -30,8 +30,24 @@ const createEnrollment = async (req, res) => {
   res.send(200);
 };
 
+const enrollCurrentUserUsingCode = async (req, res) => {
+  const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
+
+  const pendingEnrollment = await enrollmentService.getPendingEnrollmentByCode(
+    req.body.registrationCode,
+  );
+  if (pendingEnrollment === null) {
+    res.send(200, { id: -1 });
+  } else {
+    await enrollmentService.createEnrollment(user.id, pendingEnrollment.personnel_id);
+    await enrollmentService.deletePendingEnrollment(pendingEnrollment.id);
+    res.send(200);
+  }
+};
+
 module.exports = {
   getEnrollments,
   getMyEnrollment,
   createEnrollment,
+  enrollCurrentUserUsingCode,
 };

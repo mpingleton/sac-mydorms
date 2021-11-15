@@ -26,4 +26,11 @@ router.put(
   enrollmentController.createEnrollment,
 );
 
+router.post(
+  '/enrollcurrentuser/using/code',
+  auth(),
+  validate(enrollmentValidation.enrollCurrentUserUsingCode),
+  enrollmentController.enrollCurrentUserUsingCode,
+);
+
 module.exports = router;

@@ -7,6 +7,13 @@ const createEnrollment = {
   }),
 };
 
+const enrollCurrentUserUsingCode = {
+  body: Joi.object().keys({
+    registrationCode: Joi.string().required(),
+  }),
+};
+
 module.exports = {
   createEnrollment,
+  enrollCurrentUserUsingCode,
 };
