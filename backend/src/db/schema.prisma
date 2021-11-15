@@ -84,6 +84,7 @@ model Personnel {
   madeComments CommonAreaPostComments[]
   receivedMessages Messages[] @relation("ReceivedMessages")
   sentMessages Messages[] @relation("SendMessages")
+  pendingEnrollments PendingEnrollments[]
 
 }
 
@@ -94,6 +95,16 @@ model Enrollments {
   personnel_id Int
 
   user User @relation(fields: [user_id], references: [id])
+  personnel Personnel @relation(fields: [personnel_id], references: [id])
+
+}
+
+model PendingEnrollments {
+
+  id Int @id @default(autoincrement())
+  personnel_id Int
+  registration_code String @unique
+
   personnel Personnel @relation(fields: [personnel_id], references: [id])
 
 }
