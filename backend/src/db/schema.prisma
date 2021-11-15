@@ -80,6 +80,7 @@ model Personnel {
   roomInspections RoomInspections[] @relation("RoomOccupant")
   conductedInspections RoomInspections[] @relation("RoomInspector")
   createdEvents Events[]
+  eventResponses EventResponses[]
   posts CommonAreaPosts[]
   madeComments CommonAreaPostComments[]
   receivedMessages Messages[] @relation("ReceivedMessages")
@@ -187,6 +188,19 @@ model Events {
   description String
 
   eventCreator Personnel @relation(fields: [created_by], references: [id])
+  responses EventResponses[]
+
+}
+
+model EventResponses {
+
+  id Int @id @default(autoincrement())
+  event_id Int
+  personnel_id Int
+  response_code Int
+
+  event Events @relation(fields: [event_id], references: [id])
+  person Personnel @relation(fields: [personnel_id], references: [id])
 
 }
 
