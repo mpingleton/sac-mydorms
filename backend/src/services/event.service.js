@@ -35,8 +35,41 @@ const createEvent = async (
   await prisma.events.create({ data });
 };
 
+const setResponse = async (
+  eventId,
+  personnelId,
+  responseCode,
+) => {
+  const existingResponse = await prisma.eventResponses.findMany({
+    where: {
+      event_id: eventId,
+      personnel_id: personnelId,
+    },
+  });
+  if (existingResponse.length > 0) {
+    await prisma.eventResponses.updateMany({
+      where: {
+        event_id: eventId,
+        personnel_id: personnelId,
+      },
+      data: {
+        response_code: responseCode,
+      },
+    });
+  } else {
+    await prisma.eventResponses.create({
+      data: {
+        event_id: eventId,
+        personnel_id: personnelId,
+        response_code: responseCode,
+      },
+    });
+  }
+};
+
 module.exports = {
   getEvents,
   getEventById,
   createEvent,
+  setResponse,
 };

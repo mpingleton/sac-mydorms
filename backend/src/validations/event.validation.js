@@ -15,7 +15,15 @@ const createEvent = {
   }),
 };
 
+const setResponse = {
+  body: Joi.object().keys({
+    eventId: Joi.number().integer().required(),
+    responseCode: Joi.number().integer().required(),
+  }),
+};
+
 module.exports = {
   getEventById,
   createEvent,
+  setResponse,
 };

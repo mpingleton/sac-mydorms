@@ -2,6 +2,7 @@ const { ExtractJwt } = require('passport-jwt');
 
 const { authService } = require('@/services');
 const eventService = require('@/services/event.service');
+const enrollmentService = require('@/services/enrollment.service');
 
 const getEvents = async (req, res) => {
   const events = await eventService.getEvents();
@@ -26,8 +27,25 @@ const createEvent = async (req, res) => {
   res.send(200);
 };
 
+const setResponse = async (req, res) => {
+  const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
+
+  const enrollment = await enrollmentService.getEnrollmentByUserId(user.id);
+  if (enrollment === null) {
+    res.send(500);
+  } else {
+    await eventService.setResponse(
+      req.body.eventId,
+      enrollment.personnel_id,
+      req.body.responseCode,
+    );
+    res.send(200);
+  }
+};
+
 module.exports = {
   getEvents,
   getEventById,
   createEvent,
+  setResponse,
 };

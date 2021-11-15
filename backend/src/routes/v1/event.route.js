@@ -27,4 +27,11 @@ router.put(
   eventController.createEvent,
 );
 
+router.post(
+  '/response',
+  auth(),
+  validate(eventValidation.setResponse),
+  eventController.setResponse,
+);
+
 module.exports = router;
