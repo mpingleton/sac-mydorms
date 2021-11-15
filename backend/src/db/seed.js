@@ -174,6 +174,13 @@ const enrollmentsData = [
   },
 ];
 
+const pendingEnrollmentsData = [
+  {
+    personnel_id: 3,
+    registration_code: '5X5HHA5',
+  },
+];
+
 const roomAssignmentsData = [
   {
     personnel_id: 1,
@@ -318,6 +325,17 @@ async function main() {
       data: e,
     });
     console.log(`Created enrollment of user ${enrollment.user_id} to person ${enrollment.personnel_id}.`);
+  }
+
+  for (const e of pendingEnrollmentsData) {
+    const pendingEnrollment = await prisma.pendingEnrollments.create({
+      data: e,
+    });
+    console.log(`Created pending enrollment for personnel id
+      ${pendingEnrollment.personnel_id}
+      with a registration code
+      ${pendingEnrollment.registration_code}
+    .`);
   }
 
   // Seed room assignments table.
