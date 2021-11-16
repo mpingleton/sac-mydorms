@@ -34,11 +34,4 @@ router.post(
   eventController.setResponse,
 );
 
-router.get(
-  '/response/count/:event_id',
-  auth(),
-  validate(eventValidation.getResponseCountForEvent),
-  eventController.getResponseCountForEvent,
-);
-
 module.exports = router;

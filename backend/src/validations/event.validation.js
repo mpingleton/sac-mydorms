@@ -22,15 +22,8 @@ const setResponse = {
   }),
 };
 
-const getResponseCountForEvent = {
-  params: {
-    event_id: Joi.number().integer().required(),
-  },
-};
-
 module.exports = {
   getEventById,
   createEvent,
   setResponse,
-  getResponseCountForEvent,
 };

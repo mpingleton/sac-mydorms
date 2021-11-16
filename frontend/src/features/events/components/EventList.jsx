@@ -19,6 +19,8 @@ export const EventList = () => {
         location: responseEvent.location,
         subject: responseEvent.subject,
         description: responseEvent.description,
+        createdByObject: responseEvent.createdByObject,
+        responses: responseEvent.responses,
       }));
 
       if (data.length >= 2) {

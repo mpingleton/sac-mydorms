@@ -3,33 +3,33 @@ import PropTypes from 'prop-types';
 
 import { Typography, Card, CardContent } from '@mui/material';
 
-import getPersonnelById from '@/api/getPersonnelById';
-
-export const Event = ({ eventObject }) => {
-  const [creator, setCreator] = React.useState({});
-
-  React.useEffect(() => {
-    getPersonnelById(eventObject.created_by).then((data) => setCreator(data));
-  }, [eventObject.created_by]);
-
-  return (
-    <Card variant="outlined">
-      <CardContent>
-        <Typography>{eventObject.subject}</Typography>
-        <Typography>
-          {`
-            ${creator.rank}
-            ${creator.first_name}
-            ${creator.last_name}
-          `}
-        </Typography>
-        <Typography>{eventObject.location}</Typography>
-        <Typography>{new Date(eventObject.scheduled).toLocaleString()}</Typography>
-        <Typography>{eventObject.description}</Typography>
-      </CardContent>
-    </Card>
-  );
-};
+export const Event = ({ eventObject }) => (
+  <Card variant="outlined">
+    <CardContent>
+      <Typography>{eventObject.subject}</Typography>
+      <Typography>
+        {`
+          ${eventObject.createdByObject.rank}
+          ${eventObject.createdByObject.first_name}
+          ${eventObject.createdByObject.last_name}
+        `}
+      </Typography>
+      <Typography>{eventObject.location}</Typography>
+      <Typography>{new Date(eventObject.scheduled).toLocaleString()}</Typography>
+      <Typography>{eventObject.description}</Typography>
+      <Typography>
+        {
+          `
+            ${eventObject.responses.going}
+            going;
+            ${eventObject.responses.notGoing}
+            not going.
+          `
+        }
+      </Typography>
+    </CardContent>
+  </Card>
+);
 
 Event.propTypes = {
   eventObject: PropTypes.shape(
@@ -40,6 +40,16 @@ Event.propTypes = {
       location: PropTypes.string,
       subject: PropTypes.string,
       description: PropTypes.string,
+      createdByObject: PropTypes.shape({
+        id: PropTypes.number,
+        rank: PropTypes.string,
+        first_name: PropTypes.string,
+        last_name: PropTypes.string,
+      }),
+      responses: PropTypes.shape({
+        going: PropTypes.number,
+        notGoing: PropTypes.number,
+      }),
     },
   ),
 };
@@ -52,6 +62,16 @@ Event.defaultProps = {
     location: '',
     subject: '',
     description: '',
+    createdByObject: {
+      id: 0,
+      rank: '',
+      first_name: '',
+      last_name: '',
+    },
+    responses: {
+      going: 0,
+      notGoing: 0,
+    },
   },
 };
 
