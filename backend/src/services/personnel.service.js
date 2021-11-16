@@ -16,8 +16,26 @@ const getPersonnelById = async (personId) => {
   return person;
 };
 
-const createPersonnel = async (data) => {
-  await prisma.personnel.create({ data });
+const createPersonnel = async (
+  baseId,
+  rank,
+  firstName,
+  middleName,
+  lastName,
+  phoneNumber,
+  emailAddress,
+) => {
+  await prisma.personnel.create({
+    data: {
+      base_id: baseId,
+      rank,
+      first_name: firstName,
+      middle_name: middleName,
+      last_name: lastName,
+      phone: phoneNumber,
+      email: emailAddress,
+    },
+  });
 };
 
 module.exports = {

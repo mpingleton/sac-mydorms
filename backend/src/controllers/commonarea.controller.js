@@ -35,7 +35,9 @@ const createPost = async (req, res) => {
   const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
 
   const enrollment = await enrollmentService.getEnrollmentByUserId(user.id);
+  const enrolledPerson = await personnelService.getPersonnelById(enrollment.personnel_id);
   await commonAreaService.createPost(
+    enrolledPerson.base_id,
     enrollment.personnel_id,
     new Date().toISOString(),
     req.body.text,

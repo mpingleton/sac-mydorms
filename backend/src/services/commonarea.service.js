@@ -18,12 +18,14 @@ const getPostById = async (id) => {
 };
 
 const createPost = async (
+  baseId,
   postedBy,
   timestamp,
   text,
   commentsEnabled,
 ) => {
   const data = {
+    base_id: baseId,
     posted_by: postedBy,
     timestamp,
     text,

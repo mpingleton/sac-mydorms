@@ -18,6 +18,7 @@ const getEventById = async (id) => {
 };
 
 const createEvent = async (
+  baseId,
   createdBy,
   scheduled,
   location,
@@ -25,6 +26,7 @@ const createEvent = async (
   description,
 ) => {
   const data = {
+    base_id: baseId,
     created_by: createdBy,
     scheduled,
     location,

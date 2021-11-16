@@ -69,7 +69,9 @@ const createEvent = async (req, res) => {
   const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
 
   const enrollment = await enrollmentService.getEnrollmentByUserId(user.id);
+  const enrolledPerson = await personnelService.getPersonnelById(enrollment.personnel_id);
   await eventService.createEvent(
+    enrolledPerson.base_id,
     enrollment.personnel_id,
     req.body.scheduled,
     req.body.location,

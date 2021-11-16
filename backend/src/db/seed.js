@@ -41,11 +41,13 @@ const userData = [
 
 const buildingsData = [
   {
+    base_id: 1,
     building_number: '123',
     building_name: 'Tony Manor',
     address: '123 Main St, Barksdale AFB 71037',
   },
   {
+    base_id: 1,
     building_number: '456',
     building_name: 'Ezekiel Manor',
     address: '456 Main St, Barksdale AFB 71037',
@@ -142,6 +144,7 @@ const roomsData = [
 
 const personnelData = [
   {
+    base_id: 1,
     rank: 'AB',
     first_name: 'Tony',
     middle_name: 'Randy',
@@ -150,6 +153,7 @@ const personnelData = [
     email: 'tony.doe.1@us.af.mil',
   },
   {
+    base_id: 1,
     rank: 'A1C',
     first_name: 'James',
     middle_name: 'Brad',
@@ -158,6 +162,7 @@ const personnelData = [
     email: 'james.mosely.10@us.af.mil',
   },
   {
+    base_id: 1,
     rank: 'SSgt',
     first_name: 'John',
     middle_name: 'Daniel',
@@ -284,6 +289,21 @@ const messagesData = [
   },
 ];
 
+const basesData = [
+  {
+    name: 'Whiteman AFB',
+  },
+  {
+    name: 'Barksdale AFB',
+  },
+  {
+    name: 'Minot AFB',
+  },
+  {
+    name: 'Malstrom AFB',
+  },
+];
+
 async function main() {
   console.log('Start seeding ...');
 
@@ -293,6 +313,12 @@ async function main() {
       data: u,
     });
     console.log(`Created user ${user.name} with id: ${user.id}.`);
+  }
+
+  // Seed the base data.
+  for (const b of basesData) {
+    const base = await prisma.bases.create({ data: b });
+    console.log(`Create base ${base.name} with an ID of ${base.id}.`);
   }
 
   // Seed buildings table.

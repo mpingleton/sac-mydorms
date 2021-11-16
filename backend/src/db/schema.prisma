@@ -38,10 +38,12 @@ enum Role {
 model Buildings {
 
   id Int @id @default(autoincrement())
+  base_id Int
   building_number String
   building_name String
   address String
 
+  base Bases @relation(fields: [base_id], references: [id])
   rooms Rooms[]
   managers DormManagerAssignments[]
 
@@ -65,6 +67,7 @@ model Rooms {
 model Personnel {
 
   id Int @id @default(autoincrement())
+  base_id Int
   rank String
   first_name String
   middle_name String
@@ -72,6 +75,7 @@ model Personnel {
   phone String
   email String
 
+  base Bases @relation(fields: [base_id], references: [id])
   userEnrollment Enrollments[]
   roomAssignments RoomAssignments[]
   managerOf DormManagerAssignments[]
@@ -181,12 +185,14 @@ model RoomInspections {
 model Events {
 
   id Int @id @default(autoincrement())
+  base_id Int
   created_by Int
   scheduled DateTime
   location String
   subject String
   description String
 
+  base Bases @relation(fields: [base_id], references: [id])
   eventCreator Personnel @relation(fields: [created_by], references: [id])
   responses EventResponses[]
 
@@ -207,11 +213,13 @@ model EventResponses {
 model CommonAreaPosts {
 
   id Int @id @default(autoincrement())
+  base_id Int
   posted_by Int
   timestamp DateTime
   text String
   comments_enabled Boolean
 
+  base Bases @relation(fields: [base_id], references: [id])
   poster Personnel @relation(fields: [posted_by], references: [id])
   comments CommonAreaPostComments[]
 
@@ -242,5 +250,17 @@ model Messages {
 
   sender Personnel @relation("SendMessages", fields: [sender_id], references: [id])
   recipient Personnel @relation("ReceivedMessages", fields: [recipient_id], references: [id])
+
+}
+
+model Bases {
+
+  id Int @id @default(autoincrement())
+  name String
+
+  personnel Personnel[]
+  buildings Buildings[]
+  events Events[]
+  commonArea CommonAreaPosts[]
 
 }
