@@ -68,8 +68,9 @@ const getEventById = async (req, res) => {
 const createEvent = async (req, res) => {
   const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
 
+  const enrollment = await enrollmentService.getEnrollmentByUserId(user.id);
   await eventService.createEvent(
-    user.id,
+    enrollment.personnel_id,
     req.body.scheduled,
     req.body.location,
     req.body.subject,
@@ -87,7 +88,7 @@ const setResponse = async (req, res) => {
   } else {
     await eventService.setResponse(
       req.body.eventId,
-      enrollment.personnel_id,
+      enrollment.personnel_id, // Use this as an example!
       req.body.responseCode,
     );
     res.send(200);

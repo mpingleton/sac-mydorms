@@ -4,6 +4,7 @@ const { authService } = require('@/services');
 const roomInspectionService = require('@/services/roominspection.service');
 const roomService = require('@/services/room.service');
 const personnelService = require('@/services/personnel.service');
+const enrollmentService = require('@/services/enrollment.service');
 
 const getRoomInspections = async (req, res) => {
   const roomInspections = await roomInspectionService.getRoomInspections();
@@ -43,11 +44,12 @@ const getRoomInspectionById = async (req, res) => {
 const createRoomInspection = async (req, res) => {
   const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
 
+  const enrollment = await enrollmentService.getEnrollmentByUserId(user.id);
   await roomInspectionService.createRoomInspection(
     req.body.timestamp,
     req.body.room_id,
-    1,
-    user.id,
+    1, // Be sure to fill this in.
+    enrollment.personnel_id,
     req.body.inspector_name,
     req.body.inspector_remarks,
   );

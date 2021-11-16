@@ -4,6 +4,7 @@ const { authService } = require('@/services');
 const workOrdersService = require('@/services/workorders.service');
 const roomService = require('@/services/room.service');
 const personnelService = require('@/services/personnel.service');
+const enrollmentService = require('@/services/enrollment.service');
 
 const getWorkOrders = async (req, res) => {
   const workOrders = await workOrdersService.getWorkOrders();
@@ -41,9 +42,10 @@ const getWorkOrderById = async (req, res) => {
 const createWorkOrder = async (req, res) => {
   const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
 
+  const enrollment = await enrollmentService.getEnrollmentByUserId(user.id);
   await workOrdersService.createWorkOrder(req.body.subject,
     req.body.room_id,
-    user.id,
+    enrollment.personnel_id,
     req.body.remarks,
     new Date().toISOString(),
     0,
@@ -75,9 +77,10 @@ const getWorkOrderCommentById = async (req, res) => {
 
 const createWorkOrderComment = async (req, res) => {
   const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
+  const enrollment = await enrollmentService.getEnrollmentByUserId(user.id);
   await workOrdersService.createWorkOrderComment(
     req.body.workOrderId,
-    user.id,
+    enrollment.personnel_id, // Make this a personnel id.
     new Date().toISOString(),
     req.body.comment,
   );

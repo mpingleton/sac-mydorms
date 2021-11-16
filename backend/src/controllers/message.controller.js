@@ -3,6 +3,7 @@ const { ExtractJwt } = require('passport-jwt');
 const { authService } = require('@/services');
 const messageService = require('@/services/message.service');
 const personnelService = require('@/services/personnel.service');
+const enrollmentService = require('@/services/enrollment.service');
 
 const getMessages = async (req, res) => {
   const messages = await messageService.getMessages();
@@ -63,9 +64,10 @@ const getMessageById = async (req, res) => {
 const sendMessage = async (req, res) => {
   const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
 
+  const enrollment = await enrollmentService.getEnrollmentByUserId(user.id);
   await messageService.sendMessage(
     new Date().toISOString(),
-    user.id,
+    enrollment.personnel_id,
     req.body.recipient_id,
     req.body.subject,
     req.body.body,

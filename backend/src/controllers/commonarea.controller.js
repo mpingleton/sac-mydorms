@@ -3,6 +3,7 @@ const { ExtractJwt } = require('passport-jwt');
 const { authService } = require('@/services');
 const commonAreaService = require('@/services/commonarea.service');
 const personnelService = require('@/services/personnel.service');
+const enrollmentService = require('@/services/enrollment.service');
 
 const getPosts = async (req, res) => {
   const posts = await commonAreaService.getPosts();
@@ -33,8 +34,9 @@ const getPostById = async (req, res) => {
 const createPost = async (req, res) => {
   const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
 
+  const enrollment = await enrollmentService.getEnrollmentByUserId(user.id);
   await commonAreaService.createPost(
-    user.id,
+    enrollment.personnel_id,
     new Date().toISOString(),
     req.body.text,
     true,
@@ -87,9 +89,10 @@ const getCommentsByPost = async (req, res) => {
 const createComment = async (req, res) => {
   const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
 
+  const enrollment = await enrollmentService.getEnrollmentByUserId(user.id);
   await commonAreaService.createComment(
     req.body.post_id,
-    user.id,
+    enrollment.personnel_id,
     new Date().toISOString(),
     req.body.text,
     true,
