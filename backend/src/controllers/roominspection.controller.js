@@ -48,7 +48,7 @@ const createRoomInspection = async (req, res) => {
   await roomInspectionService.createRoomInspection(
     req.body.timestamp,
     req.body.room_id,
-    1, // Be sure to fill this in.
+    req.body.resident_id,
     enrollment.personnel_id,
     req.body.inspector_name,
     req.body.inspector_remarks,

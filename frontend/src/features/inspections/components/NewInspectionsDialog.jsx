@@ -18,6 +18,7 @@ import {
 
 import getRoom from '@/api/getRooms';
 import createRoomInspection from '@/api/createRoomInspection';
+import getRoomAssignmentsByRoom from '@/api/getRoomAssignmentsByRoom';
 
 const modalStyle = {
   position: 'absolute',
@@ -33,20 +34,30 @@ const modalStyle = {
 
 export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
   const [rooms, setRooms] = React.useState([]);
+  const [personnelInRoom, setPersonnelInRoom] = React.useState([]);
 
   const [resRoom, setRoom] = React.useState(0);
+  const [resPersonId, setPersonId] = React.useState(0);
   const [resTimestamp, setTimestamp] = React.useState(new Date());
   const [resInspectorName, setInspectorName] = React.useState('');
   const [resInspectorRemarks, setInspectorRemarks] = React.useState('');
 
-  React.useState(() => {
+  React.useEffect(() => {
     getRoom().then((responseData) => setRooms(responseData));
-  });
+    if (resRoom > 0) {
+      getRoomAssignmentsByRoom(resRoom).then((roomAssignments) => {
+        const p = [];
+        roomAssignments.map((rm) => p.push(rm.personnelObject));
+        setPersonnelInRoom(p);
+      });
+    }
+  }, [resRoom]);
 
   const submitInspection = () => {
     const data = {
       room_id: resRoom,
       timestamp: resTimestamp.toISOString(),
+      resident_id: resPersonId,
       inspector_name: resInspectorName,
       inspector_remarks: resInspectorRemarks,
     };
@@ -82,6 +93,28 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
                       (${room.buildingObject.building_name})
                     `
                   }
+                </MenuItem>
+              ))
+            }
+          </Select>
+          <InputLabel id="room-selector-label">For Resident</InputLabel>
+          <Select
+            labelId="resident-selector-label"
+            label="Assigned Resident"
+            disabled={personnelInRoom.length === 0}
+            onChange={(event) => { setPersonId(event.target.value); }}
+          >
+            <MenuItem value={0} disabled><em>Please select a resident...</em></MenuItem>
+            {
+              personnelInRoom.map((person) => (
+                <MenuItem value={person.id}>
+                  {
+                   `
+                    ${person.rank}
+                    ${person.first_name}
+                    ${person.last_name}
+                   `
+                 }
                 </MenuItem>
               ))
             }
