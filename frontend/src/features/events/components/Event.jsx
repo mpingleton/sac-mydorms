@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Typography, Card, CardContent } from '@mui/material';
+import { Typography, Card, CardContent, Button } from '@mui/material';
+
+import postEventResponse from '@/api/postEventResponse';
 
 export const Event = ({ eventObject }) => (
   <Card variant="outlined">
@@ -27,6 +29,22 @@ export const Event = ({ eventObject }) => (
           `
         }
       </Typography>
+      <Button
+        variant="contained"
+        onClick={() => {
+          postEventResponse(eventObject.id, 1);
+        }}
+      >
+        Going
+      </Button>
+      <Button
+        variant="contained"
+        onClick={() => {
+          postEventResponse(eventObject.id, 0);
+        }}
+      >
+        Not Going
+      </Button>
     </CardContent>
   </Card>
 );
