@@ -43,9 +43,30 @@ const setResponse = async (req, res) => {
   }
 };
 
+const getResponseCountForEvent = async (req, res) => {
+  const responses = await eventService.getResponsesForEvent(req.params.event_id);
+  const responseObject = {
+    going: 0,
+    notGoing: 0,
+  };
+
+  responses.map((response) => {
+    if (response.response_code === 0) {
+      responseObject.notGoing += 1;
+    } else if (response.response_code === 1) {
+      responseObject.going += 1;
+    }
+
+    return response.response_code;
+  });
+
+  res.send(200, responseObject);
+};
+
 module.exports = {
   getEvents,
   getEventById,
   createEvent,
   setResponse,
+  getResponseCountForEvent,
 };

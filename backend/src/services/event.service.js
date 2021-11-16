@@ -67,9 +67,20 @@ const setResponse = async (
   }
 };
 
+const getResponsesForEvent = async (eventId) => {
+  const responses = await prisma.eventResponses.findMany({
+    where: {
+      event_id: eventId,
+    },
+  });
+
+  return responses;
+};
+
 module.exports = {
   getEvents,
   getEventById,
   createEvent,
   setResponse,
+  getResponsesForEvent,
 };
