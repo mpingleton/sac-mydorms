@@ -23,8 +23,8 @@ export const RegisterForm = ({ onSuccess }) => {
       .then((response) => {
         storage.setToken('access', response.tokens?.access?.token);
         storage.setToken('refresh', response.tokens?.refresh?.token);
-        onSuccess();
-      });
+      })
+      .then(() => onSuccess());
   };
 
   return (
