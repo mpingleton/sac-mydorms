@@ -1,12 +1,17 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Layout } from '../components/Layout';
 import { RegisterForm } from '../components/RegisterForm';
 
-export const Register = () => (
-  <Layout title="Register for an account">
-    <RegisterForm />
-  </Layout>
-);
+export const Register = () => {
+  const navigate = useNavigate();
+
+  return (
+    <Layout title="Register for an account">
+      <RegisterForm onSuccess={() => navigate('/app')} />
+    </Layout>
+  );
+};
 
 export default Register;
