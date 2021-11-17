@@ -151,6 +151,7 @@ const personnelData = [
     last_name: 'Doe',
     phone: '123-456-7891',
     email: 'tony.doe.1@us.af.mil',
+    is_dorm_manager: false,
   },
   {
     base_id: 1,
@@ -160,6 +161,7 @@ const personnelData = [
     last_name: 'Mosely',
     phone: '123-456-7891',
     email: 'james.mosely.10@us.af.mil',
+    is_dorm_manager: false,
   },
   {
     base_id: 1,
@@ -169,6 +171,7 @@ const personnelData = [
     last_name: 'Snuffy',
     phone: '123-456-7891',
     email: 'john.snuffy@us.af.mil',
+    is_dorm_manager: false,
   },
 ];
 
@@ -194,13 +197,6 @@ const roomAssignmentsData = [
   {
     personnel_id: 2,
     room_id: 11,
-  },
-];
-
-const dormManagerAssignmentsData = [
-  {
-    personnel_id: 3,
-    building_id: 1,
   },
 ];
 
@@ -370,14 +366,6 @@ async function main() {
       data: ra,
     });
     console.log(`Assigned person id ${roomAssignment.personnel_id} to room id: ${roomAssignment.room_id}.`);
-  }
-
-  // Seed dorm manager assignments table.
-  for (const da of dormManagerAssignmentsData) {
-    const dormManagerAssignment = await prisma.dormManagerAssignments.create({
-      data: da,
-    });
-    console.log(`Assigned person id ${dormManagerAssignment.personnel_id} to be manager of building id ${dormManagerAssignment.building_id}.`);
   }
 
   // Seed work orders table.

@@ -45,7 +45,6 @@ model Buildings {
 
   base Bases @relation(fields: [base_id], references: [id])
   rooms Rooms[]
-  managers DormManagerAssignments[]
 
 }
 
@@ -74,11 +73,11 @@ model Personnel {
   last_name String
   phone String
   email String
+  is_dorm_manager Boolean
 
   base Bases @relation(fields: [base_id], references: [id])
   userEnrollment Enrollments[]
   roomAssignments RoomAssignments[]
-  managerOf DormManagerAssignments[]
   workOrders WorkOrders[]
   workOrderComments WorkOrderComments[]
   roomInspections RoomInspections[] @relation("RoomOccupant")
@@ -122,17 +121,6 @@ model RoomAssignments {
 
   personnel Personnel @relation(fields: [personnel_id], references: [id])
   room Rooms @relation(fields: [room_id], references: [id])
-
-}
-
-model DormManagerAssignments {
-
-  id Int @id @default(autoincrement())
-  personnel_id Int
-  building_id Int
-
-  personnel Personnel @relation(fields: [personnel_id], references: [id])
-  building Buildings @relation(fields: [building_id], references: [id])
 
 }
 
