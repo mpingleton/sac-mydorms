@@ -26,7 +26,8 @@ const getMessages = async (req, res) => {
 
 const getMyMessages = async (req, res) => {
   const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
-  const messages = await messageService.getMessagesByRecipientId(user.id);
+  const enrollment = await enrollmentService.getEnrollmentByUserId(user.id);
+  const messages = await messageService.getMessagesByRecipientId(enrollment.personnel_id);
 
   const messagePromises = [];
   for (let i = 0; i < messages.length; i += 1) {
