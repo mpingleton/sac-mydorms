@@ -2,15 +2,28 @@ const { ExtractJwt } = require('passport-jwt');
 const httpStatus = require('http-status');
 const omit = require('lodash/omit');
 
+const enrollmentService = require('@/services/enrollment.service');
+
 const catchAsync = require('@/utils/catchAsync');
 const {
   authService, userService, tokenService,
 } = require('@/services');
 
 const register = catchAsync(async (req, res) => {
-  const user = await userService.createUser(req.body);
-  const tokens = await tokenService.generateAuthTokens(user);
-  res.status(httpStatus.CREATED).send({ user, tokens });
+  // Check req.body.code for a registration code.
+  // Ensure that pending enrollment exists.
+  const pendingEnrollment = await enrollmentService.getPendingEnrollmentByCode(req.body.code);
+  if (pendingEnrollment === null) {
+    res.send(400, 'The registration code provided is invalid.');
+  } else {
+    const user = await userService.createUser(req.body);
+    // Create the enrollment and delete the pending code.
+    await enrollmentService.deletePendingEnrollment(pendingEnrollment.id);
+    await enrollmentService.createEnrollment(user.id, pendingEnrollment.personnel_id);
+    // const tokens = await tokenService.generateAuthTokens(user);
+    // res.status(httpStatus.CREATED).send({ user, tokens });
+    res.send(httpStatus.CREATED);
+  }
 });
 
 const login = catchAsync(async (req, res) => {

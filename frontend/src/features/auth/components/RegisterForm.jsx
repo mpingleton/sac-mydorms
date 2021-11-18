@@ -6,16 +6,18 @@ import Button from '@mui/material/Button';
 
 import registerCall from '../api/register';
 
-export const RegisterForm = ({ onSuccess }) => {
+export const RegisterForm = ({ onSuccess, onCancel }) => {
   const [resName, setName] = React.useState('');
   const [resEmail, setEmail] = React.useState('');
   const [resPassword, setPassword] = React.useState('');
+  const [resRegCode, setRegCode] = React.useState('');
 
   const submit = () => {
     const data = {
       name: resName,
       email: resEmail,
       password: resPassword,
+      code: resRegCode,
     };
 
     registerCall(data).then(() => onSuccess());
@@ -40,10 +42,15 @@ export const RegisterForm = ({ onSuccess }) => {
         fullWidth
         onChange={(event) => setPassword(event.target.value)}
       />
+      <TextField
+        label="Registration Code"
+        fullWidth
+        onChange={(event) => setRegCode(event.target.value)}
+      />
       <Stack direction="row" spacing={1}>
         <Button
           variant="contained"
-          onClick={() => {}}
+          onClick={() => onCancel()}
           fullWidth
         >
           Cancel
@@ -62,10 +69,12 @@ export const RegisterForm = ({ onSuccess }) => {
 
 RegisterForm.propTypes = {
   onSuccess: PropTypes.func,
+  onCancel: PropTypes.func,
 };
 
 RegisterForm.defaultProps = {
   onSuccess: () => {},
+  onCancel: () => {},
 };
 
 export default RegisterForm;
