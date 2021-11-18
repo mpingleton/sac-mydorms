@@ -5,7 +5,6 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 import registerCall from '../api/register';
-import storage from '@/utils/storage';
 
 export const RegisterForm = ({ onSuccess }) => {
   const [resName, setName] = React.useState('');
@@ -19,12 +18,7 @@ export const RegisterForm = ({ onSuccess }) => {
       password: resPassword,
     };
 
-    registerCall(data)
-      .then((response) => {
-        storage.setToken('access', response.tokens?.access?.token);
-        storage.setToken('refresh', response.tokens?.refresh?.token);
-      })
-      .then(() => onSuccess());
+    registerCall(data).then(() => onSuccess());
   };
 
   return (
