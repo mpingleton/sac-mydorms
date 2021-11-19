@@ -59,10 +59,29 @@ const deletePendingEnrollment = async (id) => {
   });
 };
 
+const createPendingEnrollment = async (personnelId, registrationCode) => {
+  await prisma.pendingEnrollments.create({
+    data: {
+      personnel_id: personnelId,
+      registration_code: registrationCode,
+    },
+  });
+};
+
+const deletePendingEnrollmentsForPersonnel = async (personnelId) => {
+  await prisma.pendingEnrollments.delete({
+    where: {
+      personnel_id: personnelId,
+    },
+  });
+};
+
 module.exports = {
   getEnrollments,
   getEnrollmentByUserId,
   createEnrollment,
   getPendingEnrollmentByCode,
   deletePendingEnrollment,
+  createPendingEnrollment,
+  deletePendingEnrollmentsForPersonnel,
 };

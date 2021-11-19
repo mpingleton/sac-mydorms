@@ -13,7 +13,14 @@ const enrollCurrentUserUsingCode = {
   }),
 };
 
+const createPendingEnrollment = {
+  body: Joi.object().keys({
+    personnelId: Joi.number().integer().required(),
+  }),
+};
+
 module.exports = {
   createEnrollment,
   enrollCurrentUserUsingCode,
+  createPendingEnrollment,
 };

@@ -33,4 +33,11 @@ router.post(
   enrollmentController.enrollCurrentUserUsingCode,
 );
 
+router.put(
+  '/pending',
+  auth(),
+  validate(enrollmentValidation.createPendingEnrollment),
+  enrollmentController.createPendingEnrollment,
+);
+
 module.exports = router;

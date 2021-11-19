@@ -1,3 +1,6 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-constant-condition */
+
 const { ExtractJwt } = require('passport-jwt');
 
 const { authService } = require('@/services');
@@ -40,8 +43,33 @@ const enrollCurrentUserUsingCode = async (req, res) => {
     res.send(200, { id: -1 });
   } else {
     await enrollmentService.createEnrollment(user.id, pendingEnrollment.personnel_id);
-    await enrollmentService.deletePendingEnrollment(pendingEnrollment.id);
+    await enrollmentService.deletePendingEnrollmentsForPersonnel(pendingEnrollment.personnel_id);
     res.send(200);
+  }
+};
+
+const createPendingEnrollment = async (req, res) => {
+  while (1) {
+    // Create a code randomly.
+    const characterSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let regCode = '';
+    for (let i = 0; i < 10; i += 1) {
+      const charIndex = Math.floor(Math.random() * characterSet.length);
+      regCode += characterSet[charIndex];
+    }
+
+    // Check for an existing one.
+    const existingEnrollment = await enrollmentService.getPendingEnrollmentByCode(regCode);
+
+    // Create it in the database.
+    if (existingEnrollment === null) {
+      await enrollmentService.createPendingEnrollment(req.body.personnelId, regCode);
+      res.send(201, {
+        personnelId: req.body.personnelId,
+        registrationCode: regCode,
+      });
+      break;
+    }
   }
 };
 
@@ -50,4 +78,5 @@ module.exports = {
   getMyEnrollment,
   createEnrollment,
   enrollCurrentUserUsingCode,
+  createPendingEnrollment,
 };
