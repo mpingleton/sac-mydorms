@@ -33,6 +33,7 @@ export const NewResidentDialog = ({ modalOpen, onClose }) => {
       last_name: resLastName,
       email: resEmail,
       phone: resPhone,
+      is_dorm_manager: false,
     };
     createResident(data).then(() => {
       onClose();
