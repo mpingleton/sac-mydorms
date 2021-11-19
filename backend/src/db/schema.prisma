@@ -106,7 +106,7 @@ model Enrollments {
 model PendingEnrollments {
 
   id Int @id @default(autoincrement())
-  personnel_id Int
+  personnel_id Int @unique
   registration_code String @unique
 
   personnel Personnel @relation(fields: [personnel_id], references: [id])
