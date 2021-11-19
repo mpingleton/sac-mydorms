@@ -19,8 +19,15 @@ const createPendingEnrollment = {
   }),
 };
 
+const getPendingEnrollmentForPerson = {
+  params: Joi.object().keys({
+    personnelId: Joi.number().integer().required(),
+  }),
+};
+
 module.exports = {
   createEnrollment,
   enrollCurrentUserUsingCode,
   createPendingEnrollment,
+  getPendingEnrollmentForPerson,
 };

@@ -51,6 +51,22 @@ const getPendingEnrollmentByCode = async (registrationCode) => {
   return result;
 };
 
+const getPendingEnrollmentForPerson = async (personnelId) => {
+  const enrollments = await prisma.pendingEnrollments.findMany({
+    where: {
+      personnel_id: personnelId,
+    },
+  });
+
+  let result = null;
+  if (enrollments.length === 1) {
+    const firstIndex = 0;
+    result = enrollments[firstIndex];
+  }
+
+  return result;
+};
+
 const deletePendingEnrollment = async (id) => {
   await prisma.pendingEnrollments.delete({
     where: {
@@ -81,6 +97,7 @@ module.exports = {
   getEnrollmentByUserId,
   createEnrollment,
   getPendingEnrollmentByCode,
+  getPendingEnrollmentForPerson,
   deletePendingEnrollment,
   createPendingEnrollment,
   deletePendingEnrollmentsForPersonnel,

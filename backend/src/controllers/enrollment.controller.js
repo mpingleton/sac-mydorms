@@ -73,10 +73,26 @@ const createPendingEnrollment = async (req, res) => {
   }
 };
 
+const getPendingEnrollmentForPerson = async (req, res) => {
+  const pendingEnrollment = await enrollmentService.getPendingEnrollmentForPerson(
+    req.params.personnelId,
+  );
+
+  if (pendingEnrollment === null) {
+    res.send(200, { personnelId: req.params.personnelId });
+  } else {
+    res.send(200, {
+      personnelId: pendingEnrollment.personnel_id,
+      registrationCode: pendingEnrollment.registration_code,
+    });
+  }
+};
+
 module.exports = {
   getEnrollments,
   getMyEnrollment,
   createEnrollment,
   enrollCurrentUserUsingCode,
   createPendingEnrollment,
+  getPendingEnrollmentForPerson,
 };

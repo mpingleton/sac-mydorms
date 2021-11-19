@@ -40,4 +40,11 @@ router.put(
   enrollmentController.createPendingEnrollment,
 );
 
+router.get(
+  '/pending/:personnelId',
+  auth(),
+  validate(enrollmentValidation.getPendingEnrollmentForPerson),
+  enrollmentController.getPendingEnrollmentForPerson,
+);
+
 module.exports = router;
