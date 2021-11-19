@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { Button, Box, Modal, Stack, Typography } from '@mui/material';
 
 import getResidentById from '@/api/getResidentById';
+import createPendingEnrollment from '@/api/createPendingEnrollment';
+import getPendingEnrollmentForPerson from '@/api/getPendingEnrollmentForPerson';
 
 const modalStyle = {
   position: 'absolute',
@@ -19,10 +21,13 @@ const modalStyle = {
 
 export const ViewResidentDetailsDialog = ({ modalOpen, onClose, residentId }) => {
   const [resident, setResident] = React.useState({});
+  const [pendingEnrollment, setPendingEnrollment] = React.useState({});
 
   React.useEffect(() => {
     if (resident.id !== residentId && residentId > 0) {
       getResidentById(residentId).then((responseData) => setResident(responseData));
+      getPendingEnrollmentForPerson(residentId)
+        .then((responseData) => setPendingEnrollment(responseData));
     }
   });
 
@@ -52,6 +57,22 @@ export const ViewResidentDetailsDialog = ({ modalOpen, onClose, residentId }) =>
           <Stack direction="row" spacing={1}>
             <Typography>Email:</Typography>
             <Typography>{resident.email}</Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <Typography>Enrollment: </Typography>
+            <Typography>
+              {pendingEnrollment.registrationCode}
+            </Typography>
+            <Button
+              variant="contained"
+              disabled={pendingEnrollment.registrationCode !== undefined}
+              onClick={() => {
+                createPendingEnrollment(residentId)
+                  .then((responseData) => setPendingEnrollment(responseData));
+              }}
+            >
+              Create
+            </Button>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Close</Button>
