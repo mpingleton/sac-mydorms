@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Typography } from '@mui/material';
+import { Typography, Stack } from '@mui/material';
 
 import { ContentLayout } from '@/components/layout';
 import { useAuth } from '@/lib/auth';
@@ -10,7 +10,17 @@ export const Dashboard = () => {
 
   return (
     <ContentLayout title="Dashboard">
-      <Typography>{`Hello ${user?.name}!`}</Typography>
+      <Stack direction="column" spacing={1}>
+        <Typography>{`Hello ${user.name}!`}</Typography>
+        <Stack direction="row" spacing={1}>
+          <Typography>First card.</Typography>
+          <Typography>Second card.</Typography>
+        </Stack>
+        <Stack direction="row" spacing={1}>
+          <Typography>Third card.</Typography>
+          <Typography>Fourth card.</Typography>
+        </Stack>
+      </Stack>
     </ContentLayout>
   );
 };
