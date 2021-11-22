@@ -21,13 +21,6 @@ const users = [
     isEmailVerified: false,
   },
   {
-    email: 'tony@prisma.io',
-    password: '123',
-    role: 'USER',
-    name: 'Tony',
-    isEmailVerified: false,
-  },
-  {
     email: 'ezekiel@prisma.io',
     password: '123',
     role: 'USER',
@@ -103,8 +96,16 @@ const personnel = [
 
 const enrollments = [
   {
-    user_id: 5,
+    user_id: 4,
     personnel_id: 4,
+  },
+  {
+    user_id: 3,
+    personnel_id: 3,
+  },
+  {
+    user_id: 1,
+    personnel_id: 2,
   },
 ];
 
