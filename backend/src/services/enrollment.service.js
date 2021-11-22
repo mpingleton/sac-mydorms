@@ -23,6 +23,22 @@ const getEnrollmentByUserId = async (userId) => {
   return result;
 };
 
+const getEnrollmentByPersonnelId = async (personnelId) => {
+  const enrollments = await prisma.enrollments.findMany({
+    where: {
+      personnel_id: personnelId,
+    },
+  });
+
+  let result = null;
+  if (enrollments.length === 1) {
+    const firstIndex = 0;
+    result = enrollments[firstIndex];
+  }
+
+  return result;
+};
+
 const createEnrollment = async (
   userId,
   personnelId,
@@ -51,6 +67,22 @@ const getPendingEnrollmentByCode = async (registrationCode) => {
   return result;
 };
 
+const getPendingEnrollmentForPerson = async (personnelId) => {
+  const enrollments = await prisma.pendingEnrollments.findMany({
+    where: {
+      personnel_id: personnelId,
+    },
+  });
+
+  let result = null;
+  if (enrollments.length === 1) {
+    const firstIndex = 0;
+    result = enrollments[firstIndex];
+  }
+
+  return result;
+};
+
 const deletePendingEnrollment = async (id) => {
   await prisma.pendingEnrollments.delete({
     where: {
@@ -59,10 +91,31 @@ const deletePendingEnrollment = async (id) => {
   });
 };
 
+const createPendingEnrollment = async (personnelId, registrationCode) => {
+  await prisma.pendingEnrollments.create({
+    data: {
+      personnel_id: personnelId,
+      registration_code: registrationCode,
+    },
+  });
+};
+
+const deletePendingEnrollmentsForPersonnel = async (personnelId) => {
+  await prisma.pendingEnrollments.delete({
+    where: {
+      personnel_id: personnelId,
+    },
+  });
+};
+
 module.exports = {
   getEnrollments,
   getEnrollmentByUserId,
+  getEnrollmentByPersonnelId,
   createEnrollment,
   getPendingEnrollmentByCode,
+  getPendingEnrollmentForPerson,
   deletePendingEnrollment,
+  createPendingEnrollment,
+  deletePendingEnrollmentsForPersonnel,
 };

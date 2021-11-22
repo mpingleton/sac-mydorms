@@ -6,6 +6,7 @@ const register = {
     email: Joi.string().email().required(),
     password: Joi.string().required().custom(password),
     name: Joi.string().required(),
+    code: Joi.string().required(),
   }),
 };
 

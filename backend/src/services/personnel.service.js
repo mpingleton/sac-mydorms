@@ -24,6 +24,7 @@ const createPersonnel = async (
   lastName,
   phoneNumber,
   emailAddress,
+  isDormManager,
 ) => {
   await prisma.personnel.create({
     data: {
@@ -34,6 +35,7 @@ const createPersonnel = async (
       last_name: lastName,
       phone: phoneNumber,
       email: emailAddress,
+      is_dorm_manager: isDormManager,
     },
   });
 };

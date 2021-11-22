@@ -14,6 +14,12 @@ router.get(
 );
 
 router.get(
+  '/personnel/:personnelId',
+  auth(),
+  enrollmentController.getEnrollmentForPerson,
+);
+
+router.get(
   '/my',
   auth(),
   enrollmentController.getMyEnrollment,
@@ -31,6 +37,20 @@ router.post(
   auth(),
   validate(enrollmentValidation.enrollCurrentUserUsingCode),
   enrollmentController.enrollCurrentUserUsingCode,
+);
+
+router.put(
+  '/pending',
+  auth(),
+  validate(enrollmentValidation.createPendingEnrollment),
+  enrollmentController.createPendingEnrollment,
+);
+
+router.get(
+  '/pending/:personnelId',
+  auth(),
+  validate(enrollmentValidation.getPendingEnrollmentForPerson),
+  enrollmentController.getPendingEnrollmentForPerson,
 );
 
 module.exports = router;

@@ -43,8 +43,10 @@ const createUser = async (userData) => {
   }
   // Role of new user
   let userRole;
-  if (userData.role.toUpperCase === 'ADMIN') {
-    userRole = prisma.user.role.ADMIN;
+  if (userData.role !== undefined) {
+    if (userData.role.toUpperCase === 'ADMIN') {
+      userRole = prisma.user.role.ADMIN;
+    }
   }
 
   const data = {
@@ -57,7 +59,8 @@ const createUser = async (userData) => {
   };
   // console.dir(userData);
 
-  await prisma.user.create({ data });
+  const user = await prisma.user.create({ data });
+  return user;
 };
 
 /**

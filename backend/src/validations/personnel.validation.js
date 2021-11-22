@@ -15,6 +15,7 @@ const putPersonnel = {
       last_name: Joi.string().required(),
       phone: Joi.string().required(),
       email: Joi.string().email().required(),
+      is_dorm_manager: Joi.boolean().required(),
     }).min(1),
 };
 

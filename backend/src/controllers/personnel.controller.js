@@ -27,6 +27,7 @@ const createPersonnel = async (req, res) => {
     req.body.last_name,
     req.body.phone,
     req.body.email,
+    req.body.is_dorm_manager,
   );
   res.send(200);
 };

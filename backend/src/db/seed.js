@@ -103,14 +103,6 @@ const personnel = [
 
 const enrollments = [
   {
-    user_id: 1,
-    personnel_id: 2,
-  },
-  {
-    user_id: 4,
-    personnel_id: 3,
-  },
-  {
     user_id: 5,
     personnel_id: 4,
   },
@@ -119,7 +111,7 @@ const enrollments = [
 const pendingEnrollments = [
   {
     personnel_id: 1,
-    registration_code: 'A5AJX',
+    registration_code: '8KDM33JMKD',
   },
 ];
 
