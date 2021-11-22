@@ -2,14 +2,29 @@
 /* eslint-disable no-constant-condition */
 
 const { ExtractJwt } = require('passport-jwt');
-
+const omit = require('lodash/omit');
 const { authService } = require('@/services');
 const enrollmentService = require('@/services/enrollment.service');
 const personnelService = require('@/services/personnel.service');
+const userService = require('@/services/user.service');
 
 const getEnrollments = async (req, res) => {
   const enrollments = await enrollmentService.getEnrollments();
   res.send(200, enrollments);
+};
+
+const getEnrollmentForPerson = async (req, res) => {
+  const enrollment = await enrollmentService.getEnrollmentByPersonnelId(
+    parseInt(req.params.personnelId, 10),
+  );
+  if (enrollment === null) {
+    res.send(200, { id: -1 });
+  } else {
+    const user = await userService.getUserById(enrollment.user_id);
+    enrollment.userObject = omit(user, ['password', 'iat']);
+    enrollment.personnelObject = await personnelService.getPersonnelById(enrollment.personnel_id);
+    res.send(200, enrollment);
+  }
 };
 
 const getMyEnrollment = async (req, res) => {
@@ -79,9 +94,10 @@ const getPendingEnrollmentForPerson = async (req, res) => {
   );
 
   if (pendingEnrollment === null) {
-    res.send(200, { personnelId: req.params.personnelId });
+    res.send(200, { id: -1 });
   } else {
     res.send(200, {
+      id: pendingEnrollment.id,
       personnelId: pendingEnrollment.personnel_id,
       registrationCode: pendingEnrollment.registration_code,
     });
@@ -90,6 +106,7 @@ const getPendingEnrollmentForPerson = async (req, res) => {
 
 module.exports = {
   getEnrollments,
+  getEnrollmentForPerson,
   getMyEnrollment,
   createEnrollment,
   enrollCurrentUserUsingCode,

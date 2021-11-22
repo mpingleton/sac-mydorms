@@ -23,6 +23,22 @@ const getEnrollmentByUserId = async (userId) => {
   return result;
 };
 
+const getEnrollmentByPersonnelId = async (personnelId) => {
+  const enrollments = await prisma.enrollments.findMany({
+    where: {
+      personnel_id: personnelId,
+    },
+  });
+
+  let result = null;
+  if (enrollments.length === 1) {
+    const firstIndex = 0;
+    result = enrollments[firstIndex];
+  }
+
+  return result;
+};
+
 const createEnrollment = async (
   userId,
   personnelId,
@@ -95,6 +111,7 @@ const deletePendingEnrollmentsForPersonnel = async (personnelId) => {
 module.exports = {
   getEnrollments,
   getEnrollmentByUserId,
+  getEnrollmentByPersonnelId,
   createEnrollment,
   getPendingEnrollmentByCode,
   getPendingEnrollmentForPerson,

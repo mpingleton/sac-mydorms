@@ -1,5 +1,11 @@
 const Joi = require('joi');
 
+const getEnrollmentForPerson = {
+  params: Joi.object().keys({
+    personnelId: Joi.number().integer().required(),
+  }),
+};
+
 const createEnrollment = {
   body: Joi.object().keys({
     userId: Joi.number().integer().required(),
@@ -26,6 +32,7 @@ const getPendingEnrollmentForPerson = {
 };
 
 module.exports = {
+  getEnrollmentForPerson,
   createEnrollment,
   enrollCurrentUserUsingCode,
   createPendingEnrollment,

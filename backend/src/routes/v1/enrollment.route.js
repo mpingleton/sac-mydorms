@@ -14,6 +14,12 @@ router.get(
 );
 
 router.get(
+  '/personnel/:personnelId',
+  auth(),
+  enrollmentController.getEnrollmentForPerson,
+);
+
+router.get(
   '/my',
   auth(),
   enrollmentController.getMyEnrollment,
