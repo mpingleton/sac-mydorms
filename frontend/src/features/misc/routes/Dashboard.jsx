@@ -10,15 +10,29 @@ export const Dashboard = () => {
 
   return (
     <ContentLayout title="Dashboard">
-      <Stack direction="column" spacing={1}>
+      <Stack
+        direction="column"
+        alignItems="center"
+        justifyContent="space-around"
+        sx={{ height: '100%' }}
+      >
         <Typography>
           {`Hello ${user.name}, this is how the dashboard is starting to look!`}
         </Typography>
-        <Stack direction="row" spacing={1}>
+        <Stack
+          direction="row"
+          justifyContent="space-around"
+          sx={{ width: '100%' }}
+        >
           <Typography>First card.</Typography>
           <Typography>Second card.</Typography>
+          <Typography>Fifth card.</Typography>
         </Stack>
-        <Stack direction="row" spacing={1}>
+        <Stack
+          direction="row"
+          justifyContent="space-around"
+          sx={{ width: '100%' }}
+        >
           <Typography>Third card.</Typography>
           <Typography>Fourth card.</Typography>
         </Stack>
