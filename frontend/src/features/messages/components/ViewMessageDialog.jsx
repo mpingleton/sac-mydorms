@@ -21,7 +21,9 @@ export const ViewMessageDialog = ({ modalOpen, onClose, messageId }) => {
   const [message, setMessage] = React.useState({});
 
   React.useEffect(() => {
-    getMessageById(messageId).then((data) => setMessage(data));
+    if (messageId > 0) {
+      getMessageById(messageId).then((data) => setMessage(data));
+    }
   }, [messageId]);
 
   if (message.id === undefined) {
