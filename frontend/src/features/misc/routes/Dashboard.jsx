@@ -5,6 +5,9 @@ import { Typography, Stack } from '@mui/material';
 import { ContentLayout } from '@/components/layout';
 import { useAuth } from '@/lib/auth';
 import { WorkOrder } from '../components/WorkOrder';
+import { Inspection } from '../components/Inspection';
+import { CommonArea } from '../components/CommonArea';
+import { Events } from '../components/Events';
 
 export const Dashboard = () => {
   const { user } = useAuth();
@@ -26,16 +29,15 @@ export const Dashboard = () => {
           sx={{ width: '100%' }}
         >
           <WorkOrder />
-          <Typography>Second card.</Typography>
-          <Typography>Fifth card.</Typography>
+          <Inspection />
         </Stack>
         <Stack
           direction="row"
           justifyContent="space-evenly"
           sx={{ width: '100%' }}
         >
-          <Typography>Third card.</Typography>
-          <Typography>Fourth card.</Typography>
+          <CommonArea />
+          <Events />
         </Stack>
       </Stack>
     </ContentLayout>
