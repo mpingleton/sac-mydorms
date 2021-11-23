@@ -13,7 +13,7 @@ export const Dashboard = () => {
       <Stack
         direction="column"
         alignItems="center"
-        justifyContent="space-around"
+        justifyContent="space-evenly"
         sx={{ height: '100%' }}
       >
         <Typography>
@@ -21,7 +21,7 @@ export const Dashboard = () => {
         </Typography>
         <Stack
           direction="row"
-          justifyContent="space-around"
+          justifyContent="space-evenly"
           sx={{ width: '100%' }}
         >
           <Typography>First card.</Typography>
@@ -30,7 +30,7 @@ export const Dashboard = () => {
         </Stack>
         <Stack
           direction="row"
-          justifyContent="space-around"
+          justifyContent="space-evenly"
           sx={{ width: '100%' }}
         >
           <Typography>Third card.</Typography>
