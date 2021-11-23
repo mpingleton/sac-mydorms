@@ -19,7 +19,7 @@ const getRoomInspectionById = async (id) => {
 const createRoomInspection = async (
   timestamp,
   roomId,
-  personnelId,
+  residentId,
   dormManagerId,
   inspectorName,
   inspectorRemarks,
@@ -27,7 +27,7 @@ const createRoomInspection = async (
   const data = {
     timestamp,
     room_id: roomId,
-    personnel_id: personnelId,
+    resident_id: residentId,
     dorm_manager_id: dormManagerId,
     inspector_name: inspectorName,
     inspector_remarks: inspectorRemarks,

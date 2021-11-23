@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
-import getWorkOrders from '../api/getWorkOrders';
+import getWorkOrders from '@/api/getWorkOrders';
 
 export const WorkOrderList = ({ onSelectionChange }) => {
   const [workOrders, setWorkOrders] = React.useState([]);
@@ -38,7 +38,7 @@ export const WorkOrderList = ({ onSelectionChange }) => {
     return {
       id: workOrder.id,
       room: workOrder.roomObject.room_number,
-      building: workOrder.roomObject.building_name,
+      building: workOrder.roomObject.buildingObject.building_name,
       subject: workOrder.subject,
       remarks: workOrder.creator_remarks,
       status: statusString,
@@ -46,7 +46,7 @@ export const WorkOrderList = ({ onSelectionChange }) => {
   });
 
   return (
-    <Box sx={{ height: '400px', width: '100%' }}>
+    <Box sx={{ width: '100%', height: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}

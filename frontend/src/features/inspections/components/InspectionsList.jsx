@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
-import getRoomInspections from '../api/getRoomInspections';
+import getRoomInspections from '@/api/getRoomInspections';
 
 export const InspectionsList = ({ onSelectionChange }) => {
   const [roomInspections, setRoomInspections] = React.useState([]);
@@ -16,7 +16,7 @@ export const InspectionsList = ({ onSelectionChange }) => {
   });
 
   const columns = [
-    { field: 'date', headerName: 'Date', width: 150 },
+    { field: 'date', headerName: 'Date', width: 200 },
     { field: 'room', headerName: 'Room', width: 100 },
     { field: 'resident', headerName: 'Resident', width: 200 },
     { field: 'dorm_manager', headerName: 'Dorm Manager', width: 200 },
@@ -26,12 +26,12 @@ export const InspectionsList = ({ onSelectionChange }) => {
   const rows = roomInspections.map((inspection) => (
     {
       id: inspection.id,
-      date: inspection.timestamp,
+      date: new Date(inspection.timestamp).toLocaleString(),
       room: inspection.roomObject.room_number,
       resident: `
-        ${inspection.personnelObject.rank}
-        ${inspection.personnelObject.last_name},
-        ${inspection.personnelObject.first_name}
+        ${inspection.residentPersonnelObject.rank}
+        ${inspection.residentPersonnelObject.last_name},
+        ${inspection.residentPersonnelObject.first_name}
       `,
       dorm_manager: `
         ${inspection.dormManagerPersonnelObject.rank}
@@ -43,7 +43,7 @@ export const InspectionsList = ({ onSelectionChange }) => {
   ));
 
   return (
-    <Box sx={{ height: '400px', width: '100%' }}>
+    <Box sx={{ height: '100%', width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}

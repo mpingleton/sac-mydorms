@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 
 import { Button, Box, Modal, Stack, Typography } from '@mui/material';
 
-import getResidentById from '../api/getResidentById';
+import { EnrollmentDetails } from './EnrollmentDetails';
+
+import getResidentById from '@/api/getResidentById';
 
 const modalStyle = {
   position: 'absolute',
@@ -53,6 +55,7 @@ export const ViewResidentDetailsDialog = ({ modalOpen, onClose, residentId }) =>
             <Typography>Email:</Typography>
             <Typography>{resident.email}</Typography>
           </Stack>
+          <EnrollmentDetails personnelId={resident.id} />
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Close</Button>
           </Stack>

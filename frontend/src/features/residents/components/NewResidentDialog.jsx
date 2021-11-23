@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Box, Modal, Button, TextField, Stack } from '@mui/material';
+import { Box, Modal, Button, TextField, Stack, Typography } from '@mui/material';
 
-import createResident from '../api/createResident';
+import createResident from '@/api/createResident';
 
 const modalStyle = {
   position: 'absolute',
@@ -33,6 +33,7 @@ export const NewResidentDialog = ({ modalOpen, onClose }) => {
       last_name: resLastName,
       email: resEmail,
       phone: resPhone,
+      is_dorm_manager: false,
     };
     createResident(data).then(() => {
       onClose();
@@ -48,6 +49,7 @@ export const NewResidentDialog = ({ modalOpen, onClose }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
+          <Typography variant="h6" style={{ marginLeft: 'auto', marginRight: 'auto' }}>New Resident</Typography>
           <TextField
             id="new-resident-rank"
             label="Rank"

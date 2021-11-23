@@ -27,7 +27,7 @@ export const WorkOrders = () => {
         onClose={() => setViewWorkOrderDialogOpen(false)}
         workOrderId={currentWorkOrderListSelection[0]}
       />
-      <Stack direction="column" spacing={1}>
+      <Stack direction="column" spacing={1} sx={{ width: '100%', height: '100%' }}>
         <Stack direction="row" spacing={1}>
           <Button
             variant="contained"

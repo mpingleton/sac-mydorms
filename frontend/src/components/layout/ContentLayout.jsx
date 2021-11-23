@@ -1,16 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Box, Stack, Typography } from '@mui/material';
+
 import { Head } from '@/components/elements/Head';
 
 export const ContentLayout = ({ children, title }) => (
-  <>
+  <Box sx={{ width: '100%', height: '100%' }}>
     <Head title={title} />
-    <div>
-      <h2>{title}</h2>
+    <Stack direction="column" sx={{ width: '100%', height: '100%' }}>
+      <Box sx={{ width: '100%', height: '15px' }} />
+      <Typography variant="h5" sx={{ marginLeft: 'auto', marginRight: 'auto' }}>{title}</Typography>
       {children}
-    </div>
-  </>
+    </Stack>
+  </Box>
 );
 
 ContentLayout.propTypes = {

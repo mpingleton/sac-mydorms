@@ -7,7 +7,7 @@ import { UsersList } from '../components/UsersList';
 
 export const Users = () => (
   <ContentLayout title="Users">
-    <div>
+    <div style={{ width: '100%', height: '100%' }}>
       <Authorization
         forbiddenFallback={<div>Only admin can view this.</div>}
         allowedRoles={[ROLES.ADMIN]}

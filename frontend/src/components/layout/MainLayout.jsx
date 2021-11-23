@@ -1,19 +1,39 @@
+/* eslint-disable no-else-return */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
-import { Container, Stack, Box, AppBar, Toolbar, IconButton, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Button, Stack, Box, AppBar, Toolbar, IconButton, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
 import { Menu as MenuIcon, AccountBox as AccountBoxIcon, NavigateBefore as BackIcon, NavigateNext as ForwardIcon } from '@mui/icons-material';
 
 import { useAuth } from '@/lib/auth';
 import { useAuthorization, ROLES } from '@/lib/authorization';
 
+import getMyEnrollment from '@/api/getMyEnrollment';
+
 export const MainLayout = ({ children }) => {
   const [leftDrawerIsOpen, setLeftDrawerPosition] = React.useState(false);
   const [rightDrawerIsOpen, setRightDrawerPosition] = React.useState(false);
+  const [userEnrollment, setUserEnrollment] = React.useState({});
 
   const { checkAccess } = useAuthorization();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    getMyEnrollment().then((responseData) => setUserEnrollment(responseData));
+  }, [user.id]);
+
+  if (userEnrollment.id === undefined) {
+    return (<Typography>Loading...</Typography>);
+  } else if (userEnrollment.id < 0) {
+    return (
+      <Stack direction="row" spacing={1}>
+        <Typography>ERROR: This account is not properly registered.</Typography>
+        <Button variant="contained" onClick={() => logout()}>Logout</Button>
+      </Stack>
+    );
+  }
 
   const drawerWidth = 240;
 
@@ -58,8 +78,8 @@ export const MainLayout = ({ children }) => {
   ].filter(Boolean);
 
   return (
-    <Container disableGutters maxWidth={false}>
-      <Stack>
+    <Stack direction="column" sx={{ width: '100vw', height: '100vh' }}>
+      <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" sx={{ zIndex: 1 }}>
           <Toolbar>
             <IconButton edge="start" color="inherit" sx={{ marginRight: 'auto' }} onClick={openLeftDrawer}>
@@ -132,9 +152,9 @@ export const MainLayout = ({ children }) => {
             </List>
           </Box>
         </Drawer>
-      </Stack>
+      </Box>
       {children}
-    </Container>
+    </Stack>
   );
 };
 

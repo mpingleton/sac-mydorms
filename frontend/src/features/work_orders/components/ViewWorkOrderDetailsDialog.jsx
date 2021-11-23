@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { Button, Box, Modal, Stack, Typography, TextField, Select, InputLabel, MenuItem } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
-import getWorkOrderById from '../api/getWorkOrderById';
-import getCommentsByWorkOrderId from '../api/getCommentsByWorkOrderId';
-import createWorkOrderComment from '../api/createWorkOrderComment';
-import getPersonnelById from '../api/getPersonnelById';
-import updateWorkOrderStatus from '../api/updateWorkOrderStatus';
+import getWorkOrderById from '@/api/getWorkOrderById';
+import getCommentsByWorkOrderId from '@/api/getCommentsByWorkOrderId';
+import createWorkOrderComment from '@/api/createWorkOrderComment';
+import getPersonnelById from '@/api/getPersonnelById';
+import updateWorkOrderStatus from '@/api/updateWorkOrderStatus';
 
 const modalStyle = {
   position: 'absolute',
@@ -81,8 +81,8 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
   const commentRows = workOrderComments.map((comment) => (
     {
       id: comment.id,
-      by: comment.personnel_id,
-      timestamp: comment.timestamp,
+      by: `${comment.personnelObject.rank} ${comment.personnelObject.first_name} ${comment.personnelObject.last_name}`,
+      timestamp: new Date(comment.timestamp).toLocaleString(),
       comment: comment.comment,
     }
   ));
@@ -102,7 +102,14 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Room:</Typography>
-            <Typography>{`${workOrder.roomObject.room_number} (${workOrder.roomObject.building_name})`}</Typography>
+            <Typography>
+              {
+                `
+                ${workOrder.roomObject.room_number}
+                (${workOrder.roomObject.buildingObject.building_name})
+                `
+              }
+            </Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Created by:</Typography>
@@ -114,7 +121,7 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
               }
             </Typography>
             <Typography>at:</Typography>
-            <Typography>{workOrder.created_timestamp}</Typography>
+            <Typography>{new Date(workOrder.created_timestamp).toLocaleString()}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Remarks:</Typography>
@@ -153,7 +160,8 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
           <Stack direction="row" spacing={1}>
             <TextField
               id="new-work-order-comment"
-              label="Comment"
+              label={`Comment: (${newWorkOrderComment.length}/250)`}
+              error={newWorkOrderComment.length > 250}
               variant="standard"
               multiline
               maxRows={3}
@@ -161,7 +169,7 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
               onChange={(event) => { setNewWorkOrderComment(event.target.value); }}
               sx={{ width: '100%' }}
             />
-            <Button variant="contained" onClick={submitComment} disabled={newWorkOrderComment.length === 0}>Send</Button>
+            <Button variant="contained" onClick={submitComment} disabled={newWorkOrderComment.length === 0 || newWorkOrderComment.length > 250}>Send</Button>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Close</Button>

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 import { Button, Box, Modal, Stack, Typography } from '@mui/material';
 
-import getRoomById from '../api/getRoomById';
+import getRoomById from '@/api/getRoomById';
+import getRoomAssignmentsByRoom from '@/api/getRoomAssignmentsByRoom';
 
 const modalStyle = {
   position: 'absolute',
@@ -22,13 +23,30 @@ export const ViewRoomDetailsDialog = ({ modalOpen, onClose, roomId }) => {
 
   React.useEffect(() => {
     if (room.id !== roomId && roomId > 0) {
-      getRoomById(roomId).then((responseData) => setRoom(responseData));
+      getRoomById(roomId).then((roomResponseData) => {
+        const roomObject = roomResponseData;
+        getRoomAssignmentsByRoom(roomId).then((assignmentsResponseData) => {
+          roomObject.assignments = assignmentsResponseData;
+          setRoom(roomObject);
+        });
+      });
     }
   });
 
   if (room.id === undefined) {
     return null;
   }
+
+  const getStatusString = (status) => {
+    let statusString = '';
+    if (status === 0) {
+      statusString = 'Unserviceable';
+    } else if (status === 1) {
+      statusString = 'Serviceable';
+    }
+
+    return statusString;
+  };
 
   return (
     <Modal
@@ -45,7 +63,23 @@ export const ViewRoomDetailsDialog = ({ modalOpen, onClose, roomId }) => {
           </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Status:</Typography>
-            <Typography>{room.status}</Typography>
+            <Typography>{getStatusString(room.status)}</Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <Typography>Residents:</Typography>
+            <Stack direction="column">
+              {
+                room.assignments.map((assignment) => (
+                  <Typography>
+                    {`
+                    ${assignment.personnelObject.rank}
+                    ${assignment.personnelObject.first_name}
+                    ${assignment.personnelObject.last_name}
+                    `}
+                  </Typography>
+                ))
+              }
+            </Stack>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Close</Button>
