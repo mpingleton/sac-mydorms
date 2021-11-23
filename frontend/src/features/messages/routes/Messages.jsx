@@ -9,7 +9,7 @@ import { NewMessageDialog } from '../components/NewMessageDialog';
 import { ViewMessageDialog } from '../components/ViewMessageDialog';
 
 export const Messages = () => {
-  const [currentMessageSelection, setMessageSelection] = React.useState(1);
+  const [currentMessageSelection, setMessageSelection] = React.useState(0);
   const [isViewMessageDialogOpen, setViewMessageDialogOpen] = React.useState(false);
   const [isNewMessageDialogOpen, setNewMessageDialogOpen] = React.useState(false);
 
