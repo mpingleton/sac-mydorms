@@ -4,6 +4,7 @@ import { Typography, Stack } from '@mui/material';
 
 import { ContentLayout } from '@/components/layout';
 import { useAuth } from '@/lib/auth';
+import { WorkOrder } from '../components/WorkOrder';
 
 export const Dashboard = () => {
   const { user } = useAuth();
@@ -24,7 +25,7 @@ export const Dashboard = () => {
           justifyContent="space-evenly"
           sx={{ width: '100%' }}
         >
-          <Typography>First card.</Typography>
+          <WorkOrder />
           <Typography>Second card.</Typography>
           <Typography>Fifth card.</Typography>
         </Stack>
