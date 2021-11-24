@@ -61,8 +61,10 @@ export const MainLayout = ({ children }) => {
 
   const navigation = [
     { name: 'Dashboard', to: '.' },
-    { name: 'Residents', to: './residents' },
-    { name: 'Rooms', to: './rooms' },
+    userEnrollment.personnelObject.is_dorm_manager
+     && { name: 'Residents', to: './residents' },
+    userEnrollment.personnelObject.is_dorm_manager
+     && { name: 'Rooms', to: './rooms' },
     { name: 'Work Orders', to: './workorders' },
     { name: 'Inspections', to: './inspections' },
     { name: 'Common Area', to: './commonarea' },
