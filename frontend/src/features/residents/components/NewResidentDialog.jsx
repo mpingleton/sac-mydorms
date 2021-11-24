@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Box, Modal, Button, TextField, Stack, Typography } from '@mui/material';
 
-import createResident from '@/api/createResident';
+import createPersonnel from '@/api/createPersonnel';
 
 const modalStyle = {
   position: 'absolute',
@@ -35,7 +35,7 @@ export const NewResidentDialog = ({ modalOpen, onClose }) => {
       phone: resPhone,
       is_dorm_manager: false,
     };
-    createResident(data).then(() => {
+    createPersonnel(data).then(() => {
       onClose();
     });
   };

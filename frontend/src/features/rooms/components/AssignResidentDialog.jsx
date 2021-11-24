@@ -5,7 +5,7 @@ import { Button, Box, Modal, Stack, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import getRoomById from '@/api/getRoomById';
-import getResidents from '@/api/getResidents';
+import getPersonnel from '@/api/getPersonnel';
 import createRoomAssignment from '@/api/createRoomAssignment';
 
 const modalStyle = {
@@ -30,7 +30,7 @@ export const AssignResidentDialog = ({ modalOpen, onClose, roomId }) => {
       getRoomById(roomId).then((responseData) => setRoom(responseData));
     }
     if (residents.length === 0) {
-      getResidents().then((responseData) => setResidents(responseData));
+      getPersonnel().then((responseData) => setResidents(responseData));
     }
   });
 

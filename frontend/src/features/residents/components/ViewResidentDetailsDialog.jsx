@@ -5,7 +5,7 @@ import { Button, Box, Modal, Stack, Typography } from '@mui/material';
 
 import { EnrollmentDetails } from './EnrollmentDetails';
 
-import getResidentById from '@/api/getResidentById';
+import getPersonnelById from '@/api/getPersonnelById';
 
 const modalStyle = {
   position: 'absolute',
@@ -24,7 +24,7 @@ export const ViewResidentDetailsDialog = ({ modalOpen, onClose, residentId }) =>
 
   React.useEffect(() => {
     if (resident.id !== residentId && residentId > 0) {
-      getResidentById(residentId).then((responseData) => setResident(responseData));
+      getPersonnelById(residentId).then((responseData) => setResident(responseData));
     }
   });
 
