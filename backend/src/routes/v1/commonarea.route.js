@@ -4,6 +4,7 @@ const auth = require('@/middlewares/auth');
 const validate = require('@/middlewares/validate');
 const commonAreaController = require('@/controllers/commonarea.controller');
 const commonAreaValidation = require('@/validations/commonarea.validation');
+const dormManagerGatekeeper = require('@/gatekeepers/dormmanager.gatekeeper');
 
 const router = express.Router();
 
@@ -23,6 +24,7 @@ router.get(
 router.put(
   '/',
   auth(),
+  dormManagerGatekeeper.isDormManager,
   validate(commonAreaValidation.createPost),
   commonAreaController.createPost,
 );
