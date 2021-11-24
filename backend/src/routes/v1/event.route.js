@@ -4,6 +4,7 @@ const auth = require('@/middlewares/auth');
 const validate = require('@/middlewares/validate');
 const eventController = require('@/controllers/event.controller');
 const eventValidation = require('@/validations/event.validation');
+const dormManagerGatekeeper = require('@/gatekeepers/dormmanager.gatekeeper');
 
 const router = express.Router();
 
@@ -23,6 +24,7 @@ router.get(
 router.put(
   '/',
   auth(),
+  dormManagerGatekeeper.isDormManager,
   validate(eventValidation.createEvent),
   eventController.createEvent,
 );
