@@ -3,8 +3,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
-import { Button, Stack, Box, AppBar, Toolbar, IconButton, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
-import { Menu as MenuIcon, AccountBox as AccountBoxIcon, NavigateBefore as BackIcon, NavigateNext as ForwardIcon, ArrowCircleRight as ArrowCircleRightIcon } from '@mui/icons-material';
+import {
+  Button,
+  Stack,
+  Box,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Drawer,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from '@mui/material';
+import {
+  Menu as MenuIcon,
+  AccountBox as AccountBoxIcon,
+  NavigateBefore as BackIcon,
+  NavigateNext as ForwardIcon,
+  ArrowCircleRight as ArrowCircleRightIcon,
+} from '@mui/icons-material';
 
 import { useAuth } from '@/lib/auth';
 import { useAuthorization, ROLES } from '@/lib/authorization';
