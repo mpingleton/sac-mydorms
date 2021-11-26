@@ -8,12 +8,6 @@ const messageValidation = require('@/validations/message.validation');
 const router = express.Router();
 
 router.get(
-  '/',
-  auth(),
-  messageController.getMessages,
-);
-
-router.get(
   '/my',
   auth(),
   messageController.getMyMessages,

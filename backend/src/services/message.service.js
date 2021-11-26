@@ -2,11 +2,6 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-const getMessages = async () => {
-  const messages = await prisma.messages.findMany({});
-  return messages;
-};
-
 const getMessagesByRecipientId = async (recipientId) => {
   const messages = await prisma.messages.findMany({
     where: {
@@ -40,7 +35,6 @@ const sendMessage = async (timestamp, senderId, recipientId, subject, body) => {
 };
 
 module.exports = {
-  getMessages,
   getMessagesByRecipientId,
   getMessageById,
   sendMessage,
