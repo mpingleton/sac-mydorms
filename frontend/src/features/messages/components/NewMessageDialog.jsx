@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Box, Modal, Stack, TextField, Select, MenuItem, Button } from '@mui/material';
 
-import getPersonnel from '@/api/getPersonnel';
+import getPersonnelInMyBase from '@/api/getPersonnelInMyBase';
 import sendMessage from '@/api/sendMessage';
 
 const style = {
@@ -25,7 +25,7 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => {
   const [resMessageBody, setMessageBody] = React.useState('');
 
   React.useEffect(() => {
-    getPersonnel().then((data) => setPersonnel(data));
+    getPersonnelInMyBase().then((data) => setPersonnel(data));
   }, []);
 
   const send = () => {
