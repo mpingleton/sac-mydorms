@@ -16,6 +16,12 @@ router.get(
 );
 
 router.get(
+  '/my',
+  auth(),
+  personnelController.getPersonnelAssignedToMyBase,
+);
+
+router.get(
   '/:id',
   auth(),
   dormManagerGatekeeper.isDormManager,
