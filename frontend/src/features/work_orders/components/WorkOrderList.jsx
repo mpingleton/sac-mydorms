@@ -4,16 +4,14 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
-import getWorkOrders from '@/api/getWorkOrders';
+import getMyWorkOrders from '@/api/getMyWorkOrders';
 
 export const WorkOrderList = ({ onSelectionChange }) => {
   const [workOrders, setWorkOrders] = React.useState([]);
 
   React.useEffect(() => {
-    if (workOrders.length === 0) {
-      getWorkOrders().then((responseData) => setWorkOrders(responseData));
-    }
-  });
+    getMyWorkOrders().then((responseData) => setWorkOrders(responseData));
+  }, []);
 
   const columns = [
     { field: 'room', headerName: 'Room', width: 100 },
