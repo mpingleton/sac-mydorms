@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Card, CardContent, Button } from '@mui/material';
+import { Typography, Card, CardContent } from '@mui/material';
 
 export const Inspection = () => (
   <Card
@@ -8,9 +8,6 @@ export const Inspection = () => (
   >
     <CardContent>
       <Typography>Inspections</Typography>
-      <Button variant="contained">
-        Second card
-      </Button>
     </CardContent>
   </Card>
 );

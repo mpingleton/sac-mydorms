@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Card, CardContent, Button } from '@mui/material';
+import { Typography, Card, CardContent } from '@mui/material';
 
 export const WorkOrder = () => (
   <Card
@@ -8,9 +8,6 @@ export const WorkOrder = () => (
   >
     <CardContent>
       <Typography>Work Orders</Typography>
-      <Button variant="contained">
-        First card
-      </Button>
     </CardContent>
   </Card>
 );

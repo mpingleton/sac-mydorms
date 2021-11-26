@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Card, CardContent, Button } from '@mui/material';
+import { Typography, Card, CardContent } from '@mui/material';
 
 export const CommonArea = () => (
   <Card
@@ -8,9 +8,6 @@ export const CommonArea = () => (
   >
     <CardContent>
       <Typography>Common Area</Typography>
-      <Button variant="contained">
-        Third card
-      </Button>
     </CardContent>
   </Card>
 );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Card, CardContent, Button } from '@mui/material';
+import { Typography, Card, CardContent } from '@mui/material';
 
 export const Events = () => (
   <Card
@@ -8,9 +8,6 @@ export const Events = () => (
   >
     <CardContent>
       <Typography>Events</Typography>
-      <Button variant="contained">
-        Forth card
-      </Button>
     </CardContent>
   </Card>
 );
