@@ -1,6 +1,11 @@
 import React from 'react';
 
-import { Button, Stack } from '@mui/material';
+import {
+  Button,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+} from '@mui/material';
 
 import { ContentLayout } from '@/components/layout';
 
@@ -12,6 +17,7 @@ export const WorkOrders = () => {
   const [currentWorkOrderListSelection, setWorkOrderListSelection] = React.useState([]);
   const [isNewWorkOrderDialogOpen, setNewWorkOrderDialogOpen] = React.useState(false);
   const [isViewWorkOrderDialogOpen, setViewWorkOrderDialogOpen] = React.useState(false);
+  const [filterType, setFilterType] = React.useState('me');
 
   return (
     <ContentLayout title="Work Orders">
@@ -42,6 +48,13 @@ export const WorkOrders = () => {
           >
             View
           </Button>
+          <ToggleButtonGroup
+            value={filterType}
+            onChange={(event) => { setFilterType(event.target.value); }}
+          >
+            <ToggleButton value="me">Created by me</ToggleButton>
+            <ToggleButton value="building">All inside selected building</ToggleButton>
+          </ToggleButtonGroup>
         </Stack>
         <WorkOrderList onSelectionChange={setWorkOrderListSelection} />
       </Stack>
