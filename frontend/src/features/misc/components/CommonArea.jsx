@@ -3,7 +3,7 @@ import { Typography, Card, CardContent, Button } from '@mui/material';
 
 export const CommonArea = () => (
   <Card
-    sx={{ minHeight: 245, minWidth: 200 }}
+    sx={{ minHeight: 200, minWidth: 400 }}
     variant="outlined"
   >
     <CardContent>
