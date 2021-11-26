@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
-import getPersonnel from '@/api/getPersonnel';
+import getPersonnelInMyBase from '@/api/getPersonnelInMyBase';
 
 export const ResidentList = ({ onSelectionChange }) => {
   const [residents, setResidents] = React.useState([]);
 
   React.useEffect(() => {
     if (residents.length === 0) {
-      getPersonnel().then((responseData) => setResidents(responseData));
+      getPersonnelInMyBase().then((responseData) => setResidents(responseData));
     }
   });
 
