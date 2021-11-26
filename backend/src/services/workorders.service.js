@@ -16,6 +16,15 @@ const getWorkOrderById = async (workOrderId) => {
   return workOrder;
 };
 
+const getWorkOrdersCreatedByPerson = async (personnelId) => {
+  const workOrders = await prisma.workOrders.findMany({
+    where: {
+      created_by: personnelId,
+    },
+  });
+  return workOrders;
+};
+
 const createWorkOrder = async (
   subjectLine,
   roomId,
@@ -91,6 +100,7 @@ const updateWorkOrderStatus = async (workOrderId, newStatus) => {
 module.exports = {
   getWorkOrders,
   getWorkOrderById,
+  getWorkOrdersCreatedByPerson,
   createWorkOrder,
   getAllWorkOrderComments,
   getWorkOrderCommentById,

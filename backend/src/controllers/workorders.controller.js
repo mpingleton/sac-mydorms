@@ -39,6 +39,33 @@ const getWorkOrderById = async (req, res) => {
   res.send(200, workOrder);
 };
 
+const getMyWorkOrders = async (req, res) => {
+  const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
+  const enrollment = await enrollmentService.getEnrollmentByUserId(user.id);
+
+  const workOrders = await workOrdersService.getWorkOrdersCreatedByPerson(enrollment.personnel_id);
+
+  const roomPromises = [];
+  for (let i = 0; i < workOrders.length; i += 1) {
+    roomPromises.push(roomService.getRoomById(workOrders[i].room_id)
+      .then((roomObject) => {
+        workOrders[i].roomObject = roomObject;
+      }));
+  }
+  await Promise.all(roomPromises);
+
+  const buildingPromises = [];
+  for (let i = 0; i < workOrders.length; i += 1) {
+    buildingPromises.push(roomService.getBuildingById(workOrders[i].roomObject.building_id)
+      .then((buildingObject) => {
+        workOrders[i].roomObject.buildingObject = buildingObject;
+      }));
+  }
+  await Promise.all(buildingPromises);
+
+  res.send(200, workOrders);
+};
+
 const createWorkOrder = async (req, res) => {
   const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
 
@@ -110,6 +137,7 @@ const updateWorkOrderStatus = async (req, res) => {
 module.exports = {
   getWorkOrders,
   getWorkOrderById,
+  getMyWorkOrders,
   createWorkOrder,
   getAllWorkOrderComments,
   getWorkOrderCommentById,

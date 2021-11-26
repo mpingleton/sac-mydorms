@@ -15,6 +15,12 @@ router.get(
 );
 
 router.get(
+  '/my',
+  auth(),
+  workOrdersController.getMyWorkOrders,
+);
+
+router.get(
   '/comments',
   auth(),
   workOrdersController.getAllWorkOrderComments,
