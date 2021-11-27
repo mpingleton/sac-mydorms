@@ -51,12 +51,16 @@ export const WorkOrders = () => {
           <ToggleButtonGroup
             value={filterType}
             onChange={(event) => { setFilterType(event.target.value); }}
+            sx={{ marginLeft: 'auto' }}
           >
-            <ToggleButton value="me">Created by me</ToggleButton>
-            <ToggleButton value="building">All inside selected building</ToggleButton>
+            <ToggleButton value="me">Created By Me</ToggleButton>
+            <ToggleButton value="base">All For Base</ToggleButton>
           </ToggleButtonGroup>
         </Stack>
-        <WorkOrderList onSelectionChange={setWorkOrderListSelection} />
+        <WorkOrderList
+          listType={filterType}
+          onSelectionChange={setWorkOrderListSelection}
+        />
       </Stack>
     </ContentLayout>
   );

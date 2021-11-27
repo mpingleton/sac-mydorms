@@ -4,14 +4,19 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
+import getWorkOrders from '@/api/getWorkOrders';
 import getMyWorkOrders from '@/api/getMyWorkOrders';
 
-export const WorkOrderList = ({ onSelectionChange }) => {
+export const WorkOrderList = ({ listType, onSelectionChange }) => {
   const [workOrders, setWorkOrders] = React.useState([]);
 
   React.useEffect(() => {
-    getMyWorkOrders().then((responseData) => setWorkOrders(responseData));
-  }, []);
+    if (listType === 'me') {
+      getMyWorkOrders().then((responseData) => setWorkOrders(responseData));
+    } else if (listType === 'base') {
+      getWorkOrders().then((responseData) => setWorkOrders(responseData));
+    }
+  }, [listType]);
 
   const columns = [
     { field: 'room', headerName: 'Room', width: 100 },
@@ -58,10 +63,12 @@ export const WorkOrderList = ({ onSelectionChange }) => {
 };
 
 WorkOrderList.propTypes = {
+  listType: PropTypes.string,
   onSelectionChange: PropTypes.func,
 };
 
 WorkOrderList.defaultProps = {
+  listType: 'me',
   onSelectionChange: () => {},
 };
 
