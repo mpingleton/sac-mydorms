@@ -14,6 +14,8 @@ import {
 import getCommentsByPost from '@/api/getCommentsByPost';
 import createComment from '@/api/createComment';
 
+const Joi = require('joi');
+
 const modalStyle = {
   position: 'absolute',
   top: '50%',
@@ -33,6 +35,9 @@ export const ViewPostDialog = ({ postObject, modalOpen, onClose }) => {
   React.useEffect(() => {
     getCommentsByPost(postObject.id).then((responseData) => setComments(responseData));
   }, [postObject.id]);
+
+  const newCommentValidation = Joi.string().min(1).max(1000).required()
+    .validate(resNewComment);
 
   const submitComment = () => {
     createComment({
@@ -88,12 +93,12 @@ export const ViewPostDialog = ({ postObject, modalOpen, onClose }) => {
               fullWidth="100"
               value={resNewComment}
               onChange={(event) => { setNewComment(event.target.value); }}
-              error={resNewComment.length > 1000}
+              error={newCommentValidation.error && resNewComment.length > 0}
             />
             <Button
               variant="contained"
               onClick={submitComment}
-              disabled={resNewComment.length <= 0 || resNewComment.length > 1000}
+              disabled={newCommentValidation.error}
             >
               Send
             </Button>
