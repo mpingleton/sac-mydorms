@@ -46,7 +46,7 @@ export const MainLayout = ({ children }) => {
 
   if (userEnrollment.id === undefined) {
     return (<Typography>Loading...</Typography>);
-  } else if (userEnrollment.id < 0) {
+  } else if (userEnrollment.id < 0 && checkAccess({ allowedRoles: [ROLES.USER] })) {
     return (
       <Stack direction="row" spacing={1}>
         <Typography>ERROR: This account is not properly registered.</Typography>
@@ -81,9 +81,11 @@ export const MainLayout = ({ children }) => {
 
   const navigation = [
     { name: 'Dashboard', to: '.' },
-    userEnrollment.personnelObject.is_dorm_manager
+    (checkAccess({ allowedRoles: [ROLES.USER] })
+      ? userEnrollment.personnelObject.is_dorm_manager : true)
      && { name: 'Residents', to: './residents' },
-    userEnrollment.personnelObject.is_dorm_manager
+    (checkAccess({ allowedRoles: [ROLES.USER] })
+      ? userEnrollment.personnelObject.is_dorm_manager : true)
      && { name: 'Rooms', to: './rooms' },
     { name: 'Work Orders', to: './workorders' },
     { name: 'Inspections', to: './inspections' },
