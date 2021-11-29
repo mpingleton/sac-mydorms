@@ -13,7 +13,7 @@ const users = [
     isLocked: false,
   },
   {
-    username: 'mahmoud.ahmed',
+    username: 'mahmoud.ahmed.adm',
     password: '123',
     role: 'ADMIN',
     isLocked: false,
