@@ -6,6 +6,8 @@ import { Box, Modal, Button, TextField, Stack, Select, InputLabel, MenuItem, Typ
 import createWorkOrder from '../../../api/createWorkOrder';
 import getRooms from '../../../api/getRooms';
 
+const Joi = require('joi');
+
 const modalStyle = {
   position: 'absolute',
   top: '50%',
@@ -30,9 +32,12 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
     }
   });
 
-  const submitIsEnabled = () => resRemarks.length !== 0
-    && resRoomId >= 0
-    && resSubject.length !== 0;
+  const subjectValidation = Joi.string().min(1).max(150).required()
+    .validate(resSubject);
+  const roomIdValidation = Joi.number().integer().min(1).required()
+    .validate(resRoomId);
+  const remarksValidation = Joi.string().min(1).max(150).required()
+    .validate(resRemarks);
 
   const submitWorkOrder = () => {
     const data = {
@@ -59,6 +64,7 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
           <TextField
             id="new-work-order-subject"
             label="Subject"
+            error={subjectValidation.error && resSubject.length > 0}
             variant="standard"
             onChange={(event) => { setSubject(event.target.value); }}
           />
@@ -67,6 +73,7 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
             labelId="new-work-order-room-label"
             id="new-work-order-room"
             label="For Room"
+            error={roomIdValidation.error}
             onChange={(event) => { setRoomId(event.target.value); }}
           >
             {
@@ -81,13 +88,24 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
             id="new-work-order-remarks"
             label="Remarks"
             variant="standard"
+            error={remarksValidation.error && resRemarks.length > 0}
             multiline
             maxRows={3}
             onChange={(event) => { setRemarks(event.target.value); }}
           />
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Cancel</Button>
-            <Button variant="contained" onClick={submitWorkOrder} disabled={!submitIsEnabled()}>Create</Button>
+            <Button
+              variant="contained"
+              onClick={submitWorkOrder}
+              disabled={
+                subjectValidation.error
+                || roomIdValidation.error
+                || remarksValidation.error
+              }
+            >
+              Create
+            </Button>
           </Stack>
         </Stack>
       </Box>

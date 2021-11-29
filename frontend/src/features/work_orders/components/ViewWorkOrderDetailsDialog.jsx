@@ -10,6 +10,8 @@ import createWorkOrderComment from '@/api/createWorkOrderComment';
 import getPersonnelById from '@/api/getPersonnelById';
 import updateWorkOrderStatus from '@/api/updateWorkOrderStatus';
 
+const Joi = require('joi');
+
 const modalStyle = {
   position: 'absolute',
   top: '50%',
@@ -54,11 +56,10 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
     return null;
   }
 
-  const submitComment = () => {
-    if (newWorkOrderComment.length === 0) {
-      return;
-    }
+  const newWorkOrderCommentValidation = Joi.string().min(1).max(250).required()
+    .validate(newWorkOrderComment);
 
+  const submitComment = () => {
     const data = {
       workOrderId,
       comment: newWorkOrderComment,
@@ -161,7 +162,7 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
             <TextField
               id="new-work-order-comment"
               label={`Comment: (${newWorkOrderComment.length}/250)`}
-              error={newWorkOrderComment.length > 250}
+              error={newWorkOrderCommentValidation.error && newWorkOrderComment.length > 0}
               variant="standard"
               multiline
               maxRows={3}
@@ -169,7 +170,7 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
               onChange={(event) => { setNewWorkOrderComment(event.target.value); }}
               sx={{ width: '100%' }}
             />
-            <Button variant="contained" onClick={submitComment} disabled={newWorkOrderComment.length === 0 || newWorkOrderComment.length > 250}>Send</Button>
+            <Button variant="contained" onClick={submitComment} disabled={newWorkOrderCommentValidation.error}>Send</Button>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Close</Button>
