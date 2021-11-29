@@ -15,7 +15,7 @@ const users = [
   {
     username: 'mahmoud.ahmed',
     password: '123',
-    role: 'USER',
+    role: 'ADMIN',
     isLocked: false,
   },
   {
