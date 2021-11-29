@@ -7,6 +7,16 @@ const getBases = async () => {
   return bases;
 };
 
+const getBuildingsByBase = async (baseId) => {
+  const buildings = await prisma.buildings.findMany({
+    where: {
+      base_id: baseId,
+    },
+  });
+
+  return buildings;
+};
+
 const getBaseById = async (baseId) => {
   const base = await prisma.bases.findUnique({
     where: {
@@ -29,6 +39,7 @@ const createBase = async (
 
 module.exports = {
   getBases,
+  getBuildingsByBase,
   getBaseById,
   createBase,
 };

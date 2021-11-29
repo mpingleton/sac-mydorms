@@ -14,6 +14,13 @@ router.get(
 );
 
 router.get(
+  '/buildings/:base_id',
+  auth(),
+  validate(baseValidation.getBuildingsByBase),
+  baseController.getBuildingsByBase,
+);
+
+router.get(
   '/:id',
   auth(),
   validate(baseValidation.getBaseById),
