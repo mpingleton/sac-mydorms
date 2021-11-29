@@ -8,16 +8,27 @@ const getBases = async () => {
 };
 
 const getBaseById = async (baseId) => {
-  const bases = await prisma.bases.findUnique({
+  const base = await prisma.bases.findUnique({
     where: {
       id: baseId,
     },
   });
 
-  return bases;
+  return base;
+};
+
+const createBase = async (
+  baseName,
+) => {
+  await prisma.bases.create({
+    data: {
+      name: baseName,
+    },
+  });
 };
 
 module.exports = {
   getBases,
   getBaseById,
+  createBase,
 };

@@ -6,6 +6,13 @@ const getBaseById = {
   }),
 };
 
+const createBase = {
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+  }),
+};
+
 module.exports = {
   getBaseById,
+  createBase,
 };

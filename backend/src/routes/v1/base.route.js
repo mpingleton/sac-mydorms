@@ -20,4 +20,11 @@ router.get(
   baseController.getBaseById,
 );
 
+router.put(
+  '/',
+  auth(),
+  validate(baseValidation.createBase),
+  baseController.createBase,
+);
+
 module.exports = router;
