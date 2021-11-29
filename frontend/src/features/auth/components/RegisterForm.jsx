@@ -7,15 +7,13 @@ import Button from '@mui/material/Button';
 import registerCall from '../api/register';
 
 export const RegisterForm = ({ onSuccess, onCancel }) => {
-  const [resName, setName] = React.useState('');
-  const [resEmail, setEmail] = React.useState('');
+  const [resUsername, setUsername] = React.useState('');
   const [resPassword, setPassword] = React.useState('');
   const [resRegCode, setRegCode] = React.useState('');
 
   const submit = () => {
     const data = {
-      name: resName,
-      email: resEmail,
+      username: resUsername,
       password: resPassword,
       code: resRegCode,
     };
@@ -26,15 +24,10 @@ export const RegisterForm = ({ onSuccess, onCancel }) => {
   return (
     <Stack direction="column" spacing={1}>
       <TextField
-        label="Name"
+        type="text"
+        label="Username"
         fullWidth
-        onChange={(event) => setName(event.target.value)}
-      />
-      <TextField
-        type="email"
-        label="Email Address"
-        fullWidth
-        onChange={(event) => setEmail(event.target.value)}
+        onChange={(event) => setUsername(event.target.value)}
       />
       <TextField
         type="password"

@@ -10,10 +10,10 @@ const prisma = new PrismaClient();
  * @param {string} email
  * @returns {Promise<User>}
  */
-const getUserByEmail = async (userEmail) => {
+const getUserByUsername = async (username) => {
   const user = await prisma.user.findUnique({
     where: {
-      email: userEmail,
+      username,
     },
   });
   return user;
@@ -24,8 +24,8 @@ const getUserByEmail = async (userEmail) => {
  * @param {ObjectId} email
  * @returns {Promise<User>}
  */
-const isEmailTaken = async (email) => {
-  const user = await getUserByEmail(email);
+const isUsernameTaken = async (username) => {
+  const user = await getUserByUsername(username);
   if (!user) {
     return false;
   }
@@ -38,8 +38,8 @@ const isEmailTaken = async (email) => {
  * @returns {Promise<User>}
  */
 const createUser = async (userData) => {
-  if (await isEmailTaken(userData.email)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
+  if (await isUsernameTaken(userData.username)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Username already taken');
   }
   // Role of new user
   let userRole;
@@ -50,12 +50,11 @@ const createUser = async (userData) => {
   }
 
   const data = {
-    email: userData.email,
-    name: userData.name,
+    username: userData.username,
     // bcrypt this
     password: userData.password,
     role: userRole,
-    isEmailVerified: false,
+    isLocked: false,
   };
   // console.dir(userData);
 
@@ -112,8 +111,8 @@ const updateUserById = async (userId, updateBody) => {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
   // Check for existing email
-  if (updateBody.email && !isEmailTaken(updateBody.email)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
+  if (updateBody.username && !isUsernameTaken(updateBody.username)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Username already taken');
   }
 
   // Role of new user
@@ -128,9 +127,8 @@ const updateUserById = async (userId, updateBody) => {
     },
     // Could potentially use a Data Transfer Object (DTO) here, but unsure right now.
     data: {
-      email: updateBody.email,
+      username: updateBody.username,
       role: userRole,
-      name: updateBody.name,
     },
   });
 
@@ -157,8 +155,8 @@ const deleteUserById = async (userId) => {
 };
 
 module.exports = {
-  isEmailTaken,
-  getUserByEmail,
+  isUsernameTaken,
+  getUserByUsername,
   createUser,
   queryUsers,
   getUserById,

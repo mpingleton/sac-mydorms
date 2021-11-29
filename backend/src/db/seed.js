@@ -7,32 +7,28 @@ const prisma = new PrismaClient();
 
 const users = [
   {
-    email: 'alice@prisma.io',
+    username: 'alice.doe',
     password: '123',
     role: 'USER',
-    name: 'Alice',
-    isEmailVerified: false,
+    isLocked: false,
   },
   {
-    email: 'mahmoud@prisma.io',
+    username: 'mahmoud.ahmed',
     password: '123',
     role: 'USER',
-    name: 'Mahmoud',
-    isEmailVerified: false,
+    isLocked: false,
   },
   {
-    email: 'ezekiel@prisma.io',
+    username: 'ezekiel.gary',
     password: '123',
     role: 'USER',
-    name: 'Ezekiel',
-    isEmailVerified: false,
+    isLocked: false,
   },
   {
-    email: 'john.snuffy@mydorms.com',
+    username: 'john.snuffy',
     password: '12345',
     role: 'USER',
-    name: 'John',
-    isEmailVerified: false,
+    isLocked: false,
   },
 ];
 

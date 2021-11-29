@@ -1,5 +1,5 @@
 import { axios } from '@/lib/axios';
 
-export const loginWithEmailAndPassword = (data) => axios.post('/auth/login', data);
+export const loginWithUsernameAndPassword = (data) => axios.post('/auth/login', data);
 
-export default loginWithEmailAndPassword;
+export default loginWithUsernameAndPassword;

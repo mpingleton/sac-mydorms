@@ -20,8 +20,7 @@ export const Profile = () => {
       <div>
         <div>
           <dl>
-            <Entry label="Name" value={user.name} />
-            <Entry label="Email Address" value={user.email} />
+            <Entry label="Username" value={user.username} />
             <Entry label="Role" value={user.role} />
           </dl>
         </div>

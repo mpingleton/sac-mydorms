@@ -19,11 +19,11 @@ export const LoginForm = ({ onSuccess }) => {
     <div>
       <Box component="form" sx={{ mt: 1 }} onSubmit={handleSubmit(onSubmit)}>
         <Controller
-          name="email"
+          name="username"
           control={control}
           rules={{ required: true }}
           render={({ field }) => (
-            <TextField {...field} type="email" label="Email Address" fullWidth />
+            <TextField {...field} type="text" label="Username" fullWidth />
           )}
         />
         <Controller
