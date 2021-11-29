@@ -6,6 +6,8 @@ import { Box, Modal, Stack, TextField, Select, MenuItem, Button } from '@mui/mat
 import getPersonnelInMyBase from '@/api/getPersonnelInMyBase';
 import sendMessage from '@/api/sendMessage';
 
+const Joi = require('joi');
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -28,6 +30,13 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => {
     getPersonnelInMyBase().then((data) => setPersonnel(data));
   }, []);
 
+  const recipientIdValidation = Joi.number().integer().min(1).required()
+    .validate(resRecipientId);
+  const subjectValidation = Joi.string().min(1).max(150).required()
+    .validate(resSubject);
+  const messageBodyValidation = Joi.string().min(1).max(1000).required()
+    .validate(resMessageBody);
+
   const send = () => {
     sendMessage(resRecipientId, resSubject, resMessageBody).then(() => { onClose(); });
   };
@@ -43,6 +52,7 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => {
         <Stack direction="column" spacing={1}>
           <Select
             label="To"
+            error={recipientIdValidation.error}
             onChange={(event) => setRecipientId(event.target.value)}
           >
             <MenuItem value={0} disabled>
@@ -62,11 +72,13 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => {
           <TextField
             label="Subject"
             variant="outlined"
+            error={subjectValidation.error && resSubject.length > 0}
             onChange={(event) => setSubject(event.target.value)}
           />
           <TextField
             label="Body"
             variant="outlined"
+            error={messageBodyValidation.error && resMessageBody.length > 0}
             multiline
             rows={4}
             onChange={(event) => setMessageBody(event.target.value)}
@@ -80,7 +92,11 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => {
             </Button>
             <Button
               variant="contained"
-              disabled={resSubject.length === 0 || resMessageBody.length === 0}
+              disabled={
+                recipientIdValidation.error
+                || subjectValidation.error
+                || messageBodyValidation.error
+              }
               onClick={() => send()}
             >
               Send
