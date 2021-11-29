@@ -6,6 +6,12 @@ const getAllCommentsForWorkOrder = {
   }),
 };
 
+const getWorkOrdersInRoom = {
+  params: Joi.object().keys({
+    room_id: Joi.number().integer().required(),
+  }),
+};
+
 const getWorkOrderCommentById = {
   params: Joi.object().keys({
     id: Joi.number().integer().required(),
@@ -42,6 +48,7 @@ const updateWorkOrderStatus = {
 
 module.exports = {
   getAllCommentsForWorkOrder,
+  getWorkOrdersInRoom,
   getWorkOrderCommentById,
   createWorkOrderComment,
   getWorkOrderById,

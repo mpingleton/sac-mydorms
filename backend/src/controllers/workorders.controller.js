@@ -30,6 +30,11 @@ const getWorkOrders = async (req, res) => {
   res.send(200, workOrders);
 };
 
+const getWorkOrdersInRoom = async (req, res) => {
+  const workOrders = await workOrdersService.getWorkOrdersInRoom(req.params.room_id);
+  res.send(200, workOrders);
+};
+
 const getWorkOrderById = async (req, res) => {
   const workOrder = await workOrdersService.getWorkOrderById(parseInt(req.params.id, 10));
   workOrder.roomObject = await roomService.getRoomById(workOrder.room_id);
@@ -136,6 +141,7 @@ const updateWorkOrderStatus = async (req, res) => {
 
 module.exports = {
   getWorkOrders,
+  getWorkOrdersInRoom,
   getWorkOrderById,
   getMyWorkOrders,
   createWorkOrder,

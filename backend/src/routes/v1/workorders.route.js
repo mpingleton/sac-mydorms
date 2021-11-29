@@ -21,6 +21,13 @@ router.get(
 );
 
 router.get(
+  '/in/room/:room_id',
+  auth(),
+  validate(workOrdersValidation.getWorkOrdersInRoom),
+  workOrdersController.getWorkOrdersInRoom,
+);
+
+router.get(
   '/comments',
   auth(),
   workOrdersController.getAllWorkOrderComments,
