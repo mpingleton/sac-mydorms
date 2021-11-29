@@ -154,6 +154,28 @@ const deleteUserById = async (userId) => {
   return deleteUser;
 };
 
+const lockUserById = async (userId) => {
+  await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      isLocked: true,
+    },
+  });
+};
+
+const unlockUserById = async (userId) => {
+  await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      isLocked: false,
+    },
+  });
+};
+
 module.exports = {
   isUsernameTaken,
   getUserByUsername,
@@ -162,4 +184,6 @@ module.exports = {
   getUserById,
   updateUserById,
   deleteUserById,
+  lockUserById,
+  unlockUserById,
 };
