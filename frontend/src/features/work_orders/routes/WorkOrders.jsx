@@ -12,12 +12,18 @@ import { ContentLayout } from '@/components/layout';
 import { WorkOrderList } from '../components/WorkOrderList';
 import { NewWorkOrderDialog } from '../components/NewWorkOrderDialog';
 import { ViewWorkOrderDetailsDialog } from '../components/ViewWorkOrderDetailsDialog';
+import { BaseSelector } from '../components/BaseSelector';
+import { BuildingSelector } from '../components/BuildingSelector';
+import { RoomSelector } from '../components/RoomSelector';
 
 export const WorkOrders = () => {
   const [currentWorkOrderListSelection, setWorkOrderListSelection] = React.useState([]);
   const [isNewWorkOrderDialogOpen, setNewWorkOrderDialogOpen] = React.useState(false);
   const [isViewWorkOrderDialogOpen, setViewWorkOrderDialogOpen] = React.useState(false);
   const [filterType, setFilterType] = React.useState('me');
+  const [selectedBaseId, setSelectedBaseId] = React.useState(0);
+  const [selectedBuildingId, setSelectedBuildingId] = React.useState(0);
+  const [selectedRoomId, setSelectedRoomId] = React.useState(0);
 
   return (
     <ContentLayout title="Work Orders">
@@ -56,6 +62,27 @@ export const WorkOrders = () => {
             <ToggleButton value="me">Created By Me</ToggleButton>
             <ToggleButton value="base">All For Base</ToggleButton>
           </ToggleButtonGroup>
+          <BaseSelector
+            baseId={selectedBaseId}
+            onSelectionChanged={(baseId) => {
+              setSelectedBaseId(baseId);
+              setSelectedBuildingId(0);
+              setSelectedRoomId(0);
+            }}
+          />
+          <BuildingSelector
+            baseId={selectedBaseId}
+            buildingId={selectedBuildingId}
+            onSelectionChanged={(buildingId) => {
+              setSelectedBuildingId(buildingId);
+              setSelectedRoomId(0);
+            }}
+          />
+          <RoomSelector
+            buildingId={selectedBuildingId}
+            roomId={selectedRoomId}
+            onSelectionChanged={(roomId) => { setSelectedRoomId(roomId); }}
+          />
         </Stack>
         <WorkOrderList
           listType={filterType}
