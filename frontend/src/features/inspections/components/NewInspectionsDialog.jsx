@@ -20,6 +20,8 @@ import getRoom from '@/api/getRooms';
 import createRoomInspection from '@/api/createRoomInspection';
 import getRoomAssignmentsByRoom from '@/api/getRoomAssignmentsByRoom';
 
+const Joi = require('joi');
+
 const modalStyle = {
   position: 'absolute',
   top: '50%',
@@ -41,6 +43,17 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
   const [resTimestamp, setTimestamp] = React.useState(new Date());
   const [resInspectorName, setInspectorName] = React.useState('');
   const [resInspectorRemarks, setInspectorRemarks] = React.useState('');
+
+  const roomValidation = Joi.number().integer().min(1).required()
+    .validate(resRoom);
+  const personIdValidation = Joi.number().integer().min(1).required()
+    .validate(resPersonId);
+  const timestampValidation = Joi.number().integer().max(new Date().getTime())
+    .validate(resTimestamp.getTime());
+  const inspectorNameValidation = Joi.string().min(1).max(150).required()
+    .validate(resInspectorName);
+  const inspectorRemarksValidation = Joi.string().min(1).max(150).required()
+    .validate(resInspectorRemarks);
 
   React.useEffect(() => {
     getRoom().then((responseData) => setRooms(responseData));
@@ -80,6 +93,7 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
           <Select
             labelId="room-selector-label"
             label="Room"
+            error={roomValidation.error}
             disabled={rooms.length === 0}
             onChange={(event) => { setRoom(event.target.value); }}
           >
@@ -101,6 +115,7 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
           <Select
             labelId="resident-selector-label"
             label="Assigned Resident"
+            error={personIdValidation.error}
             disabled={personnelInRoom.length === 0}
             onChange={(event) => { setPersonId(event.target.value); }}
           >
@@ -132,12 +147,14 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
           <TextField
             id="inspector"
             label="Inspector"
+            error={inspectorNameValidation.error && resInspectorName.length > 0}
             variant="outlined"
             onChange={(event) => { setInspectorName(event.target.value); }}
           />
           <TextField
             id="filled-multiline-static"
             label="Comments"
+            error={inspectorRemarksValidation.error && resInspectorRemarks.length > 0}
             multiline
             rows={4}
             variant="outlined"
@@ -148,7 +165,13 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
             <Button
               variant="contained"
               onClick={submitInspection}
-              disabled={resRoom <= 0}
+              disabled={
+                roomValidation.error
+                || personIdValidation.error
+                || timestampValidation.error
+                || inspectorNameValidation.error
+                || inspectorRemarksValidation.error
+              }
             >
               Create
             </Button>
