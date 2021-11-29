@@ -17,6 +17,8 @@ const loginUserWithUsernameAndPassword = async (username, password) => {
   // And fn should probably live elsewhere (idiomatic Prisma?)
   if (!user || !(await user.password === password)) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect username or password');
+  } else if (user.isLocked) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Account is locked');
   }
   return user;
 };
