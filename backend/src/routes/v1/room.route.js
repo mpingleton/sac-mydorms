@@ -16,6 +16,14 @@ router.get(
 );
 
 router.get(
+  '/in/building/:building_id',
+  auth(),
+  dormManagerGatekeeper.isDormManager,
+  validate(roomValidation.getRoomsInBuilding),
+  roomController.getRoomsInBuilding,
+);
+
+router.get(
   '/:id',
   auth(),
   dormManagerGatekeeper.isDormManager,

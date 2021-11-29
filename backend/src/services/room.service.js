@@ -7,6 +7,16 @@ const getRooms = async () => {
   return rooms;
 };
 
+const getRoomsInBuilding = async (buildingId) => {
+  const rooms = await prisma.rooms.findMany({
+    where: {
+      building_id: buildingId,
+    },
+  });
+
+  return rooms;
+};
+
 const getRoomById = async (roomId) => {
   const room = await prisma.rooms.findUnique({
     where: {
@@ -39,6 +49,7 @@ const getBuildingsByBase = async (baseId) => {
 
 module.exports = {
   getRooms,
+  getRoomsInBuilding,
   getRoomById,
   getBuildingById,
   getBuildingsByBase,
