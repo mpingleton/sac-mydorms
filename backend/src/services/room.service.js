@@ -27,8 +27,19 @@ const getBuildingById = async (buildingId) => {
   return building;
 };
 
+const getBuildingsByBase = async (baseId) => {
+  const buildings = await prisma.buildings.findMany({
+    where: {
+      base_id: baseId,
+    },
+  });
+
+  return buildings;
+};
+
 module.exports = {
   getRooms,
   getRoomById,
   getBuildingById,
+  getBuildingsByBase,
 };
