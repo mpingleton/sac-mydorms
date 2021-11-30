@@ -28,6 +28,13 @@ router.get(
 );
 
 router.get(
+  '/in/building/:building_id',
+  auth(),
+  validate(workOrdersValidation.getWorkOrdersInBuilding),
+  workOrdersController.getWorkOrdersInBuilding,
+);
+
+router.get(
   '/comments',
   auth(),
   workOrdersController.getAllWorkOrderComments,
