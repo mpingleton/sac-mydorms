@@ -60,7 +60,7 @@ export const WorkOrders = () => {
             sx={{ marginLeft: 'auto' }}
           >
             <ToggleButton value="me">Created By Me</ToggleButton>
-            <ToggleButton value="base">All For Base</ToggleButton>
+            <ToggleButton value="room">By Building/Room</ToggleButton>
           </ToggleButtonGroup>
           <BaseSelector
             baseId={selectedBaseId}
