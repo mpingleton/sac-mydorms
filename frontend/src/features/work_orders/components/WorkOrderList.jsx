@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
+import getWorkOrders from '@/api/getWorkOrders';
 import getMyWorkOrders from '@/api/getMyWorkOrders';
 import getWorkOrdersInRoom from '@/api/getWorkOrdersInRoom';
 import getWorkOrdersInBuilding from '@/api/getWorkOrdersInBuilding';
@@ -20,6 +21,8 @@ export const WorkOrderList = ({
   React.useEffect(() => {
     if (listType === 'me') {
       getMyWorkOrders().then((responseData) => setWorkOrders(responseData));
+    } else if (listType === 'all') {
+      getWorkOrders().then((responseData) => setWorkOrders(responseData));
     } else if (listType === 'room') {
       if (baseId > 0 && buildingId > 0 && roomId <= 0) {
         getWorkOrdersInBuilding(buildingId).then((responseData) => setWorkOrders(responseData));

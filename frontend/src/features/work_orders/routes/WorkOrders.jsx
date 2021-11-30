@@ -90,6 +90,7 @@ export const WorkOrders = () => {
           >
             <ToggleButton value="me">Created By Me</ToggleButton>
             <ToggleButton value="room">By Building/Room</ToggleButton>
+            <ToggleButton value="all">All</ToggleButton>
           </ToggleButtonGroup>
           {filterSelectors}
         </Stack>
