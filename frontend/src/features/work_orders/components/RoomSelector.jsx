@@ -5,7 +5,7 @@ import { Select, MenuItem } from '@mui/material';
 
 import getRoomsByBuilding from '../../../api/getRoomsByBuilding';
 
-export const RoomSelector = ({ buildingId, roomId, onSelectionChanged }) => {
+export const RoomSelector = ({ disabled, buildingId, roomId, onSelectionChanged }) => {
   const [rooms, setRooms] = React.useState([]);
 
   React.useEffect(() => {
@@ -17,7 +17,7 @@ export const RoomSelector = ({ buildingId, roomId, onSelectionChanged }) => {
     <Select
       label="Room"
       value={roomId}
-      disabled={buildingId <= 0}
+      disabled={disabled || buildingId <= 0}
       onChange={(event) => { onSelectionChanged(event.target.value); }}
     >
       <MenuItem disabled value={0}><em>{buildingId > 0 ? 'Please select a room...' : ''}</em></MenuItem>
@@ -27,12 +27,14 @@ export const RoomSelector = ({ buildingId, roomId, onSelectionChanged }) => {
 };
 
 RoomSelector.propTypes = {
+  disabled: PropTypes.bool,
   buildingId: PropTypes.number,
   roomId: PropTypes.number,
   onSelectionChanged: PropTypes.func,
 };
 
 RoomSelector.defaultProps = {
+  disabled: false,
   buildingId: 0,
   roomId: 0,
   onSelectionChanged: () => {},

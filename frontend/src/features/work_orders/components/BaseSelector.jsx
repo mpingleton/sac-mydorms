@@ -5,7 +5,7 @@ import { Select, MenuItem } from '@mui/material';
 
 import getBases from '../../../api/getBases';
 
-export const BaseSelector = ({ baseId, onSelectionChanged }) => {
+export const BaseSelector = ({ disabled, baseId, onSelectionChanged }) => {
   const [bases, setBases] = React.useState([]);
 
   React.useEffect(() => {
@@ -16,6 +16,7 @@ export const BaseSelector = ({ baseId, onSelectionChanged }) => {
     <Select
       label="Base"
       value={baseId}
+      disabled={disabled}
       onChange={(event) => { onSelectionChanged(event.target.value); }}
     >
       <MenuItem disabled value={0}><em>Please select a base...</em></MenuItem>
@@ -25,11 +26,13 @@ export const BaseSelector = ({ baseId, onSelectionChanged }) => {
 };
 
 BaseSelector.propTypes = {
+  disabled: PropTypes.bool,
   baseId: PropTypes.number,
   onSelectionChanged: PropTypes.func,
 };
 
 BaseSelector.defaultProps = {
+  disabled: false,
   baseId: 0,
   onSelectionChanged: () => {},
 };
