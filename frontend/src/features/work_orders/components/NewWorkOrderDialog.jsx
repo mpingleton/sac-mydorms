@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Box, Modal, Button, TextField, Stack, Select, InputLabel, MenuItem, Typography } from '@mui/material';
+import { Box, Modal, Button, TextField, Stack, Typography } from '@mui/material';
+import { BaseSelector } from '@/components/BaseSelector';
+import { BuildingSelector } from '@/components/BuildingSelector';
+import { RoomSelector } from '@/components/RoomSelector';
 
 import createWorkOrder from '@/api/createWorkOrder';
-import getRooms from '@/api/getRooms';
 
 const Joi = require('joi');
 
@@ -21,28 +23,23 @@ const modalStyle = {
 };
 
 export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
+  const [selectedBaseId, setSelectedBaseId] = React.useState(0);
+  const [selectedBuildingId, setSelectedBuildingId] = React.useState(0);
+  const [selectedRoomId, setSelectedRoomId] = React.useState(0);
   const [resSubject, setSubject] = React.useState('');
-  const [resRoomId, setRoomId] = React.useState(-1);
   const [resRemarks, setRemarks] = React.useState('');
-  const [resRoomList, setRoomList] = React.useState([]);
-
-  React.useState(() => {
-    if (resRoomList.length === 0) {
-      getRooms().then((roomsData) => setRoomList(roomsData));
-    }
-  });
 
   const subjectValidation = Joi.string().min(1).max(150).required()
     .validate(resSubject);
   const roomIdValidation = Joi.number().integer().min(1).required()
-    .validate(resRoomId);
+    .validate(selectedRoomId);
   const remarksValidation = Joi.string().min(1).max(150).required()
     .validate(resRemarks);
 
   const submitWorkOrder = () => {
     const data = {
       subject: resSubject,
-      room_id: resRoomId,
+      room_id: selectedRoomId,
       remarks: resRemarks,
     };
 
@@ -68,22 +65,27 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
             variant="standard"
             onChange={(event) => { setSubject(event.target.value); }}
           />
-          <InputLabel id="new-work-order-room-label">For Room</InputLabel>
-          <Select
-            labelId="new-work-order-room-label"
-            id="new-work-order-room"
-            label="For Room"
-            error={roomIdValidation.error}
-            onChange={(event) => { setRoomId(event.target.value); }}
-          >
-            {
-              resRoomList.map((room) => (
-                <MenuItem value={room.id}>
-                  {`${room.room_number} (${room.buildingObject.building_name})`}
-                </MenuItem>
-              ))
-            }
-          </Select>
+          <BaseSelector
+            baseId={selectedBaseId}
+            onSelectionChanged={(baseId) => {
+              setSelectedBaseId(baseId);
+              setSelectedBuildingId(0);
+              setSelectedRoomId(0);
+            }}
+          />
+          <BuildingSelector
+            baseId={selectedBaseId}
+            buildingId={selectedBuildingId}
+            onSelectionChanged={(buildingId) => {
+              setSelectedBuildingId(buildingId);
+              setSelectedRoomId(0);
+            }}
+          />
+          <RoomSelector
+            buildingId={selectedBuildingId}
+            roomId={selectedRoomId}
+            onSelectionChanged={(roomId) => { setSelectedRoomId(roomId); }}
+          />
           <TextField
             id="new-work-order-remarks"
             label="Remarks"
