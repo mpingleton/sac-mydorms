@@ -6,6 +6,7 @@ import { DataGrid } from '@mui/x-data-grid';
 
 import getMyWorkOrders from '@/api/getMyWorkOrders';
 import getWorkOrdersInRoom from '@/api/getWorkOrdersInRoom';
+import getWorkOrdersInBuilding from '@/api/getWorkOrdersInBuilding';
 
 export const WorkOrderList = ({
   listType,
@@ -21,8 +22,7 @@ export const WorkOrderList = ({
       getMyWorkOrders().then((responseData) => setWorkOrders(responseData));
     } else if (listType === 'room') {
       if (baseId > 0 && buildingId > 0 && roomId <= 0) {
-        // Get work orders by building.
-        setWorkOrders([]);
+        getWorkOrdersInBuilding(buildingId).then((responseData) => setWorkOrders(responseData));
       } else if (baseId > 0 && buildingId > 0 && roomId > 0) {
         getWorkOrdersInRoom(roomId).then((responseData) => setWorkOrders(responseData));
       } else {
