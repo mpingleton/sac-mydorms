@@ -22,6 +22,13 @@ router.get(
 );
 
 router.get(
+  '/in/base/:base_id',
+  auth(),
+  validate(personnelValidation.getPersonnelAssignedToBase),
+  personnelController.getPersonnelAssignedToBase,
+);
+
+router.get(
   '/:id',
   auth(),
   dormManagerGatekeeper.isDormManager,

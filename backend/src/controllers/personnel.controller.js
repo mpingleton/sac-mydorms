@@ -23,6 +23,11 @@ const getPersonnelAssignedToMyBase = async (req, res) => {
   res.send(200, personnel);
 };
 
+const getPersonnelAssignedToBase = async (req, res) => {
+  const personnel = await personnelService.getPersonnelByBase(req.params.base_id);
+  res.send(200, personnel);
+};
+
 const createPersonnel = async (req, res) => {
   const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
 
@@ -44,6 +49,7 @@ const createPersonnel = async (req, res) => {
 module.exports = {
   getPersonnel,
   getPersonnelById,
+  getPersonnelAssignedToBase,
   getPersonnelAssignedToMyBase,
   createPersonnel,
 };

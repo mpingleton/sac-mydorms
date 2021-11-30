@@ -6,6 +6,12 @@ const getPersonnelById = {
   }),
 };
 
+const getPersonnelAssignedToBase = {
+  params: Joi.object().keys({
+    base_id: Joi.number().integer(),
+  }),
+};
+
 const putPersonnel = {
   body: Joi.object()
     .keys({
@@ -21,5 +27,6 @@ const putPersonnel = {
 
 module.exports = {
   getPersonnelById,
+  getPersonnelAssignedToBase,
   putPersonnel,
 };
