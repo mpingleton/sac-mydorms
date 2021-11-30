@@ -12,9 +12,9 @@ import { ContentLayout } from '@/components/layout';
 import { WorkOrderList } from '../components/WorkOrderList';
 import { NewWorkOrderDialog } from '../components/NewWorkOrderDialog';
 import { ViewWorkOrderDetailsDialog } from '../components/ViewWorkOrderDetailsDialog';
-import { BaseSelector } from '../components/BaseSelector';
-import { BuildingSelector } from '../components/BuildingSelector';
-import { RoomSelector } from '../components/RoomSelector';
+import { BaseSelector } from '@/components/BaseSelector';
+import { BuildingSelector } from '@/components/BuildingSelector';
+import { RoomSelector } from '@/components/RoomSelector';
 
 export const WorkOrders = () => {
   const [currentWorkOrderListSelection, setWorkOrderListSelection] = React.useState([]);
