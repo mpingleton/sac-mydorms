@@ -109,7 +109,7 @@ export const MainLayout = ({ children }) => {
             <IconButton edge="start" color="inherit" sx={{ marginRight: 'auto' }} onClick={openLeftDrawer}>
               <MenuIcon />
             </IconButton>
-            <Typography variant="h4" sx={{ marginLeft: 'auto', marginRight: 'auto' }}>
+            <Typography variant="h5" sx={{ marginLeft: 'auto', marginRight: 'auto' }}>
               MyDorms
             </Typography>
             <IconButton edge="end" color="inherit" sx={{ marginLeft: 'auto' }} onClick={openRightDrawer}>
