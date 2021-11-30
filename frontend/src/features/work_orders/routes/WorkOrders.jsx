@@ -86,6 +86,9 @@ export const WorkOrders = () => {
         </Stack>
         <WorkOrderList
           listType={filterType}
+          baseId={selectedBaseId}
+          buildingId={selectedBuildingId}
+          roomId={selectedRoomId}
           onSelectionChange={setWorkOrderListSelection}
         />
       </Stack>
