@@ -60,6 +60,7 @@ export const Residents = () => {
             sx={{ marginLeft: 'auto' }}
           >
             <ToggleButton value="base">By Base</ToggleButton>
+            <ToggleButton value="mybase">My Base</ToggleButton>
             <ToggleButton value="all">All</ToggleButton>
           </ToggleButtonGroup>
           {filterSelectors}

@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
 import getPersonnel from '@/api/getPersonnel';
+import getPersonnelInMyBase from '@/api/getPersonnelInMyBase';
 import getPersonnelAssignedToBase from '@/api/getPersonnelAssignedToBase';
 
 export const ResidentList = ({ listType, baseId, onSelectionChange }) => {
@@ -13,6 +14,8 @@ export const ResidentList = ({ listType, baseId, onSelectionChange }) => {
   React.useEffect(() => {
     if (listType === 'all') {
       getPersonnel().then((responseData) => setResidents(responseData));
+    } else if (listType === 'mybase') {
+      getPersonnelInMyBase().then((responseData) => setResidents(responseData));
     } else if (listType === 'base') {
       if (baseId > 0) {
         getPersonnelAssignedToBase(baseId).then((responseData) => setResidents(responseData));
