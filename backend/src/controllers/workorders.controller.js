@@ -32,6 +32,25 @@ const getWorkOrders = async (req, res) => {
 
 const getWorkOrdersInRoom = async (req, res) => {
   const workOrders = await workOrdersService.getWorkOrdersInRoom(req.params.room_id);
+
+  const roomPromises = [];
+  for (let i = 0; i < workOrders.length; i += 1) {
+    roomPromises.push(roomService.getRoomById(workOrders[i].room_id)
+      .then((roomObject) => {
+        workOrders[i].roomObject = roomObject;
+      }));
+  }
+  await Promise.all(roomPromises);
+
+  const buildingPromises = [];
+  for (let i = 0; i < workOrders.length; i += 1) {
+    buildingPromises.push(roomService.getBuildingById(workOrders[i].roomObject.building_id)
+      .then((buildingObject) => {
+        workOrders[i].roomObject.buildingObject = buildingObject;
+      }));
+  }
+  await Promise.all(buildingPromises);
+
   res.send(200, workOrders);
 };
 
