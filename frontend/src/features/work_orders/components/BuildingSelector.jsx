@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Select, MenuItem } from '@mui/material';
 
-import getBuildingsByBase from '../../../api/getBuildingsByBase';
+import getBuildingsByBase from '@/api/getBuildingsByBase';
 
 export const BuildingSelector = ({ disabled, baseId, buildingId, onSelectionChanged }) => {
   const [buildings, setBuildings] = React.useState([]);

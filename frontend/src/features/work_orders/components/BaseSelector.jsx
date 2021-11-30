@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Select, MenuItem } from '@mui/material';
 
-import getBases from '../../../api/getBases';
+import getBases from '@/api/getBases';
 
 export const BaseSelector = ({ disabled, baseId, onSelectionChanged }) => {
   const [bases, setBases] = React.useState([]);

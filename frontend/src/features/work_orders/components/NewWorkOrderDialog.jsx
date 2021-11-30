@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { Box, Modal, Button, TextField, Stack, Select, InputLabel, MenuItem, Typography } from '@mui/material';
 
-import createWorkOrder from '../../../api/createWorkOrder';
-import getRooms from '../../../api/getRooms';
+import createWorkOrder from '@/api/createWorkOrder';
+import getRooms from '@/api/getRooms';
 
 const Joi = require('joi');
 
