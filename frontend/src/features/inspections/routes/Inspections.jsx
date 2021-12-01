@@ -1,6 +1,11 @@
 import React from 'react';
 
-import { Button, Stack } from '@mui/material';
+import {
+  Button,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+} from '@mui/material';
 
 import { ContentLayout } from '@/components/layout';
 
@@ -13,6 +18,8 @@ export const Inspections = () => {
   const [isNewInspectionDialogOpen, setNewInspectionDialogOpen] = React.useState(false);
   const [isViewInspectionDetailsDialogOpen,
     setViewInspectionDetailsDialogOpen] = React.useState(false);
+
+  const [filterType, setFilterType] = React.useState('all');
 
   return (
     <ContentLayout title="Inspections">
@@ -40,8 +47,20 @@ export const Inspections = () => {
           >
             View
           </Button>
+          <ToggleButtonGroup
+            value={filterType}
+            onChange={(event) => { setFilterType(event.target.value); }}
+          >
+            <ToggleButton value="inroom">For Selected Room</ToggleButton>
+            <ToggleButton value="inresident">For Selected Resident</ToggleButton>
+            <ToggleButton value="byme">Created By Me</ToggleButton>
+            <ToggleButton value="all">All</ToggleButton>
+          </ToggleButtonGroup>
         </Stack>
-        <InspectionsList onSelectionChange={setInspectionSelection} />
+        <InspectionsList
+          listType={filterType}
+          onSelectionChange={setInspectionSelection}
+        />
       </Stack>
     </ContentLayout>
   );
