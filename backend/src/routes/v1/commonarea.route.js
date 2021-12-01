@@ -21,6 +21,26 @@ router.get(
   commonAreaController.getPostById,
 );
 
+router.get(
+  '/base/:base_id',
+  auth(),
+  validate(commonAreaValidation.getPostsByBase),
+  commonAreaController.getPostsByBase,
+);
+
+router.get(
+  '/postedby/:personnel_id',
+  auth(),
+  validate(commonAreaValidation.getPostsCreatedBy),
+  commonAreaController.getPostsCreatedBy,
+);
+
+router.get(
+  '/createdbyme',
+  auth(),
+  commonAreaController.getPostsCreatedByMe,
+);
+
 router.put(
   '/',
   auth(),
