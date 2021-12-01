@@ -35,6 +35,25 @@ const getPostsByBase = async (req, res) => {
   res.send(200, posts);
 };
 
+const getPostsAtMyBase = async (req, res) => {
+  const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
+  const enrollment = await enrollmentService.getEnrollmentByUserId(user.id);
+  const person = await personnelService.getPersonnelById(enrollment.personnel_id);
+
+  const posts = await commonAreaService.getPostsByBase(person.base_id);
+
+  const postPromises = [];
+  for (let i = 0; i < posts.length; i += 1) {
+    postPromises.push(personnelService.getPersonnelById(posts[i].posted_by)
+      .then((personnelObject) => {
+        posts[i].personnelObject = personnelObject;
+      }));
+  }
+  await Promise.all(postPromises);
+
+  res.send(200, posts);
+};
+
 const getPostsCreatedBy = async (req, res) => {
   const posts = await commonAreaService.getPostsCreatedBy(req.params.personnel_id);
 
@@ -152,6 +171,7 @@ const createComment = async (req, res) => {
 module.exports = {
   getPosts,
   getPostsByBase,
+  getPostsAtMyBase,
   getPostsCreatedBy,
   getPostsCreatedByMe,
   getPostById,

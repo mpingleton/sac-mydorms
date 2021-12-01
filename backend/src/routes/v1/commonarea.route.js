@@ -29,6 +29,12 @@ router.get(
 );
 
 router.get(
+  '/mybase',
+  auth(),
+  commonAreaController.getPostsAtMyBase,
+);
+
+router.get(
   '/postedby/:personnel_id',
   auth(),
   validate(commonAreaValidation.getPostsCreatedBy),
