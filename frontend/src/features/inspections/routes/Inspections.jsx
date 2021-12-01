@@ -120,6 +120,10 @@ export const Inspections = () => {
         </Stack>
         <InspectionsList
           listType={filterType}
+          baseId={selectedBaseId}
+          buildingId={selectedBuildingId}
+          roomId={selectedRoomId}
+          personnelId={selectedPersonnelId}
           onSelectionChange={setInspectionSelection}
         />
       </Stack>

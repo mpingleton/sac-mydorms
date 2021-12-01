@@ -5,15 +5,36 @@ import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
 import getRoomInspections from '@/api/getRoomInspections';
+import getRoomInspectionsCreatedByMe from '@/api/getRoomInspectionsCreatedByMe';
+import getRoomInspectionsForResident from '@/api/getRoomInspectionsForResident';
+import getRoomInspectionsForRoom from '@/api/getRoomInspectionsForRoom';
 
-export const InspectionsList = ({ onSelectionChange }) => {
+export const InspectionsList = ({
+  listType,
+  baseId,
+  buildingId,
+  roomId,
+  personnelId,
+  onSelectionChange,
+}) => {
   const [roomInspections, setRoomInspections] = React.useState([]);
 
   React.useEffect(() => {
-    if (roomInspections.length === 0) {
+    if (listType === 'all') {
       getRoomInspections().then((responseData) => setRoomInspections(responseData));
+    } else if (listType === 'byme') {
+      getRoomInspectionsCreatedByMe()
+        .then((responseData) => setRoomInspections(responseData));
+    } else if (listType === 'inroom') {
+      getRoomInspectionsForRoom(roomId)
+        .then((responseData) => setRoomInspections(responseData));
+    } else if (listType === 'inresident') {
+      getRoomInspectionsForResident(personnelId)
+        .then((responseData) => setRoomInspections(responseData));
+    } else {
+      setRoomInspections([]);
     }
-  });
+  }, [listType, baseId, buildingId, roomId, personnelId]);
 
   const columns = [
     { field: 'date', headerName: 'Date', width: 200 },
@@ -57,10 +78,20 @@ export const InspectionsList = ({ onSelectionChange }) => {
 };
 
 InspectionsList.propTypes = {
+  listType: PropTypes.string,
+  baseId: PropTypes.number,
+  buildingId: PropTypes.number,
+  roomId: PropTypes.number,
+  personnelId: PropTypes.number,
   onSelectionChange: PropTypes.func,
 };
 
 InspectionsList.defaultProps = {
+  listType: 'all',
+  baseId: 0,
+  buildingId: 0,
+  roomId: 0,
+  personnelId: 0,
   onSelectionChange: () => {},
 };
 

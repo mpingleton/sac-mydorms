@@ -15,6 +15,26 @@ router.get(
 );
 
 router.get(
+  '/resident/:personnel_id',
+  auth(),
+  validate(roomInspectionValidation.getRoomInspectionsForResident),
+  roomInspectionController.getRoomInspectionsForResident,
+);
+
+router.get(
+  '/room/:room_id',
+  auth(),
+  validate(roomInspectionValidation.getRoomInspectionsForRoom),
+  roomInspectionController.getRoomInspectionsForRoom,
+);
+
+router.get(
+  '/createdbyme',
+  auth(),
+  roomInspectionController.getRoomInspectionsCreatedByMe,
+);
+
+router.get(
   '/:id',
   auth(),
   validate(roomInspectionValidation.getRoomInspectionById),

@@ -16,6 +16,33 @@ const getRoomInspectionById = async (id) => {
   return roomInspection;
 };
 
+const getRoomInspectionsForResident = async (personnelId) => {
+  const roomInspections = await prisma.roomInspections.findMany({
+    where: {
+      resident_id: personnelId,
+    },
+  });
+  return roomInspections;
+};
+
+const getRoomInspectionsForRoom = async (roomId) => {
+  const roomInspections = await prisma.roomInspections.findMany({
+    where: {
+      room_id: roomId,
+    },
+  });
+  return roomInspections;
+};
+
+const getRoomInspectionsCreatedBy = async (personnelId) => {
+  const roomInspections = await prisma.roomInspections.findMany({
+    where: {
+      dorm_manager_id: personnelId,
+    },
+  });
+  return roomInspections;
+};
+
 const createRoomInspection = async (
   timestamp,
   roomId,
@@ -38,6 +65,9 @@ const createRoomInspection = async (
 
 module.exports = {
   getRoomInspections,
+  getRoomInspectionsForResident,
+  getRoomInspectionsForRoom,
+  getRoomInspectionsCreatedBy,
   getRoomInspectionById,
   createRoomInspection,
 };
