@@ -7,11 +7,15 @@ import { ContentLayout } from '@/components/layout';
 import { RoomList } from '../components/RoomList';
 import { ViewRoomDetailsDialog } from '../components/ViewRoomDetailsDialog';
 import { AssignResidentDialog } from '../components/AssignResidentDialog';
+import { BaseSelector } from '@/components/BaseSelector';
+import { BuildingSelector } from '@/components/BuildingSelector';
 
 export const Rooms = () => {
   const [currentRoomListSelection, setRoomListSelection] = React.useState([]);
   const [isViewRoomDialogOpen, setViewRoomDialogOpen] = React.useState(false);
   const [isAssignResdientDialogOpen, setAssignResidentDialogOpen] = React.useState(false);
+  const [selectedBaseId, setSelectedBaseId] = React.useState(0);
+  const [selectedBuildingId, setSelectedBuildingId] = React.useState(0);
 
   return (
     <ContentLayout title="Rooms">
@@ -41,8 +45,23 @@ export const Rooms = () => {
           >
             Assign Resident
           </Button>
+          <BaseSelector
+            baseId={selectedBaseId}
+            onSelectionChanged={(baseId) => {
+              setSelectedBaseId(baseId);
+              setSelectedBuildingId(0);
+            }}
+          />
+          <BuildingSelector
+            baseId={selectedBaseId}
+            buildingId={selectedBuildingId}
+            onSelectionChanged={(buildingId) => setSelectedBuildingId(buildingId)}
+          />
         </Stack>
-        <RoomList onSelectionChange={setRoomListSelection} />
+        <RoomList
+          buildingId={selectedBuildingId}
+          onSelectionChange={setRoomListSelection}
+        />
       </Stack>
     </ContentLayout>
   );
