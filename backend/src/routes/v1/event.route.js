@@ -15,6 +15,32 @@ router.get(
 );
 
 router.get(
+  '/base/:base_id',
+  auth(),
+  validate(eventValidation.getEventsByBase),
+  eventController.getEventsByBase,
+);
+
+router.get(
+  '/mybase',
+  auth(),
+  eventController.getEventsAtMyBase,
+);
+
+router.get(
+  '/createdby/:personnel_id',
+  auth(),
+  validate(eventValidation.getEventsCreatedBy),
+  eventController.getEventsCreatedBy,
+);
+
+router.get(
+  '/createdbyme',
+  auth(),
+  eventController.getEventsCreatedByMe,
+);
+
+router.get(
   '/id/:id',
   auth(),
   validate(eventValidation.getEventById),
