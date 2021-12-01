@@ -97,6 +97,8 @@ export const MainLayout = ({ children }) => {
   const navigationTwo = [
     checkAccess({ allowedRoles: [ROLES.ADMIN] })
       && { name: 'Users', to: './users' },
+    checkAccess({ allowedRoles: [ROLES.ADMIN] })
+      && { name: 'Bases, Buildings, Rooms', to: './bases_buildings_rooms' },
     { name: 'Your Profile', to: './profile' },
     { name: 'Sign out', to: '', onClick: () => logout() },
   ].filter(Boolean);
