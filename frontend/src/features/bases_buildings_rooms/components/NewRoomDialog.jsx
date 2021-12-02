@@ -42,6 +42,27 @@ export const NewRoomDialog = ({ buildingId, modalOpen, onClose }) => {
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
           <Typography>Create a New Room</Typography>
+          <TextField
+            label="Room Number"
+            error={roomNumberValidation.error && resRoomNumber.length > 0}
+            variant="outlined"
+            onChange={(event) => { setRoomNumber(event.target.value); }}
+          />
+          <Stack direction="row" spacing={1}>
+            <Button
+              variant="contained"
+              onClick={() => onClose()}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              disabled={roomNumberValidation.error}
+              onClick={() => {}}
+            >
+              Create
+            </Button>
+          </Stack>
         </Stack>
       </Box>
     </Modal>

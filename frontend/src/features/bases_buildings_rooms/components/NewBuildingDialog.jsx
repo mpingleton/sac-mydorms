@@ -31,10 +31,10 @@ export const NewBuildingDialog = ({ baseId, modalOpen, onClose }) => {
   const [resBuildingName, setBuildingName] = React.useState('');
   const [resBuildingAddress, setBuildingAddress] = React.useState('');
 
-  const buildingNameValidation = Joi.string().min(1).max(150).required()
-    .validate(resBuildingName);
   const buildingNumberValidation = Joi.string().min(1).max(10).required()
     .validate(resBuildingNumber);
+  const buildingNameValidation = Joi.string().min(1).max(50).required()
+    .validate(resBuildingName);
   const buildingAddressValidation = Joi.string().min(1).max(150).required()
     .validate(resBuildingAddress);
 
@@ -48,6 +48,43 @@ export const NewBuildingDialog = ({ baseId, modalOpen, onClose }) => {
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
           <Typography>Create a New Building</Typography>
+          <TextField
+            label="Building Number"
+            error={buildingNumberValidation.error && resBuildingNumber.length > 0}
+            variant="outlined"
+            onChange={(event) => { setBuildingNumber(event.target.value); }}
+          />
+          <TextField
+            label="Building Name"
+            error={buildingNameValidation.error && resBuildingName.length > 0}
+            variant="outlined"
+            onChange={(event) => { setBuildingName(event.target.value); }}
+          />
+          <TextField
+            label="Address"
+            error={buildingAddressValidation.error && resBuildingAddress.length > 0}
+            variant="outlined"
+            onChange={(event) => { setBuildingAddress(event.target.value); }}
+          />
+          <Stack direction="row" spacing={1}>
+            <Button
+              variant="contained"
+              onClick={() => onClose()}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              disabled={
+                buildingNumberValidation.error
+                || buildingNameValidation.error
+                || buildingAddressValidation.error
+              }
+              onClick={() => {}}
+            >
+              Create
+            </Button>
+          </Stack>
         </Stack>
       </Box>
     </Modal>

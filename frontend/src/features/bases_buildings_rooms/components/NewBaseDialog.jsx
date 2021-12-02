@@ -29,7 +29,7 @@ const modalStyle = {
 export const NewBaseDialog = ({ modalOpen, onClose }) => {
   const [resBaseName, setBaseName] = React.useState('');
 
-  const baseNameValidation = Joi.string().min(1).max(10).required()
+  const baseNameValidation = Joi.string().min(1).max(100).required()
     .validate(resBaseName);
 
   return (
@@ -42,6 +42,27 @@ export const NewBaseDialog = ({ modalOpen, onClose }) => {
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
           <Typography>Create a New Base</Typography>
+          <TextField
+            label="Base Name"
+            error={baseNameValidation.error && resBaseName.length > 0}
+            variant="outlined"
+            onChange={(event) => { setBaseName(event.target.value); }}
+          />
+          <Stack direction="row" spacing={1}>
+            <Button
+              variant="contained"
+              onClick={() => onClose()}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              disabled={baseNameValidation.error}
+              onClick={() => {}}
+            >
+              Create
+            </Button>
+          </Stack>
         </Stack>
       </Box>
     </Modal>
