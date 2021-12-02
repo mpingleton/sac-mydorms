@@ -29,6 +29,10 @@ const modalStyle = {
 export const NewBaseDialog = ({ modalOpen, onClose }) => {
   const [resBaseName, setBaseName] = React.useState('');
 
+  const submitNewBase = () => {
+    createBase(resBaseName).then(() => { onClose(); });
+  };
+
   const baseNameValidation = Joi.string().min(1).max(100).required()
     .validate(resBaseName);
 
@@ -58,7 +62,7 @@ export const NewBaseDialog = ({ modalOpen, onClose }) => {
             <Button
               variant="contained"
               disabled={baseNameValidation.error}
-              onClick={() => {}}
+              onClick={() => submitNewBase()}
             >
               Create
             </Button>
