@@ -30,4 +30,11 @@ router.get(
   roomController.getRoomById,
 );
 
+router.put(
+  '/',
+  auth(),
+  validate(roomValidation.createRoom),
+  roomController.createRoom,
+);
+
 module.exports = router;

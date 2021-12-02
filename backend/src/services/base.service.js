@@ -37,9 +37,26 @@ const createBase = async (
   });
 };
 
+const createBuilding = async (
+  baseId,
+  buildingNumber,
+  buildingName,
+  address,
+) => {
+  await prisma.buildings.create({
+    data: {
+      base_id: baseId,
+      building_number: buildingNumber,
+      building_name: buildingName,
+      address,
+    },
+  });
+};
+
 module.exports = {
   getBases,
   getBuildingsByBase,
   getBaseById,
   createBase,
+  createBuilding,
 };

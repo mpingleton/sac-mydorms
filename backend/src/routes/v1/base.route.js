@@ -34,4 +34,11 @@ router.put(
   baseController.createBase,
 );
 
+router.put(
+  '/buildings',
+  auth(),
+  validate(baseValidation.createBuilding),
+  baseController.createBuilding,
+);
+
 module.exports = router;

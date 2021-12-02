@@ -20,9 +20,20 @@ const createBase = async (req, res) => {
   res.send(201);
 };
 
+const createBuilding = async (req, res) => {
+  await baseService.createBuilding(
+    req.body.base_id,
+    req.body.building_number,
+    req.body.building_name,
+    req.body.address,
+  );
+  res.send(201);
+};
+
 module.exports = {
   getBases,
   getBuildingsByBase,
   getBaseById,
   createBase,
+  createBuilding,
 };

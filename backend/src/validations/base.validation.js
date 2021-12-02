@@ -18,8 +18,18 @@ const createBase = {
   }),
 };
 
+const createBuilding = {
+  body: Joi.object().keys({
+    base_id: Joi.number().integer().required(),
+    building_number: Joi.string().required(),
+    building_name: Joi.string().required(),
+    address: Joi.string().required(),
+  }),
+};
+
 module.exports = {
   getBuildingsByBase,
   getBaseById,
   createBase,
+  createBuilding,
 };

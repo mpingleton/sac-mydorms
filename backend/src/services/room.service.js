@@ -47,10 +47,25 @@ const getBuildingsByBase = async (baseId) => {
   return buildings;
 };
 
+const createRoom = async (
+  buildingId,
+  roomNumber,
+  status,
+) => {
+  await prisma.rooms.create({
+    data: {
+      building_id: buildingId,
+      room_number: roomNumber,
+      status,
+    },
+  });
+};
+
 module.exports = {
   getRooms,
   getRoomsInBuilding,
   getRoomById,
   getBuildingById,
   getBuildingsByBase,
+  createRoom,
 };

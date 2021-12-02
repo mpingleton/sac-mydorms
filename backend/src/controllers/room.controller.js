@@ -36,8 +36,18 @@ const getRoomById = async (req, res) => {
   res.send(200, room);
 };
 
+const createRoom = async (req, res) => {
+  await roomService.createRoom(
+    req.body.building_id,
+    req.body.room_number,
+    req.body.status,
+  );
+  res.send(201);
+};
+
 module.exports = {
   getRooms,
   getRoomsInBuilding,
   getRoomById,
+  createRoom,
 };

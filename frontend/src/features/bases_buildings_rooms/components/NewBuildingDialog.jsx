@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 
-// import createBuilding from '@/api/createBuilding';
+import createBuilding from '@/api/createBuilding';
 
 const Joi = require('joi');
 
@@ -30,6 +30,11 @@ export const NewBuildingDialog = ({ baseId, modalOpen, onClose }) => {
   const [resBuildingNumber, setBuildingNumber] = React.useState('');
   const [resBuildingName, setBuildingName] = React.useState('');
   const [resBuildingAddress, setBuildingAddress] = React.useState('');
+
+  const submitNewBuilding = () => {
+    createBuilding(baseId, resBuildingName, resBuildingNumber, resBuildingAddress)
+      .then(() => { onClose(); });
+  };
 
   const buildingNumberValidation = Joi.string().min(1).max(10).required()
     .validate(resBuildingNumber);
@@ -80,7 +85,7 @@ export const NewBuildingDialog = ({ baseId, modalOpen, onClose }) => {
                 || buildingNameValidation.error
                 || buildingAddressValidation.error
               }
-              onClick={() => {}}
+              onClick={() => submitNewBuilding()}
             >
               Create
             </Button>

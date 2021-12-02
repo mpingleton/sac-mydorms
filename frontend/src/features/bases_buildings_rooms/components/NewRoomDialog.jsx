@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 
-// import createRoom from '@/api/createRoom';
+import createRoom from '@/api/createRoom';
 
 const Joi = require('joi');
 
@@ -28,6 +28,10 @@ const modalStyle = {
 
 export const NewRoomDialog = ({ buildingId, modalOpen, onClose }) => {
   const [resRoomNumber, setRoomNumber] = React.useState('');
+
+  const submitNewRoom = () => {
+    createRoom(buildingId, resRoomNumber, 0).then(() => { onClose(); });
+  };
 
   const roomNumberValidation = Joi.string().min(1).max(10).required()
     .validate(resRoomNumber);
@@ -58,7 +62,7 @@ export const NewRoomDialog = ({ buildingId, modalOpen, onClose }) => {
             <Button
               variant="contained"
               disabled={roomNumberValidation.error}
-              onClick={() => {}}
+              onClick={() => submitNewRoom()}
             >
               Create
             </Button>
