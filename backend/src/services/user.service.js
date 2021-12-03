@@ -1,6 +1,8 @@
+/* eslint-disable no-console */
+const bcrypt = require('bcrypt');
 const httpStatus = require('http-status');
 const { PrismaClient } = require('@prisma/client');
-
+const hashPassword = require('@/utils/hashPassword');
 const ApiError = require('@/utils/ApiError');
 
 const prisma = new PrismaClient();
@@ -17,6 +19,31 @@ const getUserByUsername = async (username) => {
     },
   });
   return user;
+};
+
+/**
+* Get user by email
+* @param {string} email
+* @returns {Promise<User>}
+*/
+const getPasswordHash = async (username) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      username,
+    },
+  });
+  return user.password;
+};
+
+/**
+* Check a users hashed password with the salt from the env.
+* Wrapped in a Promise in order to use async functionality (await).
+* @param {string} email
+* @returns {boolean}
+*/
+const checkPasswordHash = async (username, password) => {
+  const hash = await getPasswordHash(username);
+  return bcrypt.compare(password, hash).then((result) => result);
 };
 
 /**
@@ -51,12 +78,10 @@ const createUser = async (userData) => {
 
   const data = {
     username: userData.username,
-    // bcrypt this
-    password: userData.password,
+    password: hashPassword(userData.password),
     role: userRole,
     isLocked: false,
   };
-  // console.dir(userData);
 
   const user = await prisma.user.create({ data });
   return user;
@@ -178,6 +203,7 @@ const unlockUserById = async (userId) => {
 
 module.exports = {
   isUsernameTaken,
+  checkPasswordHash,
   getUserByUsername,
   createUser,
   queryUsers,

@@ -13,9 +13,9 @@ const userService = require('./user.service');
  */
 const loginUserWithUsernameAndPassword = async (username, password) => {
   const user = await userService.getUserByUsername(username);
-  // TODO: Should use bcrypt to compare
-  // And fn should probably live elsewhere (idiomatic Prisma?)
-  if (!user || !(await user.password === password)) {
+  const checkPass = await userService.checkPasswordHash(username, password);
+
+  if (!user || !checkPass) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect username or password');
   } else if (user.isLocked) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Account is locked');

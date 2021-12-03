@@ -8,25 +8,25 @@ const prisma = new PrismaClient();
 const users = [
   {
     username: 'alice.doe',
-    password: '123',
+    password: '$2b$10$XTwLbGwnTkUQytEcTBPHtuLkNhMzZOl8ZWbrQELSmxQ.ux4b7Pdhi',
     role: 'USER',
     isLocked: false,
   },
   {
     username: 'mahmoud.ahmed.adm',
-    password: '123',
+    password: '$2b$10$XTwLbGwnTkUQytEcTBPHtuLkNhMzZOl8ZWbrQELSmxQ.ux4b7Pdhi',
     role: 'ADMIN',
     isLocked: false,
   },
   {
     username: 'ezekiel.gary',
-    password: '123',
+    password: '$2b$10$XTwLbGwnTkUQytEcTBPHtuLkNhMzZOl8ZWbrQELSmxQ.ux4b7Pdhi',
     role: 'USER',
     isLocked: false,
   },
   {
     username: 'john.snuffy',
-    password: '12345',
+    password: '$2b$10$XTwLbGwnTkUQytEcTBPHtuLkNhMzZOl8ZWbrQELSmxQ.ux4b7Pdhi',
     role: 'USER',
     isLocked: false,
   },
