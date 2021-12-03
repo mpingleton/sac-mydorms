@@ -10,12 +10,30 @@ import { AssignResidentDialog } from '../components/AssignResidentDialog';
 import { BaseSelector } from '@/components/BaseSelector';
 import { BuildingSelector } from '@/components/BuildingSelector';
 
+import { useAuth } from '@/lib/auth';
+import { useAuthorization, ROLES } from '@/lib/authorization';
+import getMyEnrollment from '@/api/getMyEnrollment';
+
 export const Rooms = () => {
+  const [userEnrollment, setUserEnrollment] = React.useState({});
   const [currentRoomListSelection, setRoomListSelection] = React.useState([]);
   const [isViewRoomDialogOpen, setViewRoomDialogOpen] = React.useState(false);
   const [isAssignResdientDialogOpen, setAssignResidentDialogOpen] = React.useState(false);
   const [selectedBaseId, setSelectedBaseId] = React.useState(0);
   const [selectedBuildingId, setSelectedBuildingId] = React.useState(0);
+
+  const { checkAccess } = useAuthorization();
+  const { user } = useAuth();
+
+  React.useEffect(() => {
+    if (checkAccess({ allowedRoles: [ROLES.USER] })) {
+      getMyEnrollment()
+        .then((responseData) => {
+          setUserEnrollment(responseData);
+          setSelectedBaseId(responseData.personnelObject.base_id);
+        });
+    }
+  }, [user.id, checkAccess]);
 
   return (
     <ContentLayout title="Rooms">
@@ -47,6 +65,7 @@ export const Rooms = () => {
           </Button>
           <BaseSelector
             baseId={selectedBaseId}
+            disabled={userEnrollment.personnelObject !== undefined}
             onSelectionChanged={(baseId) => {
               setSelectedBaseId(baseId);
               setSelectedBuildingId(0);

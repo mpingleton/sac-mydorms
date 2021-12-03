@@ -9,12 +9,16 @@ import { ResidentList } from '../components/ResidentList';
 import { NewResidentDialog } from '../components/NewResidentDialog';
 import { ViewResidentDetailsDialog } from '../components/ViewResidentDetailsDialog';
 
+import { useAuthorization, ROLES } from '@/lib/authorization';
+
 export const Residents = () => {
   const [currentResidentListSelection, setResidentListSelection] = React.useState([]);
   const [isNewResidentDialogOpen, setNewResidentDialogOpen] = React.useState(false);
   const [isViewResidentDialogOpen, setViewResidentDialogOpen] = React.useState(false);
-  const [filterType, setFilterType] = React.useState('all');
+  const [filterType, setFilterType] = React.useState('');
   const [selectedBaseId, setSelectedBaseId] = React.useState(0);
+
+  const { checkAccess } = useAuthorization();
 
   let filterSelectors = null;
   if (filterType === 'base') {
@@ -59,9 +63,12 @@ export const Residents = () => {
             onChange={(event) => { setFilterType(event.target.value); }}
             sx={{ marginLeft: 'auto' }}
           >
-            <ToggleButton value="base">By Base</ToggleButton>
-            <ToggleButton value="mybase">My Base</ToggleButton>
-            <ToggleButton value="all">All</ToggleButton>
+            {checkAccess({ allowedRoles: [ROLES.ADMIN] })
+              && (<ToggleButton value="base">By Base</ToggleButton>)}
+            {checkAccess({ allowedRoles: [ROLES.USER] })
+              && (<ToggleButton value="mybase">My Base</ToggleButton>)}
+            {checkAccess({ allowedRoles: [ROLES.ADMIN] })
+              && (<ToggleButton value="all">All</ToggleButton>)}
           </ToggleButtonGroup>
           {filterSelectors}
         </Stack>
