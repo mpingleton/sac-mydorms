@@ -91,7 +91,8 @@ export const MainLayout = ({ children }) => {
     { name: 'Inspections', to: './inspections' },
     { name: 'Common Area', to: './commonarea' },
     { name: 'Events', to: './events' },
-    { name: 'Messages', to: './messages' },
+    checkAccess({ allowedRoles: [ROLES.USER] })
+      && { name: 'Messages', to: './messages' },
   ].filter(Boolean);
 
   const navigationTwo = [
