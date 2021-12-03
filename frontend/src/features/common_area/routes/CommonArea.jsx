@@ -24,7 +24,7 @@ export const CommonArea = () => {
   const [isNewPostDialogOpen, setNewPostDialogOpen] = React.useState(false);
 
   const [userEnrollment, setUserEnrollment] = React.useState({});
-  const [filterType, setFilterType] = React.useState('all');
+  const [filterType, setFilterType] = React.useState('');
   const [selectedBaseId, setSelectedBaseId] = React.useState(0);
   const [selectedPersonnelId, setSelectedPersonnelId] = React.useState(0);
 
