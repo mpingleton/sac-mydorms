@@ -27,7 +27,7 @@ export const WorkOrders = () => {
   const [currentWorkOrderListSelection, setWorkOrderListSelection] = React.useState([]);
   const [isNewWorkOrderDialogOpen, setNewWorkOrderDialogOpen] = React.useState(false);
   const [isViewWorkOrderDialogOpen, setViewWorkOrderDialogOpen] = React.useState(false);
-  const [filterType, setFilterType] = React.useState('me');
+  const [filterType, setFilterType] = React.useState('');
   const [selectedBaseId, setSelectedBaseId] = React.useState(0);
   const [selectedBuildingId, setSelectedBuildingId] = React.useState(0);
   const [selectedRoomId, setSelectedRoomId] = React.useState(0);
@@ -120,7 +120,8 @@ export const WorkOrders = () => {
           >
             {checkAccess({ allowedRoles: [ROLES.USER] })
               && (<ToggleButton value="me">Created By Me</ToggleButton>)}
-            {isDormManager() && (<ToggleButton value="room">By Building/Room</ToggleButton>)}
+            {(checkAccess({ allowedRoles: [ROLES.ADMIN] }) || isDormManager())
+              && (<ToggleButton value="room">By Building/Room</ToggleButton>)}
             {checkAccess({ allowedRoles: [ROLES.ADMIN] })
               && (<ToggleButton value="all">All</ToggleButton>)}
           </ToggleButtonGroup>
