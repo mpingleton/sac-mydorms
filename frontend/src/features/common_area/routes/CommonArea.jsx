@@ -1,3 +1,5 @@
+/* eslint-disable no-else-return */
+
 import React from 'react';
 
 import {
@@ -14,18 +16,37 @@ import { NewPostDialog } from '../components/NewPostDialog';
 import { BaseSelector } from '@/components/BaseSelector';
 import { PersonnelSelector } from '@/components/PersonnelSelector';
 
+import { useAuth } from '@/lib/auth';
+import { useAuthorization, ROLES } from '@/lib/authorization';
+import getMyEnrollment from '@/api/getMyEnrollment';
+
 export const CommonArea = () => {
   const [isNewPostDialogOpen, setNewPostDialogOpen] = React.useState(false);
 
+  const [userEnrollment, setUserEnrollment] = React.useState({});
   const [filterType, setFilterType] = React.useState('all');
   const [selectedBaseId, setSelectedBaseId] = React.useState(0);
   const [selectedPersonnelId, setSelectedPersonnelId] = React.useState(0);
+
+  const { checkAccess } = useAuthorization();
+  const { user } = useAuth();
+
+  React.useEffect(() => {
+    if (checkAccess({ allowedRoles: [ROLES.USER] })) {
+      getMyEnrollment()
+        .then((responseData) => {
+          setUserEnrollment(responseData);
+          setSelectedBaseId(responseData.personnelObject.base_id);
+        });
+    }
+  }, [user.id, checkAccess]);
 
   let filterSelectors = null;
   if (filterType === 'inbase') {
     filterSelectors = (
       <BaseSelector
         baseId={selectedBaseId}
+        disabled={userEnrollment.personnelObject !== undefined}
         onSelectionChanged={(baseId) => {
           setSelectedBaseId(baseId);
           setSelectedPersonnelId(0);
@@ -37,6 +58,7 @@ export const CommonArea = () => {
       <Stack direction="row" spacing={1}>
         <BaseSelector
           baseId={selectedBaseId}
+          disabled={userEnrollment.personnelObject !== undefined}
           onSelectionChanged={(baseId) => {
             setSelectedBaseId(baseId);
             setSelectedPersonnelId(0);
@@ -71,11 +93,15 @@ export const CommonArea = () => {
               setFilterType(event.target.value);
             }}
           >
-            <ToggleButton value="inbase">In Selected Base</ToggleButton>
-            <ToggleButton value="inmybase">In My Base</ToggleButton>
+            {checkAccess({ allowedRoles: [ROLES.ADMIN] })
+              && (<ToggleButton value="inbase">In Selected Base</ToggleButton>)}
+            {checkAccess({ allowedRoles: [ROLES.USER] })
+              && (<ToggleButton value="inmybase">In My Base</ToggleButton>)}
             <ToggleButton value="inperson">Posted By Selected Person</ToggleButton>
-            <ToggleButton value="byme">Posted By Me</ToggleButton>
-            <ToggleButton value="all">All</ToggleButton>
+            {checkAccess({ allowedRoles: [ROLES.USER] })
+              && (<ToggleButton value="byme">Posted By Me</ToggleButton>)}
+            {checkAccess({ allowedRoles: [ROLES.ADMIN] })
+              && (<ToggleButton value="all">All</ToggleButton>)}
           </ToggleButtonGroup>
           {filterSelectors}
         </Stack>
