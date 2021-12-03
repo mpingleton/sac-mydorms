@@ -1,3 +1,5 @@
+/* eslint-disable no-else-return */
+
 import React from 'react';
 
 import {
@@ -16,7 +18,12 @@ import { BaseSelector } from '@/components/BaseSelector';
 import { BuildingSelector } from '@/components/BuildingSelector';
 import { RoomSelector } from '@/components/RoomSelector';
 
+import { useAuth } from '@/lib/auth';
+import { useAuthorization, ROLES } from '@/lib/authorization';
+import getMyEnrollment from '@/api/getMyEnrollment';
+
 export const WorkOrders = () => {
+  const [userEnrollment, setUserEnrollment] = React.useState({});
   const [currentWorkOrderListSelection, setWorkOrderListSelection] = React.useState([]);
   const [isNewWorkOrderDialogOpen, setNewWorkOrderDialogOpen] = React.useState(false);
   const [isViewWorkOrderDialogOpen, setViewWorkOrderDialogOpen] = React.useState(false);
@@ -25,12 +32,35 @@ export const WorkOrders = () => {
   const [selectedBuildingId, setSelectedBuildingId] = React.useState(0);
   const [selectedRoomId, setSelectedRoomId] = React.useState(0);
 
+  const { checkAccess } = useAuthorization();
+  const { user } = useAuth();
+
+  React.useEffect(() => {
+    if (checkAccess({ allowedRoles: [ROLES.USER] })) {
+      getMyEnrollment()
+        .then((responseData) => {
+          setUserEnrollment(responseData);
+          setSelectedBaseId(responseData.personnelObject.base_id);
+        });
+    }
+  }, [user.id, checkAccess]);
+
+  const isDormManager = () => {
+    if (checkAccess({ allowedRoles: [ROLES.USER] })
+      && userEnrollment.personnelObject !== undefined) {
+      return userEnrollment.personnelObject.is_dorm_manager;
+    } else {
+      return false;
+    }
+  };
+
   let filterSelectors = null;
   if (filterType === 'room') {
     filterSelectors = (
       <Stack direction="row" spacing={1}>
         <BaseSelector
           baseId={selectedBaseId}
+          disabled={userEnrollment.personnelObject !== undefined}
           onSelectionChanged={(baseId) => {
             setSelectedBaseId(baseId);
             setSelectedBuildingId(0);
@@ -88,9 +118,11 @@ export const WorkOrders = () => {
             onChange={(event) => { setFilterType(event.target.value); }}
             sx={{ marginLeft: 'auto' }}
           >
-            <ToggleButton value="me">Created By Me</ToggleButton>
-            <ToggleButton value="room">By Building/Room</ToggleButton>
-            <ToggleButton value="all">All</ToggleButton>
+            {checkAccess({ allowedRoles: [ROLES.USER] })
+              && (<ToggleButton value="me">Created By Me</ToggleButton>)}
+            {isDormManager() && (<ToggleButton value="room">By Building/Room</ToggleButton>)}
+            {checkAccess({ allowedRoles: [ROLES.ADMIN] })
+              && (<ToggleButton value="all">All</ToggleButton>)}
           </ToggleButtonGroup>
           {filterSelectors}
         </Stack>
