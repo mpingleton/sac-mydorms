@@ -33,7 +33,7 @@ export const Inspection = () => {
       variant="outlined"
     >
       <CardContent>
-        <Typography>Inspections</Typography>
+        <Typography variant="h6">Inspections</Typography>
         <DataGrid
           rows={rows}
           columns={columns}

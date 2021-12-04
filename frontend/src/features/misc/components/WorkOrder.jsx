@@ -28,7 +28,7 @@ export const WorkOrder = () => {
       variant="outlined"
     >
       <CardContent>
-        <Typography>Work Orders</Typography>
+        <Typography variant="h6">Work Orders</Typography>
         <DataGrid
           rows={rows}
           columns={columns}
