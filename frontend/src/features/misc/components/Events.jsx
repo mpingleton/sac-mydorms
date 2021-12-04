@@ -1,15 +1,59 @@
+/* eslint-disable react/jsx-one-expression-per-line */
+
 import React from 'react';
 import { Typography, Card, CardContent } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
 
-export const Events = () => (
-  <Card
-    sx={{ minHeight: 200, minWidth: 400 }}
-    variant="outlined"
-  >
-    <CardContent>
-      <Typography>Events</Typography>
-    </CardContent>
-  </Card>
-);
+import getUpcomingEvents from '@/api/getUpcomingEvents';
+
+export const Events = () => {
+  const [events, setEvents] = React.useState([]);
+
+  React.useEffect(() => {
+    getUpcomingEvents().then((responseData) => setEvents(responseData));
+  }, []);
+
+  const columns = [
+    {
+      field: 'subject',
+      headerName: 'Subject',
+      width: 200,
+    },
+    {
+      field: 'scheduled',
+      headerName: 'Date',
+      width: 90,
+    },
+  ];
+
+  const rows = events.map((evnt) => ({
+    id: evnt.id,
+    subject: evnt.subject,
+    scheduled: evnt.scheduled.toString(),
+  }));
+
+  return (
+    <Card
+      sx={{ minHeight: 400, minWidth: 600 }}
+      variant="outlined"
+    >
+      <CardContent>
+        <Typography variant="h6">Events</Typography>
+        <Typography>
+          {
+            `There ${events.length === 1 ? 'is' : 'are'} ${events.length} upcoming event${events.length === 1 ? '' : 's'}.`
+          }
+        </Typography>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          disableSelectionOnClick
+        />
+      </CardContent>
+    </Card>
+  );
+};
 
 export default Events;

@@ -41,6 +41,12 @@ router.get(
 );
 
 router.get(
+  '/upcoming',
+  auth(),
+  eventController.getUpcomingEvents,
+);
+
+router.get(
   '/id/:id',
   auth(),
   validate(eventValidation.getEventById),
