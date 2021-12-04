@@ -76,9 +76,11 @@ const createUser = async (userData) => {
     }
   }
 
+  const hashedPassword = await hashPassword(userData.password);
+
   const data = {
     username: userData.username,
-    password: hashPassword(userData.password),
+    password: hashedPassword,
     role: userRole,
     isLocked: false,
   };
