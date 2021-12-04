@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-one-expression-per-line */
+
 import React from 'react';
 import { Typography, Card, CardContent } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
@@ -36,7 +38,12 @@ export const Events = () => {
       variant="outlined"
     >
       <CardContent>
-        <Typography>Events</Typography>
+        <Typography variant="h6">Events</Typography>
+        <Typography>
+          {
+            `There ${events.length === 1 ? 'is' : 'are'} ${events.length} upcoming event${events.length === 1 ? '' : 's'}.`
+          }
+        </Typography>
         <DataGrid
           rows={rows}
           columns={columns}
