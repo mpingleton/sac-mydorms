@@ -1,48 +1,49 @@
 import React from 'react';
-import { Typography, Card, CardContent, Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
+import { Typography, Card, CardContent } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
 
-function createData(inspections, results, time) {
-  return { inspections, results, time };
-}
+export const Inspection = () => {
+  const columns = [
+    {
+      field: 'inspector',
+      headerName: 'Inspector',
+      width: 150,
+    },
+    {
+      field: 'time',
+      headerName: 'Time',
+      width: 150,
+    },
+    {
+      field: 'remarks',
+      headerName: 'Remarks',
+      width: 300,
+    },
+  ];
 
-const rows = [
-  createData('Room 1', 'Pass', '8:30'),
-  createData('Room 2', 'Fail', '15.45'),
-  createData('Room 3', 'Pass', '13:30'),
-];
+  const rows = [
+    { id: 1, inspector: 'SSgt John Snuffy', time: '24 May 2021', remarks: 'Room clean.' },
+    { id: 2, inspector: 'SSgt John Snuffy', time: '23 May 2021', remarks: 'Room clean.' },
+    { id: 3, inspector: 'SSgt John Snuffy', time: '22 May 2021', remarks: 'Another test inspections.' },
+  ];
 
-export const Inspection = () => (
-  <Card
-    sx={{ minHeight: 200, minWidth: 400 }}
-    variant="outlined"
-  >
-    <CardContent>
-      <Typography>Inspections</Typography>
-      <Table sx={{ minWidth: 500 }} aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Inspection</TableCell>
-            <TableCell align="left">Result</TableCell>
-            <TableCell align="left">Time</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.inspections}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row" style={{ width: 150 }}>
-                {row.inspections}
-              </TableCell>
-              <TableCell>{row.results}</TableCell>
-              <TableCell>{row.time}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </CardContent>
-  </Card>
-);
+  return (
+    <Card
+      sx={{ minHeight: 200, minWidth: 400 }}
+      variant="outlined"
+    >
+      <CardContent>
+        <Typography>Inspections</Typography>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          disableSelectionOnClick
+        />
+      </CardContent>
+    </Card>
+  );
+};
 
 export default Inspection;
