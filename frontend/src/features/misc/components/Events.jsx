@@ -5,30 +5,22 @@ import { DataGrid } from '@mui/x-data-grid';
 export const Events = () => {
   const columns = [
     {
-      field: 'id',
-      headerName: 'Event Name',
-      width: 90,
-      editable: true,
+      field: 'subject',
+      headerName: 'Subject',
+      width: 200,
     },
     {
-      field: 'Date',
+      field: 'scheduled',
       headerName: 'Date',
-      width: 150,
-      editable: true,
-    },
-    {
-      field: 'Time',
-      headerName: 'Time',
-      width: 150,
-      editable: true,
+      width: 90,
     },
   ];
 
   const rows = [
-    { id: 'Dance', Date: '12/01', Time: '17:30' },
-    { id: 'Spring Jammer', Date: '01/29', Time: '6:00' },
-    { id: 'Sports Tournament', Date: '02/24', Time: '15:45' },
-    { id: 'Pot Luck', Date: '03/15', Time: '18:00' },
+    { id: 1, subject: 'Dance', scheduled: '12/01' },
+    { id: 2, subject: 'Spring Jammer', scheduled: '01/29' },
+    { id: 3, subject: 'Sports Tournament', scheduled: '02/24' },
+    { id: 4, subject: 'Pot Luck', scheduled: '03/15' },
   ];
 
   return (
