@@ -146,7 +146,7 @@ export const Inspections = () => {
               && (<ToggleButton value="inroom">For Selected Room</ToggleButton>)}
             {(checkAccess({ allowedRoles: [ROLES.ADMIN] }) || isDormManager())
               && (<ToggleButton value="inresident">For Selected Resident</ToggleButton>)}
-            {checkAccess({ allowedRoles: [ROLES.USER] })
+            {(checkAccess({ allowedRoles: [ROLES.USER] }) && isDormManager())
               && (<ToggleButton value="byme">Created By Me</ToggleButton>)}
             {checkAccess({ allowedRoles: [ROLES.USER] })
               && (<ToggleButton value="my">For Me</ToggleButton>)}
