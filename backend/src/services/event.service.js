@@ -27,6 +27,19 @@ const getEventsByCreator = async (personnelId) => {
   return events;
 };
 
+const getUpcomingEvents = async (baseId) => {
+  const events = await prisma.events.findMany({
+    where: {
+      base_id: baseId,
+      scheduled: {
+        gt: new Date(),
+      },
+    },
+  });
+
+  return events;
+};
+
 const getEventById = async (id) => {
   const evnt = await prisma.events.findUnique({
     where: {
@@ -103,6 +116,7 @@ module.exports = {
   getEvents,
   getEventsByBase,
   getEventsByCreator,
+  getUpcomingEvents,
   getEventById,
   createEvent,
   setResponse,

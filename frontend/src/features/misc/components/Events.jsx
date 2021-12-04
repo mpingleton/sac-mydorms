@@ -2,7 +2,15 @@ import React from 'react';
 import { Typography, Card, CardContent } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
+import getUpcomingEvents from '@/api/getUpcomingEvents';
+
 export const Events = () => {
+  const [events, setEvents] = React.useState([]);
+
+  React.useEffect(() => {
+    getUpcomingEvents().then((responseData) => setEvents(responseData));
+  }, []);
+
   const columns = [
     {
       field: 'subject',
@@ -16,12 +24,11 @@ export const Events = () => {
     },
   ];
 
-  const rows = [
-    { id: 1, subject: 'Dance', scheduled: '12/01' },
-    { id: 2, subject: 'Spring Jammer', scheduled: '01/29' },
-    { id: 3, subject: 'Sports Tournament', scheduled: '02/24' },
-    { id: 4, subject: 'Pot Luck', scheduled: '03/15' },
-  ];
+  const rows = events.map((evnt) => ({
+    id: evnt.id,
+    subject: evnt.subject,
+    scheduled: evnt.scheduled.toString(),
+  }));
 
   return (
     <Card
