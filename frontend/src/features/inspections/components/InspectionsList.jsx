@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
 import getRoomInspections from '@/api/getRoomInspections';
+import getMyRoomInspections from '@/api/getMyRoomInspections';
 import getRoomInspectionsCreatedByMe from '@/api/getRoomInspectionsCreatedByMe';
 import getRoomInspectionsForResident from '@/api/getRoomInspectionsForResident';
 import getRoomInspectionsForRoom from '@/api/getRoomInspectionsForRoom';
@@ -22,6 +23,9 @@ export const InspectionsList = ({
   React.useEffect(() => {
     if (listType === 'all') {
       getRoomInspections().then((responseData) => setRoomInspections(responseData));
+    } else if (listType === 'my') {
+      getMyRoomInspections()
+        .then((responseData) => setRoomInspections(responseData));
     } else if (listType === 'byme') {
       getRoomInspectionsCreatedByMe()
         .then((responseData) => setRoomInspections(responseData));

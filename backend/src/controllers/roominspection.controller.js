@@ -29,6 +29,33 @@ const getRoomInspections = async (req, res) => {
   res.send(200, roomInspections);
 };
 
+const getMyRoomInspections = async (req, res) => {
+  const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
+  const enrollment = await enrollmentService.getEnrollmentByUserId(user.id);
+  const roomInspections = await roomInspectionService.getRoomInspectionsForResident(
+    enrollment.personnel_id,
+  );
+
+  const promises = [];
+  for (let i = 0; i < roomInspections.length; i += 1) {
+    promises.push(roomService.getRoomById(roomInspections[i].room_id)
+      .then((roomObject) => {
+        roomInspections[i].roomObject = roomObject;
+      }));
+    promises.push(personnelService.getPersonnelById(roomInspections[i].resident_id)
+      .then((personnelObject) => {
+        roomInspections[i].residentPersonnelObject = personnelObject;
+      }));
+    promises.push(personnelService.getPersonnelById(roomInspections[i].dorm_manager_id)
+      .then((personnelObject) => {
+        roomInspections[i].dormManagerPersonnelObject = personnelObject;
+      }));
+  }
+  await Promise.all(promises);
+
+  res.send(200, roomInspections);
+};
+
 const getRoomInspectionsForResident = async (req, res) => {
   const roomInspections = await roomInspectionService.getRoomInspectionsForResident(
     req.params.personnel_id,
@@ -136,6 +163,7 @@ const createRoomInspection = async (req, res) => {
 
 module.exports = {
   getRoomInspections,
+  getMyRoomInspections,
   getRoomInspectionsForResident,
   getRoomInspectionsForRoom,
   getRoomInspectionsCreatedByMe,

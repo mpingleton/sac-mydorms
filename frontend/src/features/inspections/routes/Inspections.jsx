@@ -148,6 +148,8 @@ export const Inspections = () => {
               && (<ToggleButton value="inresident">For Selected Resident</ToggleButton>)}
             {checkAccess({ allowedRoles: [ROLES.USER] })
               && (<ToggleButton value="byme">Created By Me</ToggleButton>)}
+            {checkAccess({ allowedRoles: [ROLES.USER] })
+              && (<ToggleButton value="my">For Me</ToggleButton>)}
             {checkAccess({ allowedRoles: [ROLES.ADMIN] })
               && (<ToggleButton value="all">All</ToggleButton>)}
           </ToggleButtonGroup>

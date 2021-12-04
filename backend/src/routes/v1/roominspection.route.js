@@ -15,6 +15,12 @@ router.get(
 );
 
 router.get(
+  '/my',
+  auth(),
+  roomInspectionController.getMyRoomInspections,
+);
+
+router.get(
   '/resident/:personnel_id',
   auth(),
   validate(roomInspectionValidation.getRoomInspectionsForResident),
