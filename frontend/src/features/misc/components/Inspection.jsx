@@ -29,7 +29,7 @@ export const Inspection = () => {
 
   return (
     <Card
-      sx={{ minHeight: 200, minWidth: 400 }}
+      sx={{ minHeight: 400, minWidth: 600 }}
       variant="outlined"
     >
       <CardContent>
