@@ -6,7 +6,6 @@ import { ContentLayout } from '@/components/layout';
 import { useAuth } from '@/lib/auth';
 import { WorkOrder } from '../components/WorkOrder';
 import { Inspection } from '../components/Inspection';
-import { CommonArea } from '../components/CommonArea';
 import { Events } from '../components/Events';
 
 export const Dashboard = () => {
@@ -25,9 +24,7 @@ export const Dashboard = () => {
         </Typography>
         <WorkOrder />
         <Inspection />
-        <CommonArea />
         <Events />
-
       </Stack>
     </ContentLayout>
   );
