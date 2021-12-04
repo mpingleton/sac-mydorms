@@ -18,27 +18,16 @@ export const Dashboard = () => {
         direction="column"
         alignItems="center"
         justifyContent="space-evenly"
-        sx={{ height: '100%' }}
+        spacing={2}
       >
         <Typography>
-          {`Hello ${user.name}, this is how the dashboard is starting to look!`}
+          {`Hello ${user.username}, this is how the dashboard is starting to look!`}
         </Typography>
-        <Stack
-          direction="row"
-          justifyContent="space-evenly"
-          sx={{ width: '100%' }}
-        >
-          <WorkOrder />
-          <Inspection />
-        </Stack>
-        <Stack
-          direction="row"
-          justifyContent="space-evenly"
-          sx={{ width: '100%' }}
-        >
-          <CommonArea />
-          <Events />
-        </Stack>
+        <WorkOrder />
+        <Inspection />
+        <CommonArea />
+        <Events />
+
       </Stack>
     </ContentLayout>
   );
