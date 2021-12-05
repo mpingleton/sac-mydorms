@@ -41,6 +41,15 @@ export const Events = () => {
     }
   }, [user.id, checkAccess]);
 
+  const isDormManager = () => {
+    if (checkAccess({ allowedRoles: [ROLES.USER] })
+      && userEnrollment.personnelObject !== undefined) {
+      return userEnrollment.personnelObject.is_dorm_manager;
+    } else {
+      return false;
+    }
+  };
+
   let filterSelectors = null;
   if (filterType === 'inbase') {
     filterSelectors = (
@@ -77,16 +86,25 @@ export const Events = () => {
 
   return (
     <ContentLayout title="Events">
-      <NewEventDialog
-        modalOpen={isNewEventDialogOpen}
-        onClose={() => {
-          setNewEventDialogOpen(false);
-          window.location.reload();
-        }}
-      />
+      {(checkAccess({ allowedRoles: [ROLES.USER] }) && isDormManager()) && (
+        <NewEventDialog
+          modalOpen={isNewEventDialogOpen}
+          onClose={() => {
+            setNewEventDialogOpen(false);
+            window.location.reload();
+          }}
+        />
+      )}
       <Stack direction="column" spacing={1} sx={{ width: '100%', height: '100%' }}>
         <Stack direction="row" spacing={1}>
-          <Button variant="contained" onClick={() => setNewEventDialogOpen(true)}>New Event</Button>
+          {(checkAccess({ allowedRoles: [ROLES.USER] }) && isDormManager()) && (
+            <Button
+              variant="contained"
+              onClick={() => setNewEventDialogOpen(true)}
+            >
+              New
+            </Button>
+          )}
           <ToggleButtonGroup
             value={filterType}
             onChange={(event) => {
@@ -97,8 +115,7 @@ export const Events = () => {
               && (<ToggleButton value="inbase">In Selected Base</ToggleButton>)}
             {checkAccess({ allowedRoles: [ROLES.USER] })
               && (<ToggleButton value="inmybase">In My Base</ToggleButton>)}
-            <ToggleButton value="inperson">Posted By Selected Person</ToggleButton>
-            {checkAccess({ allowedRoles: [ROLES.USER] })
+            {(checkAccess({ allowedRoles: [ROLES.USER] }) && isDormManager())
               && (<ToggleButton value="byme">Posted By Me</ToggleButton>)}
             {checkAccess({ allowedRoles: [ROLES.ADMIN] })
               && (<ToggleButton value="all">All</ToggleButton>)}

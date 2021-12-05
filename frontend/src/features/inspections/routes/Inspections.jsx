@@ -112,13 +112,15 @@ export const Inspections = () => {
 
   return (
     <ContentLayout title="Inspections">
-      <NewInspectionsDialog
-        modalOpen={isNewInspectionDialogOpen}
-        onClose={() => {
-          setNewInspectionDialogOpen(false);
-          window.location.reload();
-        }}
-      />
+      {(checkAccess({ allowedRoles: [ROLES.USER] }) && isDormManager()) && (
+        <NewInspectionsDialog
+          modalOpen={isNewInspectionDialogOpen}
+          onClose={() => {
+            setNewInspectionDialogOpen(false);
+            window.location.reload();
+          }}
+        />
+      )}
       <ViewInspectionDetailsDialog
         modalOpen={isViewInspectionDetailsDialogOpen}
         onClose={() => {
@@ -128,7 +130,14 @@ export const Inspections = () => {
       />
       <Stack direction="column" spacing={1} sx={{ width: '100%', height: '100%' }}>
         <Stack direction="row" spacing={1}>
-          <Button variant="contained" onClick={() => setNewInspectionDialogOpen(true)}>New</Button>
+          {(checkAccess({ allowedRoles: [ROLES.USER] }) && isDormManager()) && (
+            <Button
+              variant="contained"
+              onClick={() => setNewInspectionDialogOpen(true)}
+            >
+              New
+            </Button>
+          )}
           <Button
             variant="contained"
             onClick={() => setViewInspectionDetailsDialogOpen(true)}
