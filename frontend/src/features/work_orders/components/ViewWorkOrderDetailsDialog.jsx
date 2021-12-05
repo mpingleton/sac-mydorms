@@ -1,9 +1,14 @@
+/* eslint-disable no-else-return */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Button, Box, Modal, Stack, Typography, TextField, Select, InputLabel, MenuItem } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
+import { useAuth } from '@/lib/auth';
+import { useAuthorization, ROLES } from '@/lib/authorization';
+import getMyEnrollment from '@/api/getMyEnrollment';
 import getWorkOrderById from '@/api/getWorkOrderById';
 import getCommentsByWorkOrderId from '@/api/getCommentsByWorkOrderId';
 import createWorkOrderComment from '@/api/createWorkOrderComment';
@@ -25,36 +30,48 @@ const modalStyle = {
 };
 
 export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) => {
+  const [userEnrollment, setUserEnrollment] = React.useState({});
   const [workOrder, setWorkOrder] = React.useState({});
   const [workOrderComments, setWorkOrderComments] = React.useState([]);
   const [newWorkOrderComment, setNewWorkOrderComment] = React.useState('');
   const [personnelObject, setPersonnelObject] = React.useState({});
 
+  const { checkAccess } = useAuthorization();
+  const { user } = useAuth();
+
   React.useEffect(() => {
-    if (workOrder.id !== workOrderId && workOrderId > 0) {
-      setPersonnelObject({});
-      getWorkOrderById(workOrderId).then((responseData) => setWorkOrder(responseData));
+    if (checkAccess({ allowedRoles: [ROLES.USER] })) {
+      getMyEnrollment()
+        .then((responseData) => {
+          setUserEnrollment(responseData);
+        });
+    }
+
+    if (workOrderId > 0) {
+      getWorkOrderById(workOrderId).then((workOrderResponse) => {
+        setWorkOrder(workOrderResponse);
+        getPersonnelById(workOrderResponse.created_by).then(
+          (responseData) => setPersonnelObject(responseData),
+        );
+      });
       getCommentsByWorkOrderId(workOrderId).then(
         (responseData) => setWorkOrderComments(responseData),
       );
     }
-
-    if (workOrder.id === workOrderId && personnelObject.id === undefined) {
-      getPersonnelById(workOrder.created_by).then(
-        (responseData) => setPersonnelObject(responseData),
-      );
-    }
-  }, [
-    workOrder.id,
-    workOrder.room_id,
-    workOrder.created_by,
-    workOrderId,
-    personnelObject.id,
-  ]);
+  }, [user.id, workOrderId, checkAccess]);
 
   if (workOrder.id === undefined) {
     return null;
   }
+
+  const isDormManager = () => {
+    if (checkAccess({ allowedRoles: [ROLES.USER] })
+      && userEnrollment.personnelObject !== undefined) {
+      return userEnrollment.personnelObject.is_dorm_manager;
+    } else {
+      return false;
+    }
+  };
 
   const newWorkOrderCommentValidation = Joi.string().min(1).max(250).required()
     .validate(newWorkOrderComment);
@@ -71,6 +88,19 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
         (responseData) => setWorkOrderComments(responseData),
       );
     });
+  };
+
+  const statusString = (status) => {
+    if (status === 0) {
+      return 'Not Started';
+    } else if (status === 1) {
+      return 'In Progress';
+    } else if (status === 2) {
+      return 'Stalled';
+    } else if (status === 3) {
+      return 'Complete';
+    }
+    return '';
   };
 
   const commentColumns = [
@@ -128,24 +158,29 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
             <Typography>Remarks:</Typography>
             <Typography>{workOrder.creator_remarks}</Typography>
           </Stack>
-          <InputLabel id="work-order-status-label">Status:</InputLabel>
-          <Select
-            labelId="work-order-status-label"
-            id="work-order-status"
-            label="Status"
-            value={workOrder.status}
-            onChange={(event) => {
-              updateWorkOrderStatus(workOrder.id, event.target.value)
-                .then(() => {
-                  getWorkOrderById(workOrderId).then((responseData) => setWorkOrder(responseData));
-                });
-            }}
-          >
-            <MenuItem value={0}>Not Started</MenuItem>
-            <MenuItem value={1}>In Progress</MenuItem>
-            <MenuItem value={2}>Stalled</MenuItem>
-            <MenuItem value={3}>Complete</MenuItem>
-          </Select>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <InputLabel id="work-order-status-label">Status:</InputLabel>
+            {isDormManager() ? (
+              <Select
+                labelId="work-order-status-label"
+                id="work-order-status"
+                label="Status"
+                value={workOrder.status}
+                onChange={(event) => {
+                  updateWorkOrderStatus(workOrder.id, event.target.value)
+                    .then(() => {
+                      getWorkOrderById(workOrderId)
+                        .then((responseData) => setWorkOrder(responseData));
+                    });
+                }}
+              >
+                <MenuItem value={0}>Not Started</MenuItem>
+                <MenuItem value={1}>In Progress</MenuItem>
+                <MenuItem value={2}>Stalled</MenuItem>
+                <MenuItem value={3}>Complete</MenuItem>
+              </Select>
+            ) : (<Typography>{statusString(workOrder.status)}</Typography>)}
+          </Stack>
           <Stack direction="row" spacing={1}>
             <Typography>Comments:</Typography>
           </Stack>
@@ -158,20 +193,28 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
               disableMultipleSelection
             />
           </Stack>
-          <Stack direction="row" spacing={1}>
-            <TextField
-              id="new-work-order-comment"
-              label={`Comment: (${newWorkOrderComment.length}/250)`}
-              error={newWorkOrderCommentValidation.error && newWorkOrderComment.length > 0}
-              variant="standard"
-              multiline
-              maxRows={3}
-              value={newWorkOrderComment}
-              onChange={(event) => { setNewWorkOrderComment(event.target.value); }}
-              sx={{ width: '100%' }}
-            />
-            <Button variant="contained" onClick={submitComment} disabled={newWorkOrderCommentValidation.error}>Send</Button>
-          </Stack>
+          {isDormManager() && (
+            <Stack direction="row" spacing={1}>
+              <TextField
+                id="new-work-order-comment"
+                label={`Comment: (${newWorkOrderComment.length}/250)`}
+                error={newWorkOrderCommentValidation.error && newWorkOrderComment.length > 0}
+                variant="standard"
+                multiline
+                maxRows={3}
+                value={newWorkOrderComment}
+                onChange={(event) => { setNewWorkOrderComment(event.target.value); }}
+                sx={{ width: '100%' }}
+              />
+              <Button
+                variant="contained"
+                onClick={submitComment}
+                disabled={newWorkOrderCommentValidation.error}
+              >
+                Send
+              </Button>
+            </Stack>
+          )}
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Close</Button>
           </Stack>
