@@ -5,7 +5,7 @@ import { Button, Box, Modal, Stack, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import getRoomById from '@/api/getRoomById';
-import getPersonnel from '@/api/getPersonnel';
+import getPersonnelAssignedToBase from '@/api/getPersonnelAssignedToBase';
 import createRoomAssignment from '@/api/createRoomAssignment';
 
 const modalStyle = {
@@ -26,13 +26,16 @@ export const AssignResidentDialog = ({ modalOpen, onClose, roomId }) => {
   const [selectedResidents, setSelectedResidents] = React.useState([]);
 
   React.useEffect(() => {
-    if (room.id !== roomId && roomId > 0) {
-      getRoomById(roomId).then((responseData) => setRoom(responseData));
+    if (roomId > 0) {
+      getRoomById(roomId).then((roomObject) => {
+        getPersonnelAssignedToBase(roomObject.buildingObject.base_id)
+          .then((personnelObject) => {
+            setRoom(roomObject);
+            setResidents(personnelObject);
+          });
+      });
     }
-    if (residents.length === 0) {
-      getPersonnel().then((responseData) => setResidents(responseData));
-    }
-  });
+  }, [roomId]);
 
   if (room.id === undefined || residents.length === 0) {
     return null;
