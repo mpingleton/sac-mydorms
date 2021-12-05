@@ -1,11 +1,15 @@
+/* eslint-disable no-else-return */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Box, Modal, Button, TextField, Stack, Typography } from '@mui/material';
-import { BaseSelector } from '@/components/BaseSelector';
 import { BuildingSelector } from '@/components/BuildingSelector';
 import { RoomSelector } from '@/components/RoomSelector';
 
+import { useAuth } from '@/lib/auth';
+import { useAuthorization, ROLES } from '@/lib/authorization';
+import getMyEnrollment from '@/api/getMyEnrollment';
 import createWorkOrder from '@/api/createWorkOrder';
 
 const Joi = require('joi');
@@ -23,11 +27,36 @@ const modalStyle = {
 };
 
 export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
-  const [selectedBaseId, setSelectedBaseId] = React.useState(0);
+  const [userEnrollment, setUserEnrollment] = React.useState({});
   const [selectedBuildingId, setSelectedBuildingId] = React.useState(0);
   const [selectedRoomId, setSelectedRoomId] = React.useState(0);
   const [resSubject, setSubject] = React.useState('');
   const [resRemarks, setRemarks] = React.useState('');
+
+  const { checkAccess } = useAuthorization();
+  const { user } = useAuth();
+
+  React.useEffect(() => {
+    if (checkAccess({ allowedRoles: [ROLES.USER] })) {
+      getMyEnrollment()
+        .then((responseData) => {
+          setUserEnrollment(responseData);
+        });
+    }
+  }, [user.id, checkAccess]);
+
+  if (userEnrollment.id === undefined) {
+    return null;
+  }
+
+  const isDormManager = () => {
+    if (checkAccess({ allowedRoles: [ROLES.USER] })
+      && userEnrollment.personnelObject !== undefined) {
+      return userEnrollment.personnelObject.is_dorm_manager;
+    } else {
+      return false;
+    }
+  };
 
   const subjectValidation = Joi.string().min(1).max(150).required()
     .validate(resSubject);
@@ -65,16 +94,8 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
             variant="standard"
             onChange={(event) => { setSubject(event.target.value); }}
           />
-          <BaseSelector
-            baseId={selectedBaseId}
-            onSelectionChanged={(baseId) => {
-              setSelectedBaseId(baseId);
-              setSelectedBuildingId(0);
-              setSelectedRoomId(0);
-            }}
-          />
           <BuildingSelector
-            baseId={selectedBaseId}
+            baseId={userEnrollment.personnelObject.base_id}
             buildingId={selectedBuildingId}
             onSelectionChanged={(buildingId) => {
               setSelectedBuildingId(buildingId);
