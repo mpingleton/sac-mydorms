@@ -24,9 +24,9 @@ export const Dashboard = () => {
           justifyContent="space-evenly"
           spacing={2}
         >
+          <Events />
           <WorkOrder />
           <Inspection />
-          <Events />
         </Stack>
       )}
     </ContentLayout>
