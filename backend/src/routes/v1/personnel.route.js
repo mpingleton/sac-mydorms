@@ -30,7 +30,6 @@ router.get(
 router.get(
   '/:id',
   auth(),
-  dormManagerGatekeeper.isDormManager,
   validate(personnelValidation.getPersonnelById),
   personnelController.getPersonnelById,
 );
