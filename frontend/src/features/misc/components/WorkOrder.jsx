@@ -2,7 +2,15 @@ import React from 'react';
 import { Typography, Card, CardContent } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
+import getMyWorkOrders from '@/api/getMyWorkOrders';
+
 export const WorkOrder = () => {
+  const [workOrders, setWorkOrders] = React.useState([]);
+
+  React.useEffect(() => {
+    getMyWorkOrders().then((responseData) => setWorkOrders(responseData));
+  }, []);
+
   const columns = [
     {
       field: 'subject',
@@ -16,11 +24,24 @@ export const WorkOrder = () => {
     },
   ];
 
-  const rows = [
-    { id: 1, subject: 'Sink', status: 'Open' },
-    { id: 2, subject: 'Air Conditioner', status: 'Stalled' },
-    { id: 3, subject: 'Water Leak', status: 'In Progress' },
-  ];
+  const rows = workOrders.map((workOrder) => {
+    let statusString = '';
+    if (workOrder.status === 0) {
+      statusString = 'Not Started';
+    } else if (workOrder.status === 1) {
+      statusString = 'In Progress';
+    } else if (workOrder.status === 2) {
+      statusString = 'Stalled';
+    } else if (workOrder.status === 3) {
+      statusString = 'Complete';
+    }
+
+    return {
+      id: workOrder.id,
+      subject: workOrder.subject,
+      status: statusString,
+    };
+  });
 
   return (
     <Card
