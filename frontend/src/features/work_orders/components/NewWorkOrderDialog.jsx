@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { Box, Modal, Button, TextField, Stack, Typography } from '@mui/material';
 import { BuildingSelector } from '@/components/BuildingSelector';
 import { RoomSelector } from '@/components/RoomSelector';
+import { RoomAssignmentSelector } from './RoomAssignmentSelector';
 
 import { useAuth } from '@/lib/auth';
 import { useAuthorization, ROLES } from '@/lib/authorization';
@@ -94,19 +95,29 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
             variant="standard"
             onChange={(event) => { setSubject(event.target.value); }}
           />
-          <BuildingSelector
-            baseId={userEnrollment.personnelObject.base_id}
-            buildingId={selectedBuildingId}
-            onSelectionChanged={(buildingId) => {
-              setSelectedBuildingId(buildingId);
-              setSelectedRoomId(0);
-            }}
-          />
-          <RoomSelector
-            buildingId={selectedBuildingId}
-            roomId={selectedRoomId}
-            onSelectionChanged={(roomId) => { setSelectedRoomId(roomId); }}
-          />
+          {isDormManager() ? (
+            <Stack direction="column" spacing={1}>
+              <BuildingSelector
+                baseId={userEnrollment.personnelObject.base_id}
+                buildingId={selectedBuildingId}
+                onSelectionChanged={(buildingId) => {
+                  setSelectedBuildingId(buildingId);
+                  setSelectedRoomId(0);
+                }}
+              />
+              <RoomSelector
+                buildingId={selectedBuildingId}
+                roomId={selectedRoomId}
+                onSelectionChanged={(roomId) => { setSelectedRoomId(roomId); }}
+              />
+            </Stack>
+          ) : (
+            <RoomAssignmentSelector
+              personnelId={userEnrollment.personnel_id}
+              roomId={selectedRoomId}
+              onSelectionChanged={(roomId) => { setSelectedRoomId(roomId); }}
+            />
+          )}
           <TextField
             id="new-work-order-remarks"
             label="Remarks"
