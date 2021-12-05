@@ -22,7 +22,7 @@ export const Events = () => {
     {
       field: 'scheduled',
       headerName: 'Date',
-      width: 90,
+      width: 200,
     },
   ];
 
