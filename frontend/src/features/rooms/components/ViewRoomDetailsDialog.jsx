@@ -22,7 +22,7 @@ export const ViewRoomDetailsDialog = ({ modalOpen, onClose, roomId }) => {
   const [room, setRoom] = React.useState({});
 
   React.useEffect(() => {
-    if (room.id !== roomId && roomId > 0) {
+    if (roomId > 0) {
       getRoomById(roomId).then((roomResponseData) => {
         const roomObject = roomResponseData;
         getRoomAssignmentsByRoom(roomId).then((assignmentsResponseData) => {
@@ -31,7 +31,7 @@ export const ViewRoomDetailsDialog = ({ modalOpen, onClose, roomId }) => {
         });
       });
     }
-  });
+  }, [roomId]);
 
   if (room.id === undefined) {
     return null;
@@ -74,6 +74,7 @@ export const ViewRoomDetailsDialog = ({ modalOpen, onClose, roomId }) => {
                     {`
                     ${assignment.personnelObject.rank}
                     ${assignment.personnelObject.first_name}
+                    ${assignment.personnelObject.middle_name}
                     ${assignment.personnelObject.last_name}
                     `}
                   </Typography>
