@@ -2,7 +2,15 @@ import React from 'react';
 import { Typography, Card, CardContent } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
+import getMyRoomInspections from '@/api/getMyRoomInspections';
+
 export const Inspection = () => {
+  const [inspections, setInspections] = React.useState([]);
+
+  React.useEffect(() => {
+    getMyRoomInspections().then((responseData) => setInspections(responseData));
+  }, []);
+
   const columns = [
     {
       field: 'inspector',
@@ -21,11 +29,12 @@ export const Inspection = () => {
     },
   ];
 
-  const rows = [
-    { id: 1, inspector: 'SSgt John Snuffy', time: '24 May 2021', remarks: 'Room clean.' },
-    { id: 2, inspector: 'SSgt John Snuffy', time: '23 May 2021', remarks: 'Room clean.' },
-    { id: 3, inspector: 'SSgt John Snuffy', time: '22 May 2021', remarks: 'Another test inspections.' },
-  ];
+  const rows = inspections.map((inspection) => ({
+    id: inspection.id,
+    inspector: inspection.inspector_name,
+    time: inspection.timestamp,
+    remarks: inspection.inspector_remarks,
+  }));
 
   return (
     <Card
