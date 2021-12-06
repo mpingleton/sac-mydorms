@@ -213,6 +213,14 @@ const events = [
     subject: 'Jiu Jit Tsu Practice',
     description: 'Hello all!\n\nWe are holding a Jiu Jit Tsu get together!  Please come and join us if you can.',
   },
+  {
+    base_id: 1,
+    created_by: 1,
+    scheduled: new Date().toISOString(),
+    location: 'Fitness Center',
+    subject: 'Basketball Tournament',
+    description: 'Base basketball tournament will be held at the fitness center.',
+  },
 ];
 
 const eventResponses = [];
