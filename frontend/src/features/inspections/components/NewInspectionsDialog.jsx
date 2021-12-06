@@ -16,7 +16,12 @@ import {
   Typography,
 } from '@mui/material';
 
-import getRoom from '@/api/getRooms';
+import { BuildingSelector } from '@/components/BuildingSelector';
+import { RoomSelector } from '@/components/RoomSelector';
+
+import { useAuth } from '@/lib/auth';
+import { useAuthorization, ROLES } from '@/lib/authorization';
+import getMyEnrollment from '@/api/getMyEnrollment';
 import createRoomInspection from '@/api/createRoomInspection';
 import getRoomAssignmentsByRoom from '@/api/getRoomAssignmentsByRoom';
 
@@ -35,9 +40,9 @@ const modalStyle = {
 };
 
 export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
-  const [rooms, setRooms] = React.useState([]);
+  const [userEnrollment, setUserEnrollment] = React.useState({});
   const [personnelInRoom, setPersonnelInRoom] = React.useState([]);
-
+  const [selectedBuildingId, setSelectedBuildingId] = React.useState(0);
   const [resRoom, setRoom] = React.useState(0);
   const [resPersonId, setPersonId] = React.useState(0);
   const [resTimestamp, setTimestamp] = React.useState(new Date());
@@ -55,8 +60,10 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
   const inspectorRemarksValidation = Joi.string().min(1).max(150).required()
     .validate(resInspectorRemarks);
 
+  const { checkAccess } = useAuthorization();
+  const { user } = useAuth();
+
   React.useEffect(() => {
-    getRoom().then((responseData) => setRooms(responseData));
     if (resRoom > 0) {
       getRoomAssignmentsByRoom(resRoom).then((roomAssignments) => {
         const p = [];
@@ -64,7 +71,18 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
         setPersonnelInRoom(p);
       });
     }
-  }, [resRoom]);
+
+    if (checkAccess({ allowedRoles: [ROLES.USER] })) {
+      getMyEnrollment()
+        .then((responseData) => {
+          setUserEnrollment(responseData);
+        });
+    }
+  }, [resRoom, user.id, checkAccess]);
+
+  if (userEnrollment === undefined) {
+    return null;
+  }
 
   const submitInspection = () => {
     const data = {
@@ -96,27 +114,16 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
             New Inspection
           </Typography>
           <InputLabel id="room-selector-label">Room</InputLabel>
-          <Select
-            labelId="room-selector-label"
-            label="Room"
-            error={roomValidation.error}
-            disabled={rooms.length === 0}
-            onChange={(event) => { setRoom(event.target.value); }}
-          >
-            <MenuItem value={0} disabled><em>Please select a room...</em></MenuItem>
-            {
-              rooms.map((room) => (
-                <MenuItem value={room.id}>
-                  {
-                    `
-                      ${room.room_number}
-                      (${room.buildingObject.building_name})
-                    `
-                  }
-                </MenuItem>
-              ))
-            }
-          </Select>
+          <BuildingSelector
+            baseId={userEnrollment.personnelObject.base_id}
+            buildingId={selectedBuildingId}
+            onSelectionChanged={(buildingId) => setSelectedBuildingId(buildingId)}
+          />
+          <RoomSelector
+            buildingId={selectedBuildingId}
+            roomId={resRoom}
+            onSelectionChanged={(roomId) => setRoom(roomId)}
+          />
           <InputLabel id="room-selector-label">For Resident</InputLabel>
           <Select
             labelId="resident-selector-label"
