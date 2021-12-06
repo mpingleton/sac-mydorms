@@ -27,7 +27,7 @@ const modalStyle = {
   p: 4,
 };
 
-export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
+export const NewWorkOrderDialog = ({ modalOpen, onCreate, onClose }) => {
   const [userEnrollment, setUserEnrollment] = React.useState({});
   const [selectedBuildingId, setSelectedBuildingId] = React.useState(0);
   const [selectedRoomId, setSelectedRoomId] = React.useState(0);
@@ -75,6 +75,7 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
 
     createWorkOrder(data).then(() => {
       onClose();
+      onCreate();
     });
   };
 
@@ -149,11 +150,13 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
 
 NewWorkOrderDialog.propTypes = {
   modalOpen: PropTypes.bool,
+  onCreate: PropTypes.func,
   onClose: PropTypes.func,
 };
 
 NewWorkOrderDialog.defaultProps = {
   modalOpen: false,
+  onCreate: () => {},
   onClose: () => {},
 };
 

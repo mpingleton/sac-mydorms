@@ -88,9 +88,11 @@ export const WorkOrders = () => {
     <ContentLayout title="Work Orders">
       <NewWorkOrderDialog
         modalOpen={isNewWorkOrderDialogOpen}
+        onCreate={() => {
+          window.location.reload();
+        }}
         onClose={() => {
           setNewWorkOrderDialogOpen(false);
-          window.location.reload();
         }}
       />
       <ViewWorkOrderDetailsDialog
