@@ -13,7 +13,8 @@
     "lint:all": "npm run lint --prefix backend && npm run lint --prefix frontend",
     "prepare": "husky install",
     "test": "npm run test --prefix backend && npm run test --prefix frontend",
-    "lint": "cd frontend; npm run lint; cd ../backend; npm run lint; cd .."
+    "lint": "cd frontend; npm run lint; cd ../backend; npm run lint; cd ..",
+    "seed": "cd backend; npx prisma generate && npx prisma db push && npx prisma db seed; cd .."
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",
