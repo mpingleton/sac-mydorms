@@ -1,50 +1,72 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Typography, Card, CardContent, Button } from '@mui/material';
+import { Typography, Card, CardContent, Button, Stack } from '@mui/material';
 
 import postEventResponse from '@/api/postEventResponse';
 
 export const Event = ({ eventObject }) => (
   <Card variant="outlined">
     <CardContent>
-      <Typography>{eventObject.subject}</Typography>
+      <Stack
+        direction="row"
+        spacing={1}
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Typography variant="h5">{eventObject.subject}</Typography>
+        <Typography>{`Scheduled: ${new Date(eventObject.scheduled).toLocaleString()}`}</Typography>
+      </Stack>
       <Typography>
         {`
+          Hosted by:
           ${eventObject.createdByObject.rank}
           ${eventObject.createdByObject.first_name}
           ${eventObject.createdByObject.last_name}
         `}
       </Typography>
-      <Typography>{eventObject.location}</Typography>
-      <Typography>{new Date(eventObject.scheduled).toLocaleString()}</Typography>
-      <Typography>{eventObject.description}</Typography>
-      <Typography>
-        {
-          `
-            ${eventObject.responses.going}
-            going;
-            ${eventObject.responses.notGoing}
-            not going.
-          `
-        }
+      <Typography>{`Location: ${eventObject.location}`}</Typography>
+      <Typography
+        sx={{ borderWidth: 1, borderStyle: 'dashed', borderColor: '#CCCCCC', padding: 1 }}
+      >
+        {eventObject.description}
       </Typography>
-      <Button
-        variant="contained"
-        onClick={() => {
-          postEventResponse(eventObject.id, 1);
-        }}
+      <Stack
+        direction="row"
+        spacing={1}
+        alignItems="center"
+        justifyContent="space-between"
+        sx={{ padding: 1 }}
       >
-        Going
-      </Button>
-      <Button
-        variant="contained"
-        onClick={() => {
-          postEventResponse(eventObject.id, 0);
-        }}
-      >
-        Not Going
-      </Button>
+        <Typography>
+          {
+            `
+              ${eventObject.responses.going}
+              interested;
+              ${eventObject.responses.notGoing}
+              interested.
+            `
+          }
+        </Typography>
+        <Stack direction="row" spacing={1}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              postEventResponse(eventObject.id, 1);
+            }}
+          >
+            Interested
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              postEventResponse(eventObject.id, 0);
+            }}
+          >
+            Not Interested
+          </Button>
+        </Stack>
+      </Stack>
     </CardContent>
   </Card>
 );

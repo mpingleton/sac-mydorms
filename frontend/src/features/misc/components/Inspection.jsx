@@ -1,6 +1,15 @@
 import React from 'react';
-import { Typography, Card, CardContent } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import {
+  Typography,
+  Card,
+  CardContent,
+  Stack,
+  Table,
+  TableBody,
+  TableHead,
+  TableCell,
+  TableRow,
+} from '@mui/material';
 
 import getMyRoomInspections from '@/api/getMyRoomInspections';
 
@@ -11,45 +20,36 @@ export const Inspection = () => {
     getMyRoomInspections().then((responseData) => setInspections(responseData));
   }, []);
 
-  const columns = [
-    {
-      field: 'inspector',
-      headerName: 'Inspector',
-      width: 150,
-    },
-    {
-      field: 'time',
-      headerName: 'Time',
-      width: 150,
-    },
-    {
-      field: 'remarks',
-      headerName: 'Remarks',
-      width: 300,
-    },
-  ];
-
-  const rows = inspections.map((inspection) => ({
-    id: inspection.id,
-    inspector: inspection.inspector_name,
-    time: inspection.timestamp,
-    remarks: inspection.inspector_remarks,
-  }));
-
   return (
     <Card
       sx={{ minHeight: 400, minWidth: 600 }}
       variant="outlined"
     >
       <CardContent>
-        <Typography variant="h6">Inspections</Typography>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          disableSelectionOnClick
-        />
+        <Stack
+          direction="column"
+          spacing={1}
+        >
+          <Typography variant="h6">Inspections</Typography>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Inspector</TableCell>
+                <TableCell>Time</TableCell>
+                <TableCell>Remarks</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {inspections.map((inspection) => (
+                <TableRow>
+                  <TableCell>{inspection.inspector_name}</TableCell>
+                  <TableCell>{new Date(inspection.timestamp).toLocaleString()}</TableCell>
+                  <TableCell>{inspection.inspector_remarks}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Stack>
       </CardContent>
     </Card>
   );

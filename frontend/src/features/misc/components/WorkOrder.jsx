@@ -1,6 +1,15 @@
 import React from 'react';
-import { Typography, Card, CardContent } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import {
+  Typography,
+  Card,
+  CardContent,
+  Stack,
+  Table,
+  TableBody,
+  TableHead,
+  TableCell,
+  TableRow,
+} from '@mui/material';
 
 import getMyWorkOrders from '@/api/getMyWorkOrders';
 
@@ -11,37 +20,19 @@ export const WorkOrder = () => {
     getMyWorkOrders().then((responseData) => setWorkOrders(responseData));
   }, []);
 
-  const columns = [
-    {
-      field: 'subject',
-      headerName: 'Subject',
-      width: 90,
-    },
-    {
-      field: 'status',
-      headerName: 'Status',
-      width: 90,
-    },
-  ];
-
-  const rows = workOrders.map((workOrder) => {
-    let statusString = '';
+  const statusString = (workOrder) => {
+    let r = '';
     if (workOrder.status === 0) {
-      statusString = 'Not Started';
+      r = 'Not Started';
     } else if (workOrder.status === 1) {
-      statusString = 'In Progress';
+      r = 'In Progress';
     } else if (workOrder.status === 2) {
-      statusString = 'Stalled';
+      r = 'Stalled';
     } else if (workOrder.status === 3) {
-      statusString = 'Complete';
+      r = 'Complete';
     }
-
-    return {
-      id: workOrder.id,
-      subject: workOrder.subject,
-      status: statusString,
-    };
-  });
+    return r;
+  };
 
   return (
     <Card
@@ -49,14 +40,28 @@ export const WorkOrder = () => {
       variant="outlined"
     >
       <CardContent>
-        <Typography variant="h6">Work Orders</Typography>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          disableSelectionOnClick
-        />
+        <Stack
+          direction="column"
+          spacing={1}
+        >
+          <Typography variant="h6">Work Orders</Typography>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Subject</TableCell>
+                <TableCell>Status</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {workOrders.map((workOrder) => (
+                <TableRow>
+                  <TableCell>{workOrder.subject}</TableCell>
+                  <TableCell>{statusString(workOrder)}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Stack>
       </CardContent>
     </Card>
   );
