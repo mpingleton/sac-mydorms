@@ -88,13 +88,6 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
           <Typography variant="h6" style={{ marginLeft: 'auto', marginRight: 'auto' }}>New Work Order</Typography>
-          <TextField
-            id="new-work-order-subject"
-            label="Subject"
-            error={subjectValidation.error && resSubject.length > 0}
-            variant="standard"
-            onChange={(event) => { setSubject(event.target.value); }}
-          />
           {isDormManager() ? (
             <Stack direction="column" spacing={1}>
               <BuildingSelector
@@ -118,6 +111,13 @@ export const NewWorkOrderDialog = ({ modalOpen, onClose }) => {
               onSelectionChanged={(roomId) => { setSelectedRoomId(roomId); }}
             />
           )}
+          <TextField
+            id="new-work-order-subject"
+            label="Subject"
+            error={subjectValidation.error && resSubject.length > 0}
+            variant="standard"
+            onChange={(event) => { setSubject(event.target.value); }}
+          />
           <TextField
             id="new-work-order-remarks"
             label="Remarks"
