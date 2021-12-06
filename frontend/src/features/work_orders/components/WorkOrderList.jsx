@@ -5,15 +5,34 @@ import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
 import getWorkOrders from '@/api/getWorkOrders';
+import getMyWorkOrders from '@/api/getMyWorkOrders';
+import getWorkOrdersInRoom from '@/api/getWorkOrdersInRoom';
+import getWorkOrdersInBuilding from '@/api/getWorkOrdersInBuilding';
 
-export const WorkOrderList = ({ onSelectionChange }) => {
+export const WorkOrderList = ({
+  listType,
+  baseId,
+  buildingId,
+  roomId,
+  onSelectionChange,
+}) => {
   const [workOrders, setWorkOrders] = React.useState([]);
 
   React.useEffect(() => {
-    if (workOrders.length === 0) {
+    if (listType === 'me') {
+      getMyWorkOrders().then((responseData) => setWorkOrders(responseData));
+    } else if (listType === 'all') {
       getWorkOrders().then((responseData) => setWorkOrders(responseData));
+    } else if (listType === 'room') {
+      if (baseId > 0 && buildingId > 0 && roomId <= 0) {
+        getWorkOrdersInBuilding(buildingId).then((responseData) => setWorkOrders(responseData));
+      } else if (baseId > 0 && buildingId > 0 && roomId > 0) {
+        getWorkOrdersInRoom(roomId).then((responseData) => setWorkOrders(responseData));
+      } else {
+        setWorkOrders([]);
+      }
     }
-  });
+  }, [listType, baseId, buildingId, roomId]);
 
   const columns = [
     { field: 'room', headerName: 'Room', width: 100 },
@@ -60,10 +79,18 @@ export const WorkOrderList = ({ onSelectionChange }) => {
 };
 
 WorkOrderList.propTypes = {
+  listType: PropTypes.string,
+  baseId: PropTypes.number,
+  buildingId: PropTypes.number,
+  roomId: PropTypes.number,
   onSelectionChange: PropTypes.func,
 };
 
 WorkOrderList.defaultProps = {
+  listType: 'me',
+  baseId: 0,
+  buildingId: 0,
+  roomId: 0,
   onSelectionChange: () => {},
 };
 

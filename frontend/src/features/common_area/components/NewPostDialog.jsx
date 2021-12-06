@@ -12,6 +12,8 @@ import {
 
 import createPost from '@/api/createPost';
 
+const Joi = require('joi');
+
 const modalStyle = {
   position: 'absolute',
   top: '50%',
@@ -26,6 +28,9 @@ const modalStyle = {
 
 export const NewPostDialog = ({ modalOpen, onClose }) => {
   const [resPost, setPost] = React.useState('');
+
+  const postValidation = Joi.string().min(1).max(1000).required()
+    .validate(resPost);
 
   const submitPost = () => {
     createPost({
@@ -42,7 +47,11 @@ export const NewPostDialog = ({ modalOpen, onClose }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
-          <Typography variant="h6" style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+          <Typography
+            variant="h6"
+            color="text.primary"
+            style={{ marginLeft: 'auto', marginRight: 'auto' }}
+          >
             New Post
           </Typography>
           <TextField
@@ -50,14 +59,14 @@ export const NewPostDialog = ({ modalOpen, onClose }) => {
             multiline
             rows={4}
             onChange={(event) => { setPost(event.target.value); }}
-            error={resPost.length > 1000}
+            error={postValidation.error && resPost.length > 0}
           />
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Cancel</Button>
             <Button
               variant="contained"
               onClick={submitPost}
-              disabled={resPost.length <= 0 || resPost.length > 1000}
+              disabled={postValidation.error}
             >
               Post
             </Button>

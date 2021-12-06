@@ -7,16 +7,18 @@ const userService = require('./user.service');
 
 /**
  * Login with username and password
- * @param {string} email
+ * @param {string} username
  * @param {string} password
  * @returns {User}
  */
-const loginUserWithEmailAndPassword = async (email, password) => {
-  const user = await userService.getUserByEmail(email);
-  // TODO: Should use bcrypt to compare
-  // And fn should probably live elsewhere (idiomatic Prisma?)
-  if (!user || !(await user.password === password)) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect email or password');
+const loginUserWithUsernameAndPassword = async (username, password) => {
+  const user = await userService.getUserByUsername(username);
+  const checkPass = await userService.checkPasswordHash(username, password);
+
+  if (!user || !checkPass) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect username or password');
+  } else if (user.isLocked) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Account is locked');
   }
   return user;
 };
@@ -64,7 +66,7 @@ const refreshAuth = async (refreshToken) => {
 };
 
 module.exports = {
-  loginUserWithEmailAndPassword,
+  loginUserWithUsernameAndPassword,
   me,
   logout,
   refreshAuth,

@@ -3,8 +3,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
-import { Button, Stack, Box, AppBar, Toolbar, IconButton, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
-import { Menu as MenuIcon, AccountBox as AccountBoxIcon, NavigateBefore as BackIcon, NavigateNext as ForwardIcon } from '@mui/icons-material';
+import {
+  Button,
+  Stack,
+  Box,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Drawer,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from '@mui/material';
+import {
+  Menu as MenuIcon,
+  AccountBox as AccountBoxIcon,
+  NavigateBefore as BackIcon,
+  NavigateNext as ForwardIcon,
+  ArrowCircleRight as ArrowCircleRightIcon,
+} from '@mui/icons-material';
 
 import { useAuth } from '@/lib/auth';
 import { useAuthorization, ROLES } from '@/lib/authorization';
@@ -25,11 +45,11 @@ export const MainLayout = ({ children }) => {
   }, [user.id]);
 
   if (userEnrollment.id === undefined) {
-    return (<Typography>Loading...</Typography>);
-  } else if (userEnrollment.id < 0) {
+    return (<Typography color="text.primary">Loading...</Typography>);
+  } else if (userEnrollment.id < 0 && checkAccess({ allowedRoles: [ROLES.USER] })) {
     return (
       <Stack direction="row" spacing={1}>
-        <Typography>ERROR: This account is not properly registered.</Typography>
+        <Typography color="text.primary">ERROR: This account is not properly registered.</Typography>
         <Button variant="contained" onClick={() => logout()}>Logout</Button>
       </Stack>
     );
@@ -61,30 +81,47 @@ export const MainLayout = ({ children }) => {
 
   const navigation = [
     { name: 'Dashboard', to: '.' },
-    { name: 'Residents', to: './residents' },
-    { name: 'Rooms', to: './rooms' },
+    (checkAccess({ allowedRoles: [ROLES.USER] })
+      ? userEnrollment.personnelObject.is_dorm_manager : true)
+     && { name: 'Residents', to: './residents' },
+    (checkAccess({ allowedRoles: [ROLES.USER] })
+      ? userEnrollment.personnelObject.is_dorm_manager : true)
+     && { name: 'Rooms', to: './rooms' },
     { name: 'Work Orders', to: './workorders' },
     { name: 'Inspections', to: './inspections' },
     { name: 'Common Area', to: './commonarea' },
     { name: 'Events', to: './events' },
-    { name: 'Messages', to: './messages' },
+    checkAccess({ allowedRoles: [ROLES.USER] })
+      && { name: 'Messages', to: './messages' },
   ].filter(Boolean);
 
   const navigationTwo = [
     checkAccess({ allowedRoles: [ROLES.ADMIN] })
       && { name: 'Users', to: './users' },
+    checkAccess({ allowedRoles: [ROLES.ADMIN] })
+      && { name: 'Bases, Buildings, Rooms', to: './bases_buildings_rooms' },
     { name: 'Your Profile', to: './profile' },
     { name: 'Sign out', to: '', onClick: () => logout() },
   ].filter(Boolean);
 
   return (
-    <Stack direction="column" sx={{ width: '100vw', height: '100vh' }}>
+    <Stack
+      direction="column"
+      sx={{
+        width: '100vw',
+        height: '100vh',
+        overflow: 'scroll',
+      }}
+    >
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" sx={{ zIndex: 1 }}>
+        <AppBar style={{ backgroundColor: '#000050' }} position="static" sx={{ zIndex: 1 }}>
           <Toolbar>
             <IconButton edge="start" color="inherit" sx={{ marginRight: 'auto' }} onClick={openLeftDrawer}>
               <MenuIcon />
             </IconButton>
+            <Typography variant="h5" sx={{ marginLeft: 'auto', marginRight: 'auto' }}>
+              MyDorms
+            </Typography>
             <IconButton edge="end" color="inherit" sx={{ marginLeft: 'auto' }} onClick={openRightDrawer}>
               <AccountBoxIcon />
             </IconButton>
@@ -113,7 +150,7 @@ export const MainLayout = ({ children }) => {
                   }}
                 >
                   <ListItemIcon>
-                    <MenuIcon />
+                    <ArrowCircleRightIcon />
                   </ListItemIcon>
                   <ListItemText primary={item.name} />
                 </ListItem>
@@ -144,7 +181,7 @@ export const MainLayout = ({ children }) => {
                   }}
                 >
                   <ListItemIcon>
-                    <MenuIcon />
+                    <ArrowCircleRightIcon />
                   </ListItemIcon>
                   <ListItemText primary={item.name} />
                 </ListItem>

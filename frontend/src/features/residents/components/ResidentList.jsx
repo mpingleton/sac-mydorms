@@ -4,16 +4,28 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
-import getResidents from '@/api/getResidents';
+import getPersonnel from '@/api/getPersonnel';
+import getPersonnelInMyBase from '@/api/getPersonnelInMyBase';
+import getPersonnelAssignedToBase from '@/api/getPersonnelAssignedToBase';
 
-export const ResidentList = ({ onSelectionChange }) => {
+export const ResidentList = ({ listType, baseId, onSelectionChange }) => {
   const [residents, setResidents] = React.useState([]);
 
   React.useEffect(() => {
-    if (residents.length === 0) {
-      getResidents().then((responseData) => setResidents(responseData));
+    if (listType === 'all') {
+      getPersonnel().then((responseData) => setResidents(responseData));
+    } else if (listType === 'mybase') {
+      getPersonnelInMyBase().then((responseData) => setResidents(responseData));
+    } else if (listType === 'base') {
+      if (baseId > 0) {
+        getPersonnelAssignedToBase(baseId).then((responseData) => setResidents(responseData));
+      } else {
+        setResidents([]);
+      }
+    } else {
+      setResidents([]);
     }
-  });
+  }, [listType, baseId]);
 
   const columns = [
     { field: 'rank', headerName: 'Rank', width: 100 },
@@ -49,10 +61,14 @@ export const ResidentList = ({ onSelectionChange }) => {
 };
 
 ResidentList.propTypes = {
+  listType: PropTypes.string,
+  baseId: PropTypes.number,
   onSelectionChange: PropTypes.func,
 };
 
 ResidentList.defaultProps = {
+  listType: 'all',
+  baseId: 0,
   onSelectionChange: () => {},
 };
 

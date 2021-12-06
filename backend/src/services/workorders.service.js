@@ -7,6 +7,16 @@ const getWorkOrders = async () => {
   return workOrders;
 };
 
+const getWorkOrdersInRoom = async (roomId) => {
+  const workOrders = await prisma.workOrders.findMany({
+    where: {
+      room_id: roomId,
+    },
+  });
+
+  return workOrders;
+};
+
 const getWorkOrderById = async (workOrderId) => {
   const workOrder = await prisma.workOrders.findUnique({
     where: {
@@ -14,6 +24,15 @@ const getWorkOrderById = async (workOrderId) => {
     },
   });
   return workOrder;
+};
+
+const getWorkOrdersCreatedByPerson = async (personnelId) => {
+  const workOrders = await prisma.workOrders.findMany({
+    where: {
+      created_by: personnelId,
+    },
+  });
+  return workOrders;
 };
 
 const createWorkOrder = async (
@@ -90,7 +109,9 @@ const updateWorkOrderStatus = async (workOrderId, newStatus) => {
 
 module.exports = {
   getWorkOrders,
+  getWorkOrdersInRoom,
   getWorkOrderById,
+  getWorkOrdersCreatedByPerson,
   createWorkOrder,
   getAllWorkOrderComments,
   getWorkOrderCommentById,

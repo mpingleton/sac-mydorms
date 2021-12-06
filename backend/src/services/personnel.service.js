@@ -16,6 +16,15 @@ const getPersonnelById = async (personId) => {
   return person;
 };
 
+const getPersonnelByBase = async (baseId) => {
+  const personnel = await prisma.personnel.findMany({
+    where: {
+      base_id: baseId,
+    },
+  });
+  return personnel;
+};
+
 const createPersonnel = async (
   baseId,
   rank,
@@ -43,5 +52,6 @@ const createPersonnel = async (
 module.exports = {
   getPersonnel,
   getPersonnelById,
+  getPersonnelByBase,
   createPersonnel,
 };

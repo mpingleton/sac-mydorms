@@ -22,7 +22,7 @@ export const ViewRoomDetailsDialog = ({ modalOpen, onClose, roomId }) => {
   const [room, setRoom] = React.useState({});
 
   React.useEffect(() => {
-    if (room.id !== roomId && roomId > 0) {
+    if (roomId > 0) {
       getRoomById(roomId).then((roomResponseData) => {
         const roomObject = roomResponseData;
         getRoomAssignmentsByRoom(roomId).then((assignmentsResponseData) => {
@@ -31,7 +31,7 @@ export const ViewRoomDetailsDialog = ({ modalOpen, onClose, roomId }) => {
         });
       });
     }
-  });
+  }, [roomId]);
 
   if (room.id === undefined) {
     return null;
@@ -58,22 +58,23 @@ export const ViewRoomDetailsDialog = ({ modalOpen, onClose, roomId }) => {
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
           <Stack direction="row" spacing={1}>
-            <Typography>Room Number:</Typography>
-            <Typography>{room.room_number}</Typography>
+            <Typography color="text.secondary">Room Number:</Typography>
+            <Typography color="text.primary">{room.room_number}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Typography>Status:</Typography>
-            <Typography>{getStatusString(room.status)}</Typography>
+            <Typography color="text.secondary">Status:</Typography>
+            <Typography color="text.primary">{getStatusString(room.status)}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Typography>Residents:</Typography>
+            <Typography color="text.secondary">Residents:</Typography>
             <Stack direction="column">
               {
                 room.assignments.map((assignment) => (
-                  <Typography>
+                  <Typography color="text.primary">
                     {`
                     ${assignment.personnelObject.rank}
                     ${assignment.personnelObject.first_name}
+                    ${assignment.personnelObject.middle_name}
                     ${assignment.personnelObject.last_name}
                     `}
                   </Typography>

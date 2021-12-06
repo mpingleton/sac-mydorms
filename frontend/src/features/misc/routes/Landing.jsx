@@ -13,7 +13,6 @@ import Typography from '@mui/material/Typography';
 
 import { useAuth } from '@/lib/auth';
 import { Head } from '@/components/elements/Head';
-import SACPatchImage from '@/assets/sac-patch.png';
 
 export const Landing = () => {
   const navigate = useNavigate();
@@ -34,7 +33,6 @@ export const Landing = () => {
         <CssBaseline />
         <Box maxWidth="80rem" mx="auto" py={12} px={4} textAlign="center">
           <Typography variant="h2" fontWeight="800">MyDorms</Typography>
-          <Box component="img" src={SACPatchImage} maxHeight="300px" p={3} />
           <Stack direction="row" spacing={2} justifyContent="center" mt={4}>
             <Button
               variant="contained"

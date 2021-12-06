@@ -1,5 +1,17 @@
 const Joi = require('joi');
 
+const getEventsByBase = {
+  params: Joi.object().keys({
+    base_id: Joi.number().integer(),
+  }),
+};
+
+const getEventsCreatedBy = {
+  params: Joi.object().keys({
+    personnel_id: Joi.number().integer(),
+  }),
+};
+
 const getEventById = {
   params: Joi.object().keys({
     id: Joi.number().integer(),
@@ -23,6 +35,8 @@ const setResponse = {
 };
 
 module.exports = {
+  getEventsByBase,
+  getEventsCreatedBy,
   getEventById,
   createEvent,
   setResponse,

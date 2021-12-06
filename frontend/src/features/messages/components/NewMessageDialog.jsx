@@ -1,10 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Box, Modal, Stack, TextField, Select, MenuItem, Button } from '@mui/material';
+import {
+  Box,
+  Modal,
+  Stack,
+  TextField,
+  Select,
+  MenuItem,
+  Button,
+  Typography,
+} from '@mui/material';
 
-import getPersonnel from '@/api/getPersonnel';
+import getPersonnelInMyBase from '@/api/getPersonnelInMyBase';
 import sendMessage from '@/api/sendMessage';
+
+const Joi = require('joi');
 
 const style = {
   position: 'absolute',
@@ -25,8 +36,15 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => {
   const [resMessageBody, setMessageBody] = React.useState('');
 
   React.useEffect(() => {
-    getPersonnel().then((data) => setPersonnel(data));
+    getPersonnelInMyBase().then((data) => setPersonnel(data));
   }, []);
+
+  const recipientIdValidation = Joi.number().integer().min(1).required()
+    .validate(resRecipientId);
+  const subjectValidation = Joi.string().min(1).max(150).required()
+    .validate(resSubject);
+  const messageBodyValidation = Joi.string().min(1).max(1000).required()
+    .validate(resMessageBody);
 
   const send = () => {
     sendMessage(resRecipientId, resSubject, resMessageBody).then(() => { onClose(); });
@@ -41,8 +59,16 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => {
     >
       <Box sx={style}>
         <Stack direction="column" spacing={1}>
+          <Typography
+            variant="h6"
+            color="text.primary"
+            style={{ marginLeft: 'auto', marginRight: 'auto' }}
+          >
+            New Messsage
+          </Typography>
           <Select
             label="To"
+            error={recipientIdValidation.error}
             onChange={(event) => setRecipientId(event.target.value)}
           >
             <MenuItem value={0} disabled>
@@ -62,11 +88,13 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => {
           <TextField
             label="Subject"
             variant="outlined"
+            error={subjectValidation.error && resSubject.length > 0}
             onChange={(event) => setSubject(event.target.value)}
           />
           <TextField
             label="Body"
             variant="outlined"
+            error={messageBodyValidation.error && resMessageBody.length > 0}
             multiline
             rows={4}
             onChange={(event) => setMessageBody(event.target.value)}
@@ -80,7 +108,11 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => {
             </Button>
             <Button
               variant="contained"
-              disabled={resSubject.length === 0 || resMessageBody.length === 0}
+              disabled={
+                recipientIdValidation.error
+                || subjectValidation.error
+                || messageBodyValidation.error
+              }
               onClick={() => send()}
             >
               Send

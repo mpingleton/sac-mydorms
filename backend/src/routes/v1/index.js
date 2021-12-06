@@ -10,6 +10,7 @@ const messageRoute = require('./message.route');
 const commonAreaRoute = require('./commonarea.route');
 const eventRoute = require('./event.route');
 const enrollmentRoute = require('./enrollment.route');
+const baseRoute = require('./base.route');
 
 const router = express.Router();
 
@@ -57,6 +58,10 @@ const defaultRoutes = [
   {
     path: '/enrollment',
     route: enrollmentRoute,
+  },
+  {
+    path: '/base',
+    route: baseRoute,
   },
 ];
 

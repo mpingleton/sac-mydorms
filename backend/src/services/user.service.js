@@ -1,6 +1,8 @@
+/* eslint-disable no-console */
+const bcrypt = require('bcrypt');
 const httpStatus = require('http-status');
 const { PrismaClient } = require('@prisma/client');
-
+const hashPassword = require('@/utils/hashPassword');
 const ApiError = require('@/utils/ApiError');
 
 const prisma = new PrismaClient();
@@ -10,13 +12,38 @@ const prisma = new PrismaClient();
  * @param {string} email
  * @returns {Promise<User>}
  */
-const getUserByEmail = async (userEmail) => {
+const getUserByUsername = async (username) => {
   const user = await prisma.user.findUnique({
     where: {
-      email: userEmail,
+      username,
     },
   });
   return user;
+};
+
+/**
+* Get user by email
+* @param {string} email
+* @returns {Promise<User>}
+*/
+const getPasswordHash = async (username) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      username,
+    },
+  });
+  return user.password;
+};
+
+/**
+* Check a users hashed password with the salt from the env.
+* Wrapped in a Promise in order to use async functionality (await).
+* @param {string} email
+* @returns {boolean}
+*/
+const checkPasswordHash = async (username, password) => {
+  const hash = await getPasswordHash(username);
+  return bcrypt.compare(password, hash).then((result) => result);
 };
 
 /**
@@ -24,8 +51,8 @@ const getUserByEmail = async (userEmail) => {
  * @param {ObjectId} email
  * @returns {Promise<User>}
  */
-const isEmailTaken = async (email) => {
-  const user = await getUserByEmail(email);
+const isUsernameTaken = async (username) => {
+  const user = await getUserByUsername(username);
   if (!user) {
     return false;
   }
@@ -38,8 +65,8 @@ const isEmailTaken = async (email) => {
  * @returns {Promise<User>}
  */
 const createUser = async (userData) => {
-  if (await isEmailTaken(userData.email)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
+  if (await isUsernameTaken(userData.username)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Username already taken');
   }
   // Role of new user
   let userRole;
@@ -49,15 +76,14 @@ const createUser = async (userData) => {
     }
   }
 
+  const hashedPassword = await hashPassword(userData.password);
+
   const data = {
-    email: userData.email,
-    name: userData.name,
-    // bcrypt this
-    password: userData.password,
+    username: userData.username,
+    password: hashedPassword,
     role: userRole,
-    isEmailVerified: false,
+    isLocked: false,
   };
-  // console.dir(userData);
 
   const user = await prisma.user.create({ data });
   return user;
@@ -112,8 +138,8 @@ const updateUserById = async (userId, updateBody) => {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
   // Check for existing email
-  if (updateBody.email && !isEmailTaken(updateBody.email)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
+  if (updateBody.username && !isUsernameTaken(updateBody.username)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Username already taken');
   }
 
   // Role of new user
@@ -128,9 +154,8 @@ const updateUserById = async (userId, updateBody) => {
     },
     // Could potentially use a Data Transfer Object (DTO) here, but unsure right now.
     data: {
-      email: updateBody.email,
+      username: updateBody.username,
       role: userRole,
-      name: updateBody.name,
     },
   });
 
@@ -156,12 +181,37 @@ const deleteUserById = async (userId) => {
   return deleteUser;
 };
 
+const lockUserById = async (userId) => {
+  await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      isLocked: true,
+    },
+  });
+};
+
+const unlockUserById = async (userId) => {
+  await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      isLocked: false,
+    },
+  });
+};
+
 module.exports = {
-  isEmailTaken,
-  getUserByEmail,
+  isUsernameTaken,
+  checkPasswordHash,
+  getUserByUsername,
   createUser,
   queryUsers,
   getUserById,
   updateUserById,
   deleteUserById,
+  lockUserById,
+  unlockUserById,
 };

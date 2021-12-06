@@ -6,6 +6,18 @@ const getPostById = {
   }),
 };
 
+const getPostsByBase = {
+  params: Joi.object().keys({
+    base_id: Joi.number().integer(),
+  }),
+};
+
+const getPostsCreatedBy = {
+  params: Joi.object().keys({
+    personnel_id: Joi.number().integer(),
+  }),
+};
+
 const createPost = {
   body: Joi.object().keys({
     text: Joi.string().max(1000).required(),
@@ -33,6 +45,8 @@ const createComment = {
 
 module.exports = {
   getPostById,
+  getPostsByBase,
+  getPostsCreatedBy,
   createPost,
   getCommentById,
   getCommentsByPost,

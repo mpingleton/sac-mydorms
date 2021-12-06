@@ -7,6 +7,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { grey } from '@mui/material/colors';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -23,7 +24,23 @@ const ErrorFallback = () => (
   </div>
 );
 
-const theme = createTheme();
+// const theme = createTheme();
+
+const theme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#000050',
+    },
+    secondary: {
+      main: '#000050',
+    },
+    text: {
+      primary: grey[200],
+      secondary: grey[500],
+    },
+  },
+});
 
 export const AppProvider = ({ children }) => (
   <React.Suspense

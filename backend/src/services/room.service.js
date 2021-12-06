@@ -7,6 +7,16 @@ const getRooms = async () => {
   return rooms;
 };
 
+const getRoomsInBuilding = async (buildingId) => {
+  const rooms = await prisma.rooms.findMany({
+    where: {
+      building_id: buildingId,
+    },
+  });
+
+  return rooms;
+};
+
 const getRoomById = async (roomId) => {
   const room = await prisma.rooms.findUnique({
     where: {
@@ -27,8 +37,35 @@ const getBuildingById = async (buildingId) => {
   return building;
 };
 
+const getBuildingsByBase = async (baseId) => {
+  const buildings = await prisma.buildings.findMany({
+    where: {
+      base_id: baseId,
+    },
+  });
+
+  return buildings;
+};
+
+const createRoom = async (
+  buildingId,
+  roomNumber,
+  status,
+) => {
+  await prisma.rooms.create({
+    data: {
+      building_id: buildingId,
+      room_number: roomNumber,
+      status,
+    },
+  });
+};
+
 module.exports = {
   getRooms,
+  getRoomsInBuilding,
   getRoomById,
   getBuildingById,
+  getBuildingsByBase,
+  createRoom,
 };

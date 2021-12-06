@@ -4,7 +4,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import {
   getUser,
-  loginWithEmailAndPassword,
+  loginWithUsernameAndPassword,
   logout,
   refreshTokens,
 } from '@/features/auth';
@@ -18,7 +18,7 @@ async function handleUserResponse(data) {
 }
 
 async function loginFn(data) {
-  const response = await loginWithEmailAndPassword(data);
+  const response = await loginWithUsernameAndPassword(data);
   const user = await handleUserResponse(response);
   return user;
 }

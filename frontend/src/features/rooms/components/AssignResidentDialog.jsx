@@ -1,11 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, Box, Modal, Stack, Typography } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import {
+  Button,
+  Box,
+  Modal,
+  Stack,
+  Typography,
+  Select,
+  MenuItem,
+} from '@mui/material';
 
 import getRoomById from '@/api/getRoomById';
-import getResidents from '@/api/getResidents';
+import getPersonnelAssignedToBase from '@/api/getPersonnelAssignedToBase';
 import createRoomAssignment from '@/api/createRoomAssignment';
 
 const modalStyle = {
@@ -23,49 +30,26 @@ const modalStyle = {
 export const AssignResidentDialog = ({ modalOpen, onClose, roomId }) => {
   const [room, setRoom] = React.useState({});
   const [residents, setResidents] = React.useState([]);
-  const [selectedResidents, setSelectedResidents] = React.useState([]);
+  const [selectedResidentId, setSelectedResidentId] = React.useState(0);
 
   React.useEffect(() => {
-    if (room.id !== roomId && roomId > 0) {
-      getRoomById(roomId).then((responseData) => setRoom(responseData));
+    if (roomId > 0) {
+      getRoomById(roomId).then((roomObject) => {
+        getPersonnelAssignedToBase(roomObject.buildingObject.base_id)
+          .then((personnelObject) => {
+            setRoom(roomObject);
+            setResidents(personnelObject);
+          });
+      });
     }
-    if (residents.length === 0) {
-      getResidents().then((responseData) => setResidents(responseData));
-    }
-  });
+  }, [roomId]);
 
   if (room.id === undefined || residents.length === 0) {
     return null;
   }
 
-  const columns = [
-    { field: 'rank', headerName: 'Rank', width: 100 },
-    { field: 'first_name', headerName: 'First Name', width: 150 },
-    { field: 'middle_name', headerName: 'Middle Name', width: 150 },
-    { field: 'last_name', headerName: 'Last Name', width: 150 },
-  ];
-
-  const rows = residents.map((resident) => (
-    {
-      id: resident.id,
-      rank: resident.rank,
-      first_name: resident.first_name,
-      middle_name: resident.middle_name,
-      last_name: resident.last_name,
-    }
-  ));
-
   const submitRoomAssignment = () => {
-    const promises = [];
-
-    selectedResidents.forEach((residentId) => {
-      promises.push(createRoomAssignment(residentId, roomId));
-    });
-
-    Promise.all(promises)
-      .then(() => {
-        onClose();
-      });
+    createRoomAssignment(selectedResidentId, roomId).then(() => onClose());
   };
 
   return (
@@ -77,22 +61,37 @@ export const AssignResidentDialog = ({ modalOpen, onClose, roomId }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
-          <Typography>
+          <Typography color="text.primary">
             {`Select a resident to assign to room ${room.room_number}.`}
           </Typography>
-          <Box sx={{ width: '100%', height: '300px' }}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              pageSize={20}
-              rowsPerPageOptions={[5]}
-              onSelectionModelChange={setSelectedResidents}
-              checkboxSelection
-            />
-          </Box>
+          <Select
+            value={selectedResidentId}
+            error={selectedResidentId <= 0}
+            onChange={(event) => setSelectedResidentId(event.target.value)}
+          >
+            <MenuItem disabled value={0}>
+              <em>Please select as resident to assign to this room.</em>
+            </MenuItem>
+            {residents.map((resident) => (
+              <MenuItem value={resident.id}>
+                {`${resident.rank} ${resident.first_name} ${resident.last_name}`}
+              </MenuItem>
+            ))}
+          </Select>
           <Stack direction="row" spacing={1}>
-            <Button variant="contained" onClick={onClose}>Cancel</Button>
-            <Button variant="contained" onClick={submitRoomAssignment}>Create</Button>
+            <Button
+              variant="contained"
+              onClick={onClose}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              disabled={selectedResidentId <= 0}
+              onClick={submitRoomAssignment}
+            >
+              Create
+            </Button>
           </Stack>
         </Stack>
       </Box>

@@ -1,5 +1,17 @@
 const Joi = require('joi');
 
+const getRoomInspectionsForResident = {
+  params: Joi.object().keys({
+    personnel_id: Joi.number().integer().required(),
+  }),
+};
+
+const getRoomInspectionsForRoom = {
+  params: Joi.object().keys({
+    room_id: Joi.number().integer().required(),
+  }),
+};
+
 const getRoomInspectionById = {
   params: Joi.object().keys({
     id: Joi.number().integer().required(),
@@ -17,6 +29,8 @@ const createRoomInspection = {
 };
 
 module.exports = {
+  getRoomInspectionsForResident,
+  getRoomInspectionsForRoom,
   getRoomInspectionById,
   createRoomInspection,
 };

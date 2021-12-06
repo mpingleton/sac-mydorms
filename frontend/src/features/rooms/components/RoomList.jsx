@@ -4,16 +4,14 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
-import getRooms from '@/api/getRooms';
+import getRoomsByBuilding from '@/api/getRoomsByBuilding';
 
-export const RoomList = ({ onSelectionChange }) => {
+export const RoomList = ({ buildingId, onSelectionChange }) => {
   const [rooms, setRooms] = React.useState([]);
 
   React.useEffect(() => {
-    if (rooms.length === 0) {
-      getRooms().then((roomsData) => setRooms(roomsData));
-    }
-  });
+    getRoomsByBuilding(buildingId).then((roomsData) => setRooms(roomsData));
+  }, [buildingId]);
 
   const columns = [
     { field: 'number', headerName: 'Room Number', width: 150 },
@@ -52,10 +50,12 @@ export const RoomList = ({ onSelectionChange }) => {
 };
 
 RoomList.propTypes = {
+  buildingId: PropTypes.number,
   onSelectionChange: PropTypes.func,
 };
 
 RoomList.defaultProps = {
+  buildingId: 0,
   onSelectionChange: () => {},
 };
 

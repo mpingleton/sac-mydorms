@@ -7,32 +7,28 @@ const prisma = new PrismaClient();
 
 const users = [
   {
-    email: 'alice@prisma.io',
-    password: '123',
+    username: 'alice.doe',
+    password: '$2b$10$XTwLbGwnTkUQytEcTBPHtuLkNhMzZOl8ZWbrQELSmxQ.ux4b7Pdhi',
     role: 'USER',
-    name: 'Alice',
-    isEmailVerified: false,
+    isLocked: false,
   },
   {
-    email: 'mahmoud@prisma.io',
-    password: '123',
-    role: 'USER',
-    name: 'Mahmoud',
-    isEmailVerified: false,
+    username: 'mahmoud.ahmed.adm',
+    password: '$2b$10$XTwLbGwnTkUQytEcTBPHtuLkNhMzZOl8ZWbrQELSmxQ.ux4b7Pdhi',
+    role: 'ADMIN',
+    isLocked: false,
   },
   {
-    email: 'ezekiel@prisma.io',
-    password: '123',
+    username: 'ezekiel.gary',
+    password: '$2b$10$XTwLbGwnTkUQytEcTBPHtuLkNhMzZOl8ZWbrQELSmxQ.ux4b7Pdhi',
     role: 'USER',
-    name: 'Ezekiel',
-    isEmailVerified: false,
+    isLocked: false,
   },
   {
-    email: 'john.snuffy@mydorms.com',
-    password: '12345',
+    username: 'john.snuffy',
+    password: '$2b$10$XTwLbGwnTkUQytEcTBPHtuLkNhMzZOl8ZWbrQELSmxQ.ux4b7Pdhi',
     role: 'USER',
-    name: 'John',
-    isEmailVerified: false,
+    isLocked: false,
   },
 ];
 
@@ -167,169 +163,6 @@ const buildings = [
   },
 ];
 
-const rooms = [
-  {
-    building_id: 1,
-    room_number: '1A',
-    status: 1,
-  },
-  {
-    building_id: 1,
-    room_number: '1B',
-    status: 1,
-  },
-  {
-    building_id: 1,
-    room_number: '2A',
-    status: 0,
-  },
-  {
-    building_id: 1,
-    room_number: '2B',
-    status: 1,
-  },
-  {
-    building_id: 2,
-    room_number: '1A',
-    status: 1,
-  },
-  {
-    building_id: 2,
-    room_number: '1B',
-    status: 1,
-  },
-  {
-    building_id: 2,
-    room_number: '2A',
-    status: 0,
-  },
-  {
-    building_id: 2,
-    room_number: '2B',
-    status: 1,
-  },
-  {
-    building_id: 3,
-    room_number: '1A',
-    status: 1,
-  },
-  {
-    building_id: 3,
-    room_number: '1B',
-    status: 1,
-  },
-  {
-    building_id: 3,
-    room_number: '2A',
-    status: 0,
-  },
-  {
-    building_id: 3,
-    room_number: '2B',
-    status: 1,
-  },
-  {
-    building_id: 4,
-    room_number: '1A',
-    status: 1,
-  },
-  {
-    building_id: 4,
-    room_number: '1B',
-    status: 1,
-  },
-  {
-    building_id: 4,
-    room_number: '2A',
-    status: 0,
-  },
-  {
-    building_id: 4,
-    room_number: '2B',
-    status: 1,
-  },
-  {
-    building_id: 5,
-    room_number: '1A',
-    status: 1,
-  },
-  {
-    building_id: 5,
-    room_number: '1B',
-    status: 1,
-  },
-  {
-    building_id: 5,
-    room_number: '2A',
-    status: 0,
-  },
-  {
-    building_id: 5,
-    room_number: '2B',
-    status: 1,
-  },
-  {
-    building_id: 6,
-    room_number: '1A',
-    status: 1,
-  },
-  {
-    building_id: 6,
-    room_number: '1B',
-    status: 1,
-  },
-  {
-    building_id: 6,
-    room_number: '2A',
-    status: 0,
-  },
-  {
-    building_id: 6,
-    room_number: '2B',
-    status: 1,
-  },
-  {
-    building_id: 7,
-    room_number: '1A',
-    status: 1,
-  },
-  {
-    building_id: 7,
-    room_number: '1B',
-    status: 1,
-  },
-  {
-    building_id: 7,
-    room_number: '2A',
-    status: 0,
-  },
-  {
-    building_id: 7,
-    room_number: '2B',
-    status: 1,
-  },
-  {
-    building_id: 8,
-    room_number: '1A',
-    status: 1,
-  },
-  {
-    building_id: 8,
-    room_number: '1B',
-    status: 1,
-  },
-  {
-    building_id: 8,
-    room_number: '2A',
-    status: 0,
-  },
-  {
-    building_id: 8,
-    room_number: '2B',
-    status: 1,
-  },
-];
-
 const roomAssignments = [
   {
     personnel_id: 2,
@@ -431,11 +264,13 @@ async function main() {
   for (const building of buildings) {
     const newBuilding = await prisma.buildings.create({ data: building });
     console.log(`New building: ${JSON.stringify(newBuilding)}.`);
-  }
 
-  for (const room of rooms) {
-    const newRoom = await prisma.rooms.create({ data: room });
-    console.log(`New room: ${JSON.stringify(newRoom)}.`);
+    for (let i = 0; i < 100; i += 1) {
+      const newRoom = await prisma.rooms.create({
+        data: { building_id: newBuilding.id, room_number: `${i}`, status: 1 },
+      });
+      console.log(`New room: ${JSON.stringify(newRoom)}.`);
+    }
   }
 
   for (const roomAssignment of roomAssignments) {

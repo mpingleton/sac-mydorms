@@ -15,6 +15,8 @@ import {
 
 import createEvent from '@/api/createEvent';
 
+const Joi = require('joi');
+
 const modalStyle = {
   position: 'absolute',
   top: '50%',
@@ -32,6 +34,15 @@ export const NewEventDialog = ({ modalOpen, onClose }) => {
   const [resSubject, setSubject] = React.useState('');
   const [resLocation, setLocation] = React.useState('');
   const [resDesc, setDesc] = React.useState('');
+
+  const scheduledValidation = Joi.number().integer().min(new Date().getTime())
+    .validate(resScheduled.getTime());
+  const subjectValidation = Joi.string().min(1).max(150).required()
+    .validate(resSubject);
+  const locationValidation = Joi.string().min(1).max(150).required()
+    .validate(resLocation);
+  const descValidation = Joi.string().max(1000)
+    .validate(resDesc);
 
   const submitEvent = () => {
     createEvent(
@@ -51,10 +62,17 @@ export const NewEventDialog = ({ modalOpen, onClose }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
-          <Typography variant="h6" style={{ marginLeft: 'auto', marginRight: 'auto' }}>New Event</Typography>
+          <Typography
+            color="text.primary"
+            variant="h6"
+            style={{ marginLeft: 'auto', marginRight: 'auto' }}
+          >
+            New Event
+          </Typography>
           <TextField
             variant="outlined"
             label="Subject"
+            error={subjectValidation.error && resSubject.length > 0}
             onChange={(event) => setSubject(event.target.value)}
           />
           <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -70,11 +88,13 @@ export const NewEventDialog = ({ modalOpen, onClose }) => {
           <TextField
             variant="outlined"
             label="Location"
+            error={locationValidation.error && resLocation.length > 0}
             onChange={(event) => setLocation(event.target.value)}
           />
           <TextField
             variant="outlined"
             label="Description"
+            error={descValidation.error && resDesc.length > 0}
             multiline
             rows={4}
             onChange={(event) => setDesc(event.target.value)}
@@ -84,7 +104,12 @@ export const NewEventDialog = ({ modalOpen, onClose }) => {
             <Button
               variant="contained"
               onClick={submitEvent}
-              disabled={false}
+              disabled={
+                scheduledValidation.error
+                || subjectValidation.error
+                || locationValidation.error
+                || descValidation.error
+              }
             >
               Post
             </Button>

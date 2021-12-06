@@ -30,6 +30,61 @@ const getWorkOrders = async (req, res) => {
   res.send(200, workOrders);
 };
 
+const getWorkOrdersInRoom = async (req, res) => {
+  const workOrders = await workOrdersService.getWorkOrdersInRoom(req.params.room_id);
+
+  const roomPromises = [];
+  for (let i = 0; i < workOrders.length; i += 1) {
+    roomPromises.push(roomService.getRoomById(workOrders[i].room_id)
+      .then((roomObject) => {
+        workOrders[i].roomObject = roomObject;
+      }));
+  }
+  await Promise.all(roomPromises);
+
+  const buildingPromises = [];
+  for (let i = 0; i < workOrders.length; i += 1) {
+    buildingPromises.push(roomService.getBuildingById(workOrders[i].roomObject.building_id)
+      .then((buildingObject) => {
+        workOrders[i].roomObject.buildingObject = buildingObject;
+      }));
+  }
+  await Promise.all(buildingPromises);
+
+  res.send(200, workOrders);
+};
+
+const getWorkOrdersInBuilding = async (req, res) => {
+  const rooms = await roomService.getRoomsInBuilding(req.params.building_id);
+
+  const workOrderPromises = [];
+  for (let i = 0; i < rooms.length; i += 1) {
+    workOrderPromises.push(workOrdersService.getWorkOrdersInRoom(rooms[i].id));
+  }
+  const workOrders = await Promise.all(workOrderPromises)
+    .then((workOrderResults) => workOrderResults.flat());
+
+  const roomPromises = [];
+  for (let i = 0; i < workOrders.length; i += 1) {
+    roomPromises.push(roomService.getRoomById(workOrders[i].room_id)
+      .then((roomObject) => {
+        workOrders[i].roomObject = roomObject;
+      }));
+  }
+  await Promise.all(roomPromises);
+
+  const buildingPromises = [];
+  for (let i = 0; i < workOrders.length; i += 1) {
+    buildingPromises.push(roomService.getBuildingById(workOrders[i].roomObject.building_id)
+      .then((buildingObject) => {
+        workOrders[i].roomObject.buildingObject = buildingObject;
+      }));
+  }
+  await Promise.all(buildingPromises);
+
+  res.send(200, workOrders);
+};
+
 const getWorkOrderById = async (req, res) => {
   const workOrder = await workOrdersService.getWorkOrderById(parseInt(req.params.id, 10));
   workOrder.roomObject = await roomService.getRoomById(workOrder.room_id);
@@ -37,6 +92,33 @@ const getWorkOrderById = async (req, res) => {
     workOrder.roomObject.building_id,
   );
   res.send(200, workOrder);
+};
+
+const getMyWorkOrders = async (req, res) => {
+  const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
+  const enrollment = await enrollmentService.getEnrollmentByUserId(user.id);
+
+  const workOrders = await workOrdersService.getWorkOrdersCreatedByPerson(enrollment.personnel_id);
+
+  const roomPromises = [];
+  for (let i = 0; i < workOrders.length; i += 1) {
+    roomPromises.push(roomService.getRoomById(workOrders[i].room_id)
+      .then((roomObject) => {
+        workOrders[i].roomObject = roomObject;
+      }));
+  }
+  await Promise.all(roomPromises);
+
+  const buildingPromises = [];
+  for (let i = 0; i < workOrders.length; i += 1) {
+    buildingPromises.push(roomService.getBuildingById(workOrders[i].roomObject.building_id)
+      .then((buildingObject) => {
+        workOrders[i].roomObject.buildingObject = buildingObject;
+      }));
+  }
+  await Promise.all(buildingPromises);
+
+  res.send(200, workOrders);
 };
 
 const createWorkOrder = async (req, res) => {
@@ -109,7 +191,10 @@ const updateWorkOrderStatus = async (req, res) => {
 
 module.exports = {
   getWorkOrders,
+  getWorkOrdersInRoom,
+  getWorkOrdersInBuilding,
   getWorkOrderById,
+  getMyWorkOrders,
   createWorkOrder,
   getAllWorkOrderComments,
   getWorkOrderCommentById,

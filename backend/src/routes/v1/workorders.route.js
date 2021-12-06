@@ -4,6 +4,7 @@ const auth = require('@/middlewares/auth');
 const validate = require('@/middlewares/validate');
 const workOrdersController = require('@/controllers/workorders.controller');
 const workOrdersValidation = require('@/validations/workorders.validation');
+const dormManagerGatekeeper = require('@/gatekeepers/dormmanager.gatekeeper');
 
 const router = express.Router();
 
@@ -11,6 +12,26 @@ router.get(
   '/',
   auth(),
   workOrdersController.getWorkOrders,
+);
+
+router.get(
+  '/my',
+  auth(),
+  workOrdersController.getMyWorkOrders,
+);
+
+router.get(
+  '/in/room/:room_id',
+  auth(),
+  validate(workOrdersValidation.getWorkOrdersInRoom),
+  workOrdersController.getWorkOrdersInRoom,
+);
+
+router.get(
+  '/in/building/:building_id',
+  auth(),
+  validate(workOrdersValidation.getWorkOrdersInBuilding),
+  workOrdersController.getWorkOrdersInBuilding,
 );
 
 router.get(
@@ -36,6 +57,7 @@ router.get(
 router.put(
   '/comments',
   auth(),
+  dormManagerGatekeeper.isDormManager,
   validate(workOrdersValidation.createWorkOrderComment),
   workOrdersController.createWorkOrderComment,
 );
@@ -57,6 +79,7 @@ router.put(
 router.post(
   '/status',
   auth(),
+  dormManagerGatekeeper.isDormManager,
   validate(workOrdersValidation.updateWorkOrderStatus),
   workOrdersController.updateWorkOrderStatus,
 );

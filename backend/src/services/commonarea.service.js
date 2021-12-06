@@ -7,6 +7,24 @@ const getPosts = async () => {
   return posts;
 };
 
+const getPostsByBase = async (baseId) => {
+  const posts = await prisma.commonAreaPosts.findMany({
+    where: {
+      base_id: baseId,
+    },
+  });
+  return posts;
+};
+
+const getPostsCreatedBy = async (personnelId) => {
+  const posts = await prisma.commonAreaPosts.findMany({
+    where: {
+      posted_by: personnelId,
+    },
+  });
+  return posts;
+};
+
 const getPostById = async (id) => {
   const post = await prisma.commonAreaPosts.findUnique({
     where: {
@@ -80,6 +98,8 @@ const createComment = async (
 
 module.exports = {
   getPosts,
+  getPostsByBase,
+  getPostsCreatedBy,
   getPostById,
   createPost,
   getComments,

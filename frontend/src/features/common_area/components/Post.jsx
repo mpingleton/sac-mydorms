@@ -14,23 +14,35 @@ export const Post = ({ postObject }) => {
         modalOpen={isViewPostDialogOpen}
         onClose={() => {
           setViewPostDialogOpen(false);
-          window.location.reload();
         }}
       />
       <CardContent>
-        <Typography variant="h6">{postObject.header}</Typography>
-        <Typography>{new Date(postObject.timestamp).toLocaleString()}</Typography>
-        <Typography>{postObject.postBody}</Typography>
-        <Stack direction="row">
-          <Button
-            variant="contained"
-            onClick={() => {
-              setViewPostDialogOpen(true);
-            }}
-            sx={{ marginLeft: 'auto' }}
+        <Stack direction="column" spacing={1}>
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            justifyContent="space-between"
           >
-            View Post
-          </Button>
+            <Typography variant="h6">{postObject.header}</Typography>
+            <Typography>{new Date(postObject.timestamp).toLocaleString()}</Typography>
+          </Stack>
+          <Typography
+            sx={{ borderWidth: 1, borderStyle: 'dashed', borderColor: '#CCCCCC', padding: 1 }}
+          >
+            {postObject.postBody}
+          </Typography>
+          <Stack direction="row">
+            <Button
+              variant="contained"
+              onClick={() => {
+                setViewPostDialogOpen(true);
+              }}
+              sx={{ marginLeft: 'auto' }}
+            >
+              View Post
+            </Button>
+          </Stack>
         </Stack>
       </CardContent>
     </Card>

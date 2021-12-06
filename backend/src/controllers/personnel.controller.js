@@ -14,6 +14,20 @@ const getPersonnelById = async (req, res) => {
   res.send(200, person);
 };
 
+const getPersonnelAssignedToMyBase = async (req, res) => {
+  const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
+  const enrollment = await enrollmentService.getEnrollmentByUserId(user.id);
+  const enrolledPerson = await personnelService.getPersonnelById(enrollment.personnel_id);
+
+  const personnel = await personnelService.getPersonnelByBase(enrolledPerson.base_id);
+  res.send(200, personnel);
+};
+
+const getPersonnelAssignedToBase = async (req, res) => {
+  const personnel = await personnelService.getPersonnelByBase(req.params.base_id);
+  res.send(200, personnel);
+};
+
 const createPersonnel = async (req, res) => {
   const user = await authService.me(ExtractJwt.fromAuthHeaderAsBearerToken()(req));
 
@@ -35,5 +49,7 @@ const createPersonnel = async (req, res) => {
 module.exports = {
   getPersonnel,
   getPersonnelById,
+  getPersonnelAssignedToBase,
+  getPersonnelAssignedToMyBase,
   createPersonnel,
 };

@@ -10,11 +10,10 @@ datasource db {
 model User {
 
   id Int @id @default(autoincrement())
-  email String @unique
+  username String @unique
   password String
+  isLocked Boolean
   role Role @default(USER)
-  name  String?
-  isEmailVerified Boolean
   tokens Token[]
 
   userEnrollment Enrollments[]
