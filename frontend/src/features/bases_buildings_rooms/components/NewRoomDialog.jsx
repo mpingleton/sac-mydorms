@@ -45,7 +45,7 @@ export const NewRoomDialog = ({ buildingId, modalOpen, onClose }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
-          <Typography>Create a New Room</Typography>
+          <Typography color="text.primary">Create a New Room</Typography>
           <TextField
             label="Room Number"
             error={roomNumberValidation.error && resRoomNumber.length > 0}

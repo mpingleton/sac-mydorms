@@ -88,7 +88,13 @@ export const NewWorkOrderDialog = ({ modalOpen, onCreate, onClose }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
-          <Typography variant="h6" style={{ marginLeft: 'auto', marginRight: 'auto' }}>New Work Order</Typography>
+          <Typography
+            variant="h6"
+            color="text.primary"
+            style={{ marginLeft: 'auto', marginRight: 'auto' }}
+          >
+            New Work Order
+          </Typography>
           {isDormManager() ? (
             <Stack direction="column" spacing={1}>
               <BuildingSelector

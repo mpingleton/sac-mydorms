@@ -45,11 +45,11 @@ export const MainLayout = ({ children }) => {
   }, [user.id]);
 
   if (userEnrollment.id === undefined) {
-    return (<Typography>Loading...</Typography>);
+    return (<Typography color="text.primary">Loading...</Typography>);
   } else if (userEnrollment.id < 0 && checkAccess({ allowedRoles: [ROLES.USER] })) {
     return (
       <Stack direction="row" spacing={1}>
-        <Typography>ERROR: This account is not properly registered.</Typography>
+        <Typography color="text.primary">ERROR: This account is not properly registered.</Typography>
         <Button variant="contained" onClick={() => logout()}>Logout</Button>
       </Stack>
     );
@@ -105,9 +105,16 @@ export const MainLayout = ({ children }) => {
   ].filter(Boolean);
 
   return (
-    <Stack direction="column" sx={{ width: '100vw', height: '100vh' }}>
+    <Stack
+      direction="column"
+      sx={{
+        width: '100vw',
+        height: '100vh',
+        overflow: 'scroll',
+      }}
+    >
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" sx={{ zIndex: 1 }}>
+        <AppBar style={{ backgroundColor: '#000050' }} position="static" sx={{ zIndex: 1 }}>
           <Toolbar>
             <IconButton edge="start" color="inherit" sx={{ marginRight: 'auto' }} onClick={openLeftDrawer}>
               <MenuIcon />

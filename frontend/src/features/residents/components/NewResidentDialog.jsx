@@ -64,7 +64,13 @@ export const NewResidentDialog = ({ modalOpen, onClose }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
-          <Typography variant="h6" style={{ marginLeft: 'auto', marginRight: 'auto' }}>New Resident</Typography>
+          <Typography
+            color="text.primary"
+            variant="h6"
+            style={{ marginLeft: 'auto', marginRight: 'auto' }}
+          >
+            New Resident
+          </Typography>
           <TextField
             id="new-resident-rank"
             label="Rank"

@@ -62,7 +62,13 @@ export const NewEventDialog = ({ modalOpen, onClose }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
-          <Typography variant="h6" style={{ marginLeft: 'auto', marginRight: 'auto' }}>New Event</Typography>
+          <Typography
+            color="text.primary"
+            variant="h6"
+            style={{ marginLeft: 'auto', marginRight: 'auto' }}
+          >
+            New Event
+          </Typography>
           <TextField
             variant="outlined"
             label="Subject"

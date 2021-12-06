@@ -61,7 +61,7 @@ export const AssignResidentDialog = ({ modalOpen, onClose, roomId }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
-          <Typography>
+          <Typography color="text.primary">
             {`Select a resident to assign to room ${room.room_number}.`}
           </Typography>
           <Select

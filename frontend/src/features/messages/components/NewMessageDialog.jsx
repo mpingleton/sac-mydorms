@@ -1,7 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Box, Modal, Stack, TextField, Select, MenuItem, Button } from '@mui/material';
+import {
+  Box,
+  Modal,
+  Stack,
+  TextField,
+  Select,
+  MenuItem,
+  Button,
+  Typography,
+} from '@mui/material';
 
 import getPersonnelInMyBase from '@/api/getPersonnelInMyBase';
 import sendMessage from '@/api/sendMessage';
@@ -50,6 +59,13 @@ export const NewMessageDialog = ({ modalOpen, onClose }) => {
     >
       <Box sx={style}>
         <Stack direction="column" spacing={1}>
+          <Typography
+            variant="h6"
+            color="text.primary"
+            style={{ marginLeft: 'auto', marginRight: 'auto' }}
+          >
+            New Messsage
+          </Typography>
           <Select
             label="To"
             error={recipientIdValidation.error}

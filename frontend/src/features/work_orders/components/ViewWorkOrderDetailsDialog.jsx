@@ -128,12 +128,12 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
           <Stack direction="row" spacing={1}>
-            <Typography>Subject:</Typography>
-            <Typography>{workOrder.subject}</Typography>
+            <Typography color="text.secondary">Subject:</Typography>
+            <Typography color="text.primary">{workOrder.subject}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Typography>Room:</Typography>
-            <Typography>
+            <Typography color="text.secondary">Room:</Typography>
+            <Typography color="text.primary">
               {
                 `
                 ${workOrder.roomObject.room_number}
@@ -143,20 +143,22 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
             </Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Typography>Created by:</Typography>
-            <Typography>
+            <Typography color="text.secondary">Created by:</Typography>
+            <Typography color="text.primary">
               {
                 `${personnelObject.rank}
                 ${personnelObject.first_name}
                 ${personnelObject.last_name}`
               }
             </Typography>
-            <Typography>at:</Typography>
-            <Typography>{new Date(workOrder.created_timestamp).toLocaleString()}</Typography>
+            <Typography color="text.secondary">at:</Typography>
+            <Typography color="text.primary">
+              {new Date(workOrder.created_timestamp).toLocaleString()}
+            </Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Typography>Remarks:</Typography>
-            <Typography>{workOrder.creator_remarks}</Typography>
+            <Typography color="text.secondary">Remarks:</Typography>
+            <Typography color="text.primary">{workOrder.creator_remarks}</Typography>
           </Stack>
           <Stack direction="row" spacing={1} alignItems="center">
             <InputLabel id="work-order-status-label">Status:</InputLabel>
@@ -179,10 +181,10 @@ export const ViewWorkOrderDetailsDialog = ({ modalOpen, onClose, workOrderId }) 
                 <MenuItem value={2}>Stalled</MenuItem>
                 <MenuItem value={3}>Complete</MenuItem>
               </Select>
-            ) : (<Typography>{statusString(workOrder.status)}</Typography>)}
+            ) : (<Typography color="text.primary">{statusString(workOrder.status)}</Typography>)}
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Typography>Comments:</Typography>
+            <Typography color="text.secondary">Comments:</Typography>
           </Stack>
           <Stack direction="row" spacing={1} sx={{ height: 300 }}>
             <DataGrid

@@ -45,7 +45,7 @@ export const NewBaseDialog = ({ modalOpen, onClose }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
-          <Typography>Create a New Base</Typography>
+          <Typography color="text.primary">Create a New Base</Typography>
           <TextField
             label="Base Name"
             error={baseNameValidation.error && resBaseName.length > 0}

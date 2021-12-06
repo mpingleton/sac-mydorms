@@ -40,12 +40,12 @@ export const ViewInspectionDetailsDialog = ({ modalOpen, onClose, inspectionId }
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
           <Stack direction="row" spacing={1}>
-            <Typography>Room:</Typography>
-            <Typography>{inspection.roomObject.room_number}</Typography>
+            <Typography color="text.secondary">Room:</Typography>
+            <Typography color="text.primary">{inspection.roomObject.room_number}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Typography>Resident:</Typography>
-            <Typography>
+            <Typography color="text.secondary">Resident:</Typography>
+            <Typography color="text.primary">
               {`
                 ${inspection.residentPersonnelObject.rank}
                 ${inspection.residentPersonnelObject.first_name}
@@ -55,8 +55,8 @@ export const ViewInspectionDetailsDialog = ({ modalOpen, onClose, inspectionId }
             </Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Typography>Dorm Manager:</Typography>
-            <Typography>
+            <Typography color="text.secondary">Dorm Manager:</Typography>
+            <Typography color="text.primary">
               {`
                 ${inspection.dormManagerPersonnelObject.rank}
                 ${inspection.dormManagerPersonnelObject.first_name}
@@ -66,16 +66,16 @@ export const ViewInspectionDetailsDialog = ({ modalOpen, onClose, inspectionId }
             </Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Typography>Timestamp:</Typography>
-            <Typography>{new Date(inspection.timestamp).toLocaleString()}</Typography>
+            <Typography color="text.secondary">Timestamp:</Typography>
+            <Typography color="text.primary">{new Date(inspection.timestamp).toLocaleString()}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Typography>Inspector:</Typography>
-            <Typography>{inspection.inspector_name}</Typography>
+            <Typography color="text.secondary">Inspector:</Typography>
+            <Typography color="text.primary">{inspection.inspector_name}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Typography>Remarks:</Typography>
-            <Typography>{inspection.inspector_remarks}</Typography>
+            <Typography color="text.secondary">Remarks:</Typography>
+            <Typography color="text.primary">{inspection.inspector_remarks}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
             <Button variant="contained" onClick={onClose}>Close</Button>

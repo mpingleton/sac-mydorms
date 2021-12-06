@@ -58,19 +58,19 @@ export const ViewRoomDetailsDialog = ({ modalOpen, onClose, roomId }) => {
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
           <Stack direction="row" spacing={1}>
-            <Typography>Room Number:</Typography>
-            <Typography>{room.room_number}</Typography>
+            <Typography color="text.secondary">Room Number:</Typography>
+            <Typography color="text.primary">{room.room_number}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Typography>Status:</Typography>
-            <Typography>{getStatusString(room.status)}</Typography>
+            <Typography color="text.secondary">Status:</Typography>
+            <Typography color="text.primary">{getStatusString(room.status)}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Typography>Residents:</Typography>
+            <Typography color="text.secondary">Residents:</Typography>
             <Stack direction="column">
               {
                 room.assignments.map((assignment) => (
-                  <Typography>
+                  <Typography color="text.primary">
                     {`
                     ${assignment.personnelObject.rank}
                     ${assignment.personnelObject.first_name}

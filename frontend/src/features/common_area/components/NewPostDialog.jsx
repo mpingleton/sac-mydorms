@@ -47,7 +47,11 @@ export const NewPostDialog = ({ modalOpen, onClose }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
-          <Typography variant="h6" style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+          <Typography
+            variant="h6"
+            color="text.primary"
+            style={{ marginLeft: 'auto', marginRight: 'auto' }}
+          >
             New Post
           </Typography>
           <TextField

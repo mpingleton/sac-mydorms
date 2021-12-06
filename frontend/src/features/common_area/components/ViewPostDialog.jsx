@@ -73,9 +73,14 @@ export const ViewPostDialog = ({ postObject, modalOpen, onClose }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
-          <Typography variant="h6">{postObject.header}</Typography>
-          <Typography>{new Date(postObject.timestamp).toLocaleString()}</Typography>
-          <Typography>{postObject.postBody}</Typography>
+          <Typography variant="h6" color="text.primary">{postObject.header}</Typography>
+          <Typography color="text.primary">{new Date(postObject.timestamp).toLocaleString()}</Typography>
+          <Typography
+            color="text.primary"
+            sx={{ borderWidth: 1, borderStyle: 'dashed', borderColor: '#CCCCCC', padding: 1 }}
+          >
+            {postObject.postBody}
+          </Typography>
           <Box sx={{ width: '100%', height: 300 }}>
             <DataGrid
               rows={rows}

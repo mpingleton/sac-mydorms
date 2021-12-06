@@ -24,6 +24,7 @@ export const Layout = ({ children, title }) => (
         <Typography
           variant="h2"
           sx={{ textAlign: 'center', fontWeight: 800, fontSize: '1.875rem', lineHeight: '2.25rem' }}
+          color="text.primary"
         >
           {title}
         </Typography>

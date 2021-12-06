@@ -33,8 +33,9 @@ export const EnrollmentDetails = ({ personnelId }) => {
 
   return (
     <Stack direction="row" spacing={1}>
-      <Typography>{enrollment.id === -1 ? 'Not Enrolled' : 'Enrolled'}</Typography>
-      <Typography>
+      <Typography color="text.secondary">Status:</Typography>
+      <Typography color="text.primary">{enrollment.id === -1 ? 'Not Enrolled' : 'Enrolled'}</Typography>
+      <Typography color="text.primary">
         {
           pendingEnrollment.id === -1 && enrollment.id === -1
             ? createButton : pendingEnrollment.registrationCode

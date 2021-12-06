@@ -39,8 +39,8 @@ export const ViewMessageDialog = ({ modalOpen, onClose, messageId }) => {
     >
       <Box sx={style}>
         <Stack direction="column" spacing={1}>
-          <Typography variant="h5">{message.subject}</Typography>
-          <Typography>
+          <Typography variant="h5" color="text.primary">{message.subject}</Typography>
+          <Typography color="text.secondary">
             {`
               To:
               ${message.recipientObject.rank}
@@ -48,7 +48,7 @@ export const ViewMessageDialog = ({ modalOpen, onClose, messageId }) => {
               ${message.recipientObject.last_name}
             `}
           </Typography>
-          <Typography>
+          <Typography color="text.secondary">
             {`
               From:
               ${message.senderObject.rank}
@@ -56,13 +56,14 @@ export const ViewMessageDialog = ({ modalOpen, onClose, messageId }) => {
               ${message.senderObject.last_name}
             `}
           </Typography>
-          <Typography>
+          <Typography color="text.secondary">
             {`
               Sent:
               ${new Date(message.timestamp).toLocaleString()}
             `}
           </Typography>
           <Typography
+            color="text.primary"
             sx={{ borderWidth: 1, borderStyle: 'dashed', borderColor: '#CCCCCC', padding: 1 }}
           >
             {message.body}

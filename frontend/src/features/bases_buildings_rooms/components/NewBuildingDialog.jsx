@@ -52,7 +52,7 @@ export const NewBuildingDialog = ({ baseId, modalOpen, onClose }) => {
     >
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
-          <Typography>Create a New Building</Typography>
+          <Typography color="text.primary">Create a New Building</Typography>
           <TextField
             label="Building Number"
             error={buildingNumberValidation.error && resBuildingNumber.length > 0}

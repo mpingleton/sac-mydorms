@@ -42,18 +42,18 @@ export const ViewResidentDetailsDialog = ({ modalOpen, onClose, residentId }) =>
       <Box sx={modalStyle}>
         <Stack direction="column" spacing={1}>
           <Stack direction="row" spacing={1}>
-            <Typography>{resident.rank}</Typography>
-            <Typography>{resident.first_name}</Typography>
-            <Typography>{resident.middle_name}</Typography>
-            <Typography>{resident.last_name}</Typography>
+            <Typography color="text.primary">{resident.rank}</Typography>
+            <Typography color="text.primary">{resident.first_name}</Typography>
+            <Typography color="text.primary">{resident.middle_name}</Typography>
+            <Typography color="text.primary">{resident.last_name}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Typography>Phone:</Typography>
-            <Typography>{resident.phone}</Typography>
+            <Typography color="text.secondary">Phone:</Typography>
+            <Typography color="text.primary">{resident.phone}</Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
-            <Typography>Email:</Typography>
-            <Typography>{resident.email}</Typography>
+            <Typography color="text.secondary">Email:</Typography>
+            <Typography color="text.primary">{resident.email}</Typography>
           </Stack>
           <EnrollmentDetails personnelId={resident.id} />
           <Stack direction="row" spacing={1}>
