@@ -80,7 +80,7 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
     }
   }, [resRoom, user.id, checkAccess]);
 
-  if (userEnrollment === undefined) {
+  if (userEnrollment.id === undefined) {
     return null;
   }
 
