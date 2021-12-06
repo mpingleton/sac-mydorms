@@ -49,7 +49,7 @@ export const AssignResidentDialog = ({ modalOpen, onClose, roomId }) => {
   }
 
   const submitRoomAssignment = () => {
-    createRoomAssignment(selectedResidentId, roomId);
+    createRoomAssignment(selectedResidentId, roomId).then(() => onClose());
   };
 
   return (
