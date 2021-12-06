@@ -39,7 +39,7 @@ const modalStyle = {
   p: 4,
 };
 
-export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
+export const NewInspectionsDialog = ({ modalOpen, onCreate, onClose }) => {
   const [userEnrollment, setUserEnrollment] = React.useState({});
   const [personnelInRoom, setPersonnelInRoom] = React.useState([]);
   const [selectedBuildingId, setSelectedBuildingId] = React.useState(0);
@@ -80,7 +80,7 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
     }
   }, [resRoom, user.id, checkAccess]);
 
-  if (userEnrollment === undefined) {
+  if (userEnrollment.id === undefined) {
     return null;
   }
 
@@ -94,6 +94,7 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
     };
     createRoomInspection(data).then(() => {
       onClose();
+      onCreate();
     });
   };
 
@@ -197,11 +198,13 @@ export const NewInspectionsDialog = ({ modalOpen, onClose }) => {
 
 NewInspectionsDialog.propTypes = {
   modalOpen: PropTypes.bool,
+  onCreate: PropTypes.func,
   onClose: PropTypes.func,
 };
 
 NewInspectionsDialog.defaultProps = {
   modalOpen: false,
+  onCreate: () => {},
   onClose: () => {},
 };
 

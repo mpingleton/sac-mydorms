@@ -213,6 +213,14 @@ const events = [
     subject: 'Jiu Jit Tsu Practice',
     description: 'Hello all!\n\nWe are holding a Jiu Jit Tsu get together!  Please come and join us if you can.',
   },
+  {
+    base_id: 1,
+    created_by: 1,
+    scheduled: new Date().toISOString(),
+    location: 'Fitness Center',
+    subject: 'Basketball Tournament',
+    description: 'Base basketball tournament will be held at the fitness center.',
+  },
 ];
 
 const eventResponses = [];
@@ -265,7 +273,7 @@ async function main() {
     const newBuilding = await prisma.buildings.create({ data: building });
     console.log(`New building: ${JSON.stringify(newBuilding)}.`);
 
-    for (let i = 0; i < 100; i += 1) {
+    for (let i = 1; i < 200; i += 1) {
       const newRoom = await prisma.rooms.create({
         data: { building_id: newBuilding.id, room_number: `${i}`, status: 1 },
       });

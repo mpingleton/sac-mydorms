@@ -115,9 +115,11 @@ export const Inspections = () => {
       {(checkAccess({ allowedRoles: [ROLES.USER] }) && isDormManager()) && (
         <NewInspectionsDialog
           modalOpen={isNewInspectionDialogOpen}
+          onCreate={() => {
+            window.location.reload();
+          }}
           onClose={() => {
             setNewInspectionDialogOpen(false);
-            window.location.reload();
           }}
         />
       )}
