@@ -44,7 +44,7 @@ export const Event = ({ eventObject }) => (
               ${eventObject.responses.going}
               interested;
               ${eventObject.responses.notGoing}
-              interested.
+              not interested.
             `
           }
         </Typography>
