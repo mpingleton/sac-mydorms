@@ -17,8 +17,8 @@
     "seed": "cd backend; npx prisma generate && npx prisma db push && npx prisma db seed; cd .."
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.14.1",
-    "husky": "^7.0.2",
+    "@testing-library/jest-dom": "^5.16.5",
+    "husky": "^7.0.4",
     "npm-run-all": "^4.1.5"
   },
   "cacheDirectories": [
