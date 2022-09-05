@@ -26,7 +26,7 @@ const getUserByUsername = async (username) => {
 * @param {string} email
 * @returns {Promise<User>}
 */
-const getPasswordHash = async (username) => {
+const getPasswordForUser = async (username) => {
   const user = await prisma.user.findUnique({
     where: {
       username,
@@ -41,9 +41,9 @@ const getPasswordHash = async (username) => {
 * @param {string} email
 * @returns {boolean}
 */
-const checkPasswordHash = async (username, password) => {
-  const hash = await getPasswordHash(username);
-  return bcrypt.compare(password, hash).then((result) => result);
+const checkPassword = async (username, password) => {
+  const correct_password = await getPasswordForUser(username);
+  return (password === correct_password);
 };
 
 /**
@@ -76,11 +76,9 @@ const createUser = async (userData) => {
     }
   }
 
-  const hashedPassword = await hashPassword(userData.password);
-
   const data = {
     username: userData.username,
-    password: hashedPassword,
+    password: userData.password,
     role: userRole,
     isLocked: false,
   };
@@ -205,7 +203,7 @@ const unlockUserById = async (userId) => {
 
 module.exports = {
   isUsernameTaken,
-  checkPasswordHash,
+  checkPassword,
   getUserByUsername,
   createUser,
   queryUsers,

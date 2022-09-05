@@ -13,7 +13,7 @@ const userService = require('./user.service');
  */
 const loginUserWithUsernameAndPassword = async (username, password) => {
   const user = await userService.getUserByUsername(username);
-  const checkPass = await userService.checkPasswordHash(username, password);
+  const checkPass = await userService.checkPassword(username, password);
 
   if (!user || !checkPass) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect username or password');
